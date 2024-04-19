@@ -1,10 +1,24 @@
-import React from 'react'
+import React from 'react';
+import Footer from './Footer'; // Make sure to provide the correct path to your Footer component
+import { Home } from './Home';
 
-export default App = () => {
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes
+} from "react-router-dom";
+import { Contect } from './Contect';
+
+const App = () => {
   return (
-    <div>
-      <h1>hello react!</h1>
-    </div>
-  )
-}
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/contect" element={<Contect />} />
+      </Routes>
+      <Footer />
+    </Router>
+  );
+};
 
+export default App;
