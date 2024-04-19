@@ -10,6 +10,9 @@ import {
   Routes,
   Route
 } from "react-router-dom";
+import { Book } from './Book';
+import { Saler } from './Saler';
+import { Payment } from './Payment';
 
 const App = () => {
   return (
@@ -20,6 +23,9 @@ const App = () => {
           <Route path="/bio" element={<Bio />} />
           <Route path="/" element={<Home />} />
           <Route path="/contect" element={<Contect />} />
+          <Route path="/book" element={<Book />} />
+          <Route path="/saler" element={<Saler />} />
+          <Route path="/payment" element={<Payment />} />
         </Routes>
         <Footer />
       </div>
