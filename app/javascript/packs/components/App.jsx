@@ -1,23 +1,29 @@
 import React from 'react';
+import Header from './Header';
+import Bio from './Bio';
 import Footer from './Footer'; // Make sure to provide the correct path to your Footer component
 import { Home } from './Home';
+import { Contect } from './Contect';
 
 import {
-  BrowserRouter as Router,
-  Route,
-  Routes
+  BrowserRouter,
+  Routes,
+  Route
 } from "react-router-dom";
-import { Contect } from './Contect';
 
 const App = () => {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/contect" element={<Contect />} />
-      </Routes>
-      <Footer />
-    </Router>
+    <BrowserRouter>
+      <div>
+        <Header />
+        <Routes>
+          <Route path="/bio" element={<Bio />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/contect" element={<Contect />} />
+        </Routes>
+        <Footer />
+      </div>
+    </BrowserRouter>
   );
 };
 
