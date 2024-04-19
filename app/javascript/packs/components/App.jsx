@@ -1,10 +1,24 @@
-import React from 'react'
+import React from 'react';
+import Header from './Header';
+import Bio from './Bio';
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Link
+} from "react-router-dom";
 
-export default App = () => {
+const App = () => {
   return (
-    <div>
-      <h1>hello react!</h1>
-    </div>
-  )
-}
+    <BrowserRouter>
+      <div>
+        <Header />
+        <Routes>
+          <Route path="/bio" element={<Bio />} />
+        </Routes>
+      </div>
+    </BrowserRouter>
+  );
+};
 
+export default App;
