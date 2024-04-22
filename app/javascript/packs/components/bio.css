@@ -1,0 +1,182 @@
+
+.bio-container {
+  padding: 7%;
+  margin: 20px  0; 
+  background-color: #edd; 
+  text-align: center;
+}
+
+.bio-content {
+  display: flex;
+  justify-content: center;
+  font-size: 15px;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+.title{
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 30px;
+}
+
+.bio-image{
+  float: right;
+}
+.story{
+  margin: 15%;
+  margin-top: 6%;
+}
+.text-bio {
+  width: 40%;
+  margin-left: 10%;
+  line-height: 30px ;
+  font-size: 16px;
+}
+h1{
+  font-size: 50px;
+}
+.Personal{
+  margin: 15%;
+}
+.text-bio-2{
+  width: 40%;
+  line-height: 30px;
+  margin-top: -40%;
+  font-size: 17px;
+  margin-right: 10%;
+  float: right;
+}
+.award-section {
+  display: flex; 
+
+}
+
+.award-section .award-image1,
+.award-section .award-image2,
+.award-section .award-image3 {
+  text-align: center;
+  margin-left: 110px;
+}
+.award{
+  text-align: center;
+}
+.bio-container-last{
+  padding: 7%;
+  margin: 20px  0; 
+  background-color:#946659; 
+  margin-top: 7%;
+  color: white;
+  text-align: center;
+}
+.title-2{
+  margin-left: 10%;
+  width: 80%;
+}
+
+.title-2 p{
+  font-size: 20px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 700;
+}
+
+.instagram h1 {
+  text-align: center;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 30px;
+}
+
+.logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 50px;
+  margin-top: 40px;
+  color:#946659;
+}
+
+.visit-instagram-btn {
+  margin-top: 10px; 
+  background-color: #946659; 
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.visit-instagram-btn:hover {
+  background-color: #e95930;
+}
+
+
+.instagram {
+  text-align: center;
+  margin-top: -20px;
+}
+
+.full-image img{
+  margin-top: 20px;
+  width: 100%;
+}
+
+.container-fluid {
+ margin-top:5%;
+ margin-left: 17%;
+}
+.text-bio-3 {
+  float: right;
+  width: 40%;
+  margin-right: 15%;
+  font-size: 16px;
+  margin-top: -33%;
+}
+.text-bio-3 h1{
+  line-height: 60px;
+} 
+.text-bio-3 p{
+  line-height: 30px;
+}
+
+.email{
+  padding: 7%;
+  margin: 20px  0; 
+  background-color: #edd; 
+  margin-top: 5%;
+}
+.right-side  img{
+  margin-top: -25%;
+  margin-right: 20%;
+  float: right;
+  
+}
+.left-side h2{
+  margin-left: 20%;
+  font-size: 40px;
+  margin-top: 2%;
+  width: 30%;
+}
+
+.left-side input{
+  margin-left: 18%;
+  margin-top: 20px;
+  font-size: 30px;
+  margin-bottom: 5%;
+}
+
+
+.subscribe-btn{
+  background-color: #946659; 
+  color: white;
+  padding: 10px 20px;
+  margin-left: 20px;
+  border: none;
+  border-radius: 3px;
+  height: 40px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.subscribe-btn:hover {
+  background-color: #e95930;
+}

@@ -41,7 +41,7 @@ const styles = {
     backgroundColor: '#333',
     color: '#fff',
     padding: '20px 0',
-    marginTop: '800px',
+    marginTop: '-20px',
     textAlign: 'center',
   },
   container: {
@@ -51,7 +51,7 @@ const styles = {
   },
   links: {
     position: 'absolute',
-    top: 'calc(50% + 30px)', // Adjusted top value
+    top: 'calc(50% + 30px)', 
     left: '50%',
     transform: 'translateX(-50%)',
     display: 'flex',
