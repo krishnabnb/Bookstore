@@ -14,6 +14,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 100px;
 }
 
 .header h2 {
@@ -30,15 +31,12 @@
 }
 
 
-.img {
-  margin-top: 100px;
-  margin-left: 250px;
-  height: 200px;
-  width: 200px;
-}
-
-.title {
-  margin-top: 170px;
-  float: right;
-  margin-right: 100px;
+.btn{
+  background-color: #946659;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 3px;
+  height: 40px;
+  cursor: pointer;
 }
