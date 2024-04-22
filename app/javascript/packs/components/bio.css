@@ -4,6 +4,9 @@
   margin: 2px  0;
   background-color: #edd;
   text-align: center;
+  padding: 7%;
+  margin: 20px  0; 
+  text-align: center;
 }
 
 .bio-content {
@@ -14,8 +17,14 @@
 }
 
 .title h1{
+<<<<<<< HEAD
+=======
+  margin-top: -100%;
+>>>>>>> 68b8fc5539f25aa1544abfc58b12cc70985d177d
   font-family: Georgia, 'Times New Roman', Times, serif;
   font-size: 30px;
+  text-align: center;
+
 }
 
 .bio-image{
