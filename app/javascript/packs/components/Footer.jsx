@@ -41,7 +41,7 @@ const styles = {
     backgroundColor: '#333',
     color: '#fff',
     padding: '20px 0',
-    marginTop: '800px',
+    marginTop: '370px',
     textAlign: 'center',
   },
   container: {
