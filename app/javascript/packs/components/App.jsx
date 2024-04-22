@@ -1,20 +1,23 @@
-import React from 'react';
+import React from "react";
 import Header from './Header';
 import Bio from './Bio';
-import Footer from './Footer'; // Make sure to provide the correct path to your Footer component
+import Footer from './Footer';
 import { Home } from './Home';
 import { Contect } from './Contect';
 
 import {
   BrowserRouter,
   Routes,
-  Route
+  Route,
 } from "react-router-dom";
 import { Book } from './Book';
 import { Saler } from './Saler';
 import { Payment } from './Payment';
+import { Sing_up } from './Sing_up';
 
 const App = () => {
+
+
   return (
     <BrowserRouter>
       <div>
@@ -26,6 +29,8 @@ const App = () => {
           <Route path="/book" element={<Book />} />
           <Route path="/saler" element={<Saler />} />
           <Route path="/payment" element={<Payment />} />
+          <Route path="/payment" element={<Payment />} />
+          <Route path="/users/sign_up" element={<Sing_up />} />
         </Routes>
         <Footer />
       </div>
