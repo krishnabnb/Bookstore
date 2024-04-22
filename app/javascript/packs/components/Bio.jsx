@@ -7,10 +7,14 @@ const Bio = () => {
   return (
     <div>
 <<<<<<< HEAD
+<<<<<<< HEAD
       <div className='bio-container'>
 =======
        <div className='bio-container'>
 >>>>>>> 68b8fc5539f25aa1544abfc58b12cc70985d177d
+=======
+       <div className='bio-container'>
+>>>>>>> 666159fbecf706ee3f19875c82ad5c67cb738bfa
         <div className='title-2'>
           <h1>About Kathryn</h1>
           <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit</p>
