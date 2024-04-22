@@ -6,14 +6,13 @@ import {  FaInstagram } from 'react-icons/fa';
 const Bio = () => {
   return (
     <div>
-      <div className='bio-container'>
-        <div className='title'>
+       <div className='bio-container'>
+        <div className='title-2'>
           <h1>About Kathryn</h1>
-        </div>
-        <div className='bio-content'>
           <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit</p>
         </div>
       </div>
+
       <div className='story'>
         <div className='bio-image'>
           <img src="https://websitedemos.net/kathryn-ebook-author-02/wp-content/uploads/sites/1020/2022/02/about-image-02.png" alt='Profile' />
@@ -91,7 +90,6 @@ const Bio = () => {
           <img src='https://websitedemos.net/kathryn-ebook-author-02/wp-content/uploads/sites/1020/2022/02/susbcribe-image.png' alt='img'/>
         </div>
       </div>
-
     </div>
   );
 };
