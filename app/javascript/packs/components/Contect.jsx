@@ -20,22 +20,20 @@ export const Contect = () => {
       <div className='mail'>
         <p>mail@example.com</p>
       </div>
-      <div style={styles.line_to}></div>
-
       <div>
         <p className='msg'>Send Me a Message</p>
       </div>
       <div >
-        <input type="email" placeholder="your name" className="input" />
+        <input type="name" placeholder="your name" className="input" />
       </div>
        <div>
         <input type="email" placeholder="Email" className="input" />
       </div>
       <div>
-        <input type="email" placeholder="Subject" className="input" />
+        <input type="subject" placeholder="Subject" className="input" />
       </div>
       <div>
-        <input type="email" placeholder="Massage" className="text" />
+        <input type="massage" placeholder="Massage" className="text" />
       </div>
       <div>
       <button className="Button">Send Message</button>
@@ -63,7 +61,7 @@ const styles = {
     position: 'absolute',
     top: '-28%',
     right: '5%',
-    marginTop: '835px',
+    marginTop: '850px',
     transform: 'translate(-50%, -50%)',
     width: '590px',
     height: '0.5px',
