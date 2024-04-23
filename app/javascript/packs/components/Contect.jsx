@@ -65,7 +65,11 @@ const styles = {
     position: 'absolute',
     top: '-28%',
     right: '5%',
+<<<<<<< HEAD
     marginTop: '85px',
+=======
+    marginTop: '850px',
+>>>>>>> 193af8b81ff5a22b8db4fbdfba0f2de1a6558d0d
     transform: 'translate(-50%, -50%)',
     width: '590px',
     height: '0.5px',
