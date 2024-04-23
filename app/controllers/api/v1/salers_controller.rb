@@ -30,7 +30,7 @@ class Api::V1::SalersController < ApplicationController
   #     render json: { error: saler.errors.full_messages }, status: :unprocessable_entity
   #   end
   # end
-  
+
 
   def update
     saler = Saler.find(params[:id])
