@@ -1,8 +1,9 @@
 class Api::V1::SalersController < ApplicationController
-   skip_before_action :verify_authenticity_token
+  skip_before_action :verify_authenticity_token
+
   def index
-    salers = Saler.all
-    render json: salers
+    @salers = Saler.all
+    render json: @salers
   end
 
   def show
