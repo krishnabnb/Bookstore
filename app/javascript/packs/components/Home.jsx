@@ -56,12 +56,37 @@ export const Home = () => {
           </div>
         </div>
       </div>
-      <div className="title">
-        <h1 >A Word From The Author</h1>
+      <div className='Personal'>
+        <div className='bio-image2'>
+          <img src="https://websitedemos.net/kathryn-ebook-author-02/wp-content/uploads/sites/1020/2022/02/about-image.png" alt='Profile' />
+        </div>
       </div>
-      <div className=" img">
-        <img src="https://websitedemos.net/kathryn-ebook-author-02/wp-content/uploads/sites/1020/2022/02/about-image.png"/>
+      <div className='text-bio-2'>
+        <h1>A Word From The Author</h1>
+        <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
+        <button className="btn">READ MORE</button>
+         <div style={styles.line}></div>
+      </div>
+      <div>
+
+      </div>
+      <div>
+
       </div>
     </div>
   );
 };
+
+const styles = {
+  line: {
+    position: 'absolute',
+    top: '90%',
+    left: '50%',
+    marginTop: '870px',
+    transform: 'translate(-50%, -50%)',
+    width: '590px',
+    height: '0.5px',
+    backgroundColor: ' #946659',
+    marginLeft: '340px',
+  },
+}

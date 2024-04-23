@@ -8,7 +8,7 @@ const Header = () => {
     <div>
       <nav>
         <div className="logo" style={{ float: 'left' }}>
-          <img style={{ height: '50px', marginLeft: '30px' }} src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZQGH6_1Q5hZbccQanQsEx_fN9qN6hlQ1Ifg&usqp=CAU" alt="Logo" />
+          <img style={{ height: '50px', marginLeft: '30px', marginTop: '-40px'}} src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZQGH6_1Q5hZbccQanQsEx_fN9qN6hlQ1Ifg&usqp=CAU" alt="Logo" />
         </div>
         <ul>
           <li className="active"><Link to="/">Home</Link></li>
