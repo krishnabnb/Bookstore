@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_04_23_071904) do
+ActiveRecord::Schema.define(version: 2024_04_25_043546) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -41,6 +41,28 @@ ActiveRecord::Schema.define(version: 2024_04_23_071904) do
     t.decimal "price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "image"
+    t.string "published_status"
+    t.string "published_at"
+  end
+
+  create_table "carts", force: :cascade do |t|
+    t.integer "customer_id"
+    t.integer "book_id"
+    t.integer "quntity"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["book_id"], name: "index_carts_on_book_id"
+    t.index ["customer_id"], name: "index_carts_on_customer_id"
+  end
+
+  create_table "contacts", force: :cascade do |t|
+    t.string "name"
+    t.string "email"
+    t.string "subject"
+    t.string "massage"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "customers", force: :cascade do |t|
@@ -51,6 +73,16 @@ ActiveRecord::Schema.define(version: 2024_04_23_071904) do
     t.string "contactno"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "payments", force: :cascade do |t|
+    t.string "amount"
+    t.string "date"
+    t.string "mathod"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "cart_id"
+    t.index ["cart_id"], name: "index_payments_on_cart_id"
   end
 
   create_table "salers", force: :cascade do |t|
