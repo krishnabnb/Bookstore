@@ -1,0 +1,36 @@
+/* header.css */
+nav {
+  padding: 10px;
+  text-align: center;
+}
+
+
+nav ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+nav ul li {
+  display: inline;
+  margin-right: 40px;
+}
+
+nav ul li a {
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-weight: 400;
+  color: black;
+  text-decoration: none;
+}
+nav ul li a:hover{
+  color: red;
+  text-decoration: underline;
+}
+nav ul li a.active { 
+  color: blue;
+}
+
+nav ul li a svg {
+  float: right; 
+  margin-right: 20px;
+  font-size: 20px;
+}

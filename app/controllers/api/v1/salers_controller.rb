@@ -3,7 +3,6 @@ class Api::V1::SalersController < ApplicationController
   def index
     salers = Saler.all
     render json: SalerSerializer.new(salers).serializable_hash[:data]
-    # cover_url = rails_blob_path(salers.cover, disposition: "attachment", only_path: true)
 
   end
 
@@ -21,16 +20,6 @@ class Api::V1::SalersController < ApplicationController
       render json: { error: saler.errors.full_messages }, status: :unprocessable_entity
     end
   end
-
-  # def create
-  #   saler = Saler.new(saler_params)
-  #   if saler.save
-  #     render json: saler, status: :created
-  #   else
-  #     render json: { error: saler.errors.full_messages }, status: :unprocessable_entity
-  #   end
-  # end
-
 
   def update
     saler = Saler.find(params[:id])

@@ -1,0 +1,64 @@
+.form-field {
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.form-Button{
+  background-color: brown;
+  margin-left: 620px;
+}
+
+
+.salers-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.salers-table th, .salers-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.salers-table th {
+  background-color: #f2f2f2;
+}
+
+.salers-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.salers-table tr:hover {
+  background-color: #ddd;
+}
+
+
+.submitButton{
+  background-color: #946659;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 3px;
+  height: 40px;
+  cursor: pointer;
+  margin-left: -370px;
+  margin-top: 10px;
+}
+
+.input-bio {
+  width: 600px;
+  height: 35px;
+  margin-left: 150px;
+  margin-top: 10px;
+}
+
+input:hover{
+  border-style: dotted;
+
+}
+.text-bio-with {
+  width: 600px;
+  height: 56px;
+  margin-left: 150px;
+  margin-top: 10px;
+}

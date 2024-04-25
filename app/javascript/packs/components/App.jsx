@@ -1,20 +1,19 @@
 import React from "react";
-import Header from './Header';
-import Bio from './Bio';
-import Footer from './Footer';
+import Header from './common/Header';
+import Footer from './common/Footer';
 import { Home } from './Home';
-import { Contect } from './Contect';
-
 import {
   BrowserRouter,
   Routes,
   Route,
 } from "react-router-dom";
-import { Book } from './Book';
-import { Saler } from './Saler';
-import { Payment } from './Payment';
-import { Sing_up } from './Sing_up';
-
+import { Book }from './BookModule/Book';
+import { Saler } from './SellerModule/Saler';
+import { Sing_up } from './Login/Sing_up';
+import Bio from "./About/Bio"
+import {Product} from "./ProductModule/Product"
+import { Payment } from "./PaymentModule/Payment";
+import {Contact} from "./ContactModule/Contact"
 const App = () => {
 
 
@@ -25,9 +24,10 @@ const App = () => {
         <Routes>
           <Route path="/bio" element={<Bio />} />
           <Route path="/" element={<Home />} />
-          <Route path="/contect" element={<Contect />} />
+          <Route path="/contect" element={<Contact />} />
           <Route path="/book" element={<Book />} />
           <Route path="/saler" element={<Saler />} />
+          <Route path="/product" element={<Product />} />
           <Route path="/payment" element={<Payment />} />
           <Route path="/payment" element={<Payment />} />
           <Route path="/users/sign_up" element={<Sing_up />} />
