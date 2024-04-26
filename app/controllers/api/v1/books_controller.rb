@@ -14,7 +14,6 @@ class Api::V1::BooksController < ApplicationController
   def create
     @book = Book.new(book_params)
     if @book.save
-      CheckPublishedBooksJob.perform_later
       render json: @book, status: :created
     else
       render json: @book.errors, status: :unprocessable_entity
@@ -23,7 +22,6 @@ class Api::V1::BooksController < ApplicationController
 
   def update
     if @book.update(book_params)
-      CheckPublishedBooksJob.perform_later
       render json: @book, status: :ok
     else
       render json: @book.errors, status: :unprocessable_entity

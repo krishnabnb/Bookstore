@@ -1,13 +1,14 @@
 class Book < ApplicationRecord
   has_many :carts, dependent: :destroy
 
-  before_save :set_published_status
+  before_commit :set_published_status
 
   private
-  
+
   def set_published_status
-    published_date = Date.parse(published_at)
-    self.published_status = (published_date <= Date.current) ? 'published' : 'unpublished'
+    puts "--------------------Debug: set_published_status callback triggered"
+    CheckPublishedBooksJob.perform_now
   end
-  
+
+
 end

@@ -2,19 +2,18 @@ class Api::V1::CartsController < ApplicationController
   before_action :set_cart, only: [:show, :update, :destroy]
 
   def index
-    @carts = Cart.all
-    render json: @carts
+    @carts = Cart.all.includes(:customer, :book)
+    render json: @carts.map { |cart| cart_with_customer_firstname_and_book_title(cart) }
   end
 
   def show
-    @cart = Cart.find(params[:id])
-    render json: @cart
+    render json: cart_with_customer_firstname_and_book_title(@cart)
   end
 
   def create
     @cart = Cart.new(cart_params)
     if @cart.save
-      render json: @cart, status: :created
+      render json: cart_with_customer_firstname_and_book_title(@cart), status: :created
     else
       render json: { errors: @cart.errors }, status: :unprocessable_entity
     end
@@ -22,7 +21,7 @@ class Api::V1::CartsController < ApplicationController
 
   def update
     if @cart.update(cart_params)
-      render json: @cart, status: :ok
+      render json: cart_with_customer_firstname_and_book_title(@cart), status: :ok
     else
       render json: { errors: @cart.errors }, status: :unprocessable_entity
     end
@@ -42,4 +41,10 @@ class Api::V1::CartsController < ApplicationController
     params.require(:cart).permit(:customer_id, :book_id, :quntity)
   end
 
+  def cart_with_customer_firstname_and_book_title(cart)
+    cart_data = cart.as_json
+    cart_data['customer_id'] = cart.customer.firstname if cart.customer.present?
+    cart_data['book_id'] = cart.book.title if cart.book.present?
+    cart_data
+  end
 end

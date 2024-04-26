@@ -19,6 +19,7 @@ class Api::V1::PaymentsController < ApplicationController
       render json: @payment.errors, status: :unprocessable_entity
     end
   end
+  
 
   def update
     if @payment.update(payment_params)
