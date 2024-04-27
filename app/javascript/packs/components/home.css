@@ -40,3 +40,58 @@
   height: 40px;
   cursor: pointer;
 }
+.bio-image  img{
+  margin-top: -100px;
+}
+
+.bio-image2  img{
+  margin-right: 150px;
+  border: 1px solid black;
+  width: 40%;
+}
+
+.story-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.text-container {
+  width: 50%;
+  margin-top: 220px;
+  margin-left: 30px;
+}
+
+.image-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.image-container img {
+  margin-bottom: 1px;
+}
+
+.abcd{
+  margin-left: 60px;
+}
+
+.xbcd{
+  margin-right: 250px;
+  font-size: 14px;
+}
+
+.xyz{
+  margin-left: 290px;
+}
+
+.btn123{
+  background-color: #946659;
+  color: white;
+  padding: 10px 70px;
+  border: none;
+  border-radius: 3px;
+  height: 50px;
+  cursor: pointer;
+  margin-left: 280px;
+  margin-top: 10px;
+}

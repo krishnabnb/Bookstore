@@ -66,7 +66,6 @@ export const Contact = () => {
     .then(updatedContact => {
       updateContact(updatedContact)
     })
-
   }
 
   const updateContact = updatedContact => {
@@ -161,88 +160,86 @@ export const Contact = () => {
           <p>Follow Me</p>
         </div>
         <div>
-        <table className="salers-table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Subject</th>
-              <th>Massage</th>
-              <th colSpan={2}>Edit</th>
-              <th>Delete</th>
-            </tr>
-          </thead>
-          <tbody>
-          {contacts.slice().reverse().map(contact => (
-    <tr key={contact.id}>
-      <td>
-        {editModes[contact.id] ? (
-          <input
-            name="name"
-            value={contact.name}
-            onChange={e => handleChange(e, contact)}
-            placeholder="Title"
-          />
-        ) : (
-          contact.name
-        )}
-      </td>
-      <td>
-        {editModes[contact.id] ? (
-          <input
-            name="email"
-            value={contact.email}
-            onChange={e => handleChange(e, contact)}
-            placeholder="Email"
-          />
-        ) : (
-          contact.email
-        )}
-      </td>
-      <td>
-        {editModes[contact.id] ? (
-          <input
-            name="subject"
-            value={contact.subject}
-            onChange={e => handleChange(e, contact)}
-            placeholder="Subject"
-          />
-        ) : (
-          contact.subject
-        )}
-      </td>
-      <td>
-        {editModes[contact.id] ? (
-          <input
-            name="massage"
-            value={contact.massage}
-            onChange={e => handleChange(e, contact)}
-            placeholder="Massage"
-          />
-        ) : (
-          contact.massage
-        )}
-      </td>
-      <td>
-        {editModes[contact.id] ? (
-          <button onClick={() => handleSubmit(contact)}>Submit</button>
-        ) : (
-          <button onClick={() => handleEdit(contact.id)}>Edit</button>
-        )}
-      </td>
-      <td>
-        <button onClick={() => handleBackButtonClick(contact)}>Back</button>
-      </td>
-      <td>
-        <button onClick={() => handleDelete(contact.id)}>Delete</button>
-      </td>
-    </tr>
-))}
-
-        </tbody>
-      </table>
+          <table className="salers-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Subject</th>
+                <th>Massage</th>
+                <th>Delete</th>
+                <th>Edit</th>
+              </tr>
+            </thead>
+            <tbody>
+              {contacts.slice().reverse().map(contact => (
+                <tr key={contact.id}>
+                  <td>
+                    {editModes[contact.id] ? (
+                      <input
+                        name="name"
+                        value={contact.name}
+                        onChange={e => handleChange(e, contact)}
+                        placeholder="Title"
+                      />
+                    ) : (
+                      contact.name
+                    )}
+                  </td>
+                  <td>
+                    {editModes[contact.id] ? (
+                      <input
+                        name="email"
+                        value={contact.email}
+                        onChange={e => handleChange(e, contact)}
+                        placeholder="Email"
+                      />
+                    ) : (
+                      contact.email
+                    )}
+                  </td>
+                  <td>
+                    {editModes[contact.id] ? (
+                      <input
+                        name="subject"
+                        value={contact.subject}
+                        onChange={e => handleChange(e, contact)}
+                        placeholder="Subject"
+                      />
+                    ) : (
+                      contact.subject
+                    )}
+                  </td>
+                  <td>
+                    {editModes[contact.id] ? (
+                      <input
+                        name="massage"
+                        value={contact.massage}
+                        onChange={e => handleChange(e, contact)}
+                        placeholder="Massage"
+                      />
+                    ) : (
+                      contact.massage
+                    )}
+                  </td>
+                  <td>
+                    <button onClick={() => handleDelete(contact.id)}>Delete</button>
+                  </td>
+                  <td>
+                    {editModes[contact.id] ? (
+                      <div>
+                        <button onClick={() => handleSubmit(contact)}>Submit</button>
+                        <button onClick={() => handleBackButtonClick(contact)}>Back</button>
+                      </div>
+                    ) : (
+                      <button onClick={() => handleEdit(contact.id)}>Edit</button>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-
       </div>
       <div className='email'>
         <div className="left-side">
@@ -257,8 +254,6 @@ export const Contact = () => {
     </div>
   )
 }
-
-
 const styles = {
   line_to: {
     position: 'absolute',

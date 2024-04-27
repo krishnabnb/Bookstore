@@ -39,8 +39,8 @@ export const Book = () => {
     }
   };
 
-  const handleFormSubmit = (title, author, description, release_date, price) => {
-    const body = JSON.stringify({ book: { title, author, description, release_date, price } })
+  const handleFormSubmit = (title, author, description, release_date, price, published_status, published_at) => {
+    const body = JSON.stringify({ book: { title, author, description, release_date, price, published_status, published_at } })
     fetch('http://192.168.1.3:3000/api/v1/books', {
       method: 'POST',
       headers: {
@@ -165,8 +165,10 @@ export const Book = () => {
             <th>Description</th>
             <th>Release Date</th>
             <th>Price</th>
-            <th colSpan={2}>Edit</th>
+            <th>Published_Stattus</th>
+            <th>Published_at</th>
             <th>Delete</th>
+            <th>Edit</th>
           </tr>
         </thead>
         <tbody>
@@ -234,21 +236,55 @@ export const Book = () => {
               </td>
               <td>
                 {editModes[book.id] ? (
-                  <button onClick={() => handleSubmit(book)}>Submit</button>
+                  <input
+                    name="published_status"
+                    value={book.published_status}
+                    onChange={e => handleChange(e, book)}
+                    placeholder="Published_Status"
+                  />
                 ) : (
-                  <button onClick={() => handleEdit(book.id)}>Edit</button>
+                  book.published_status
                 )}
               </td>
               <td>
-                <button onClick={() => handleBackButtonClick(book)}>Back</button>
+                {editModes[book.id] ? (
+                  <input
+                    name="published_at"
+                    value={book.published_at}
+                    onChange={e => handleChange(e, book)}
+                    placeholder="Published_at"
+                  />
+                ) : (
+                  book.published_at
+                )}
               </td>
               <td>
                 <button onClick={() => handleDelete(book.id)}>Delete</button>
+              </td>
+              <td>
+                {editModes[book.id] ? (
+                  <div>
+                    <button onClick={() => handleSubmit(book)}>Submit</button>
+                    <button onClick={() => handleBackButtonClick(book)}>Back</button>
+                  </div>
+                ) : (
+                  <button onClick={() => handleEdit(book.id)}>Edit</button>
+                )}
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+      <div className='email'>
+        <div className="left-side">
+          <h2>Subscribe Now to Get Regular Updates</h2>
+          <input type="email" placeholder="Enter your email" />
+          <button className="subscribe-btn">Subscribe</button>
+        </div>
+        <div className='right-side'>
+          <img src='https://websitedemos.net/kathryn-ebook-author-02/wp-content/uploads/sites/1020/2022/02/susbcribe-image.png' alt='img'/>
+        </div>
+      </div>
     </div>
   );
 };

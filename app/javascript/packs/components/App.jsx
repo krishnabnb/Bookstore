@@ -14,6 +14,8 @@ import Bio from "./About/Bio"
 import {Product} from "./ProductModule/Product"
 import { Payment } from "./PaymentModule/Payment";
 import {Contact} from "./ContactModule/Contact"
+import { Cart } from "./CartModule/Cart";
+import { User } from "./CustomerModule/User";
 const App = () => {
 
 
@@ -30,7 +32,10 @@ const App = () => {
           <Route path="/product" element={<Product />} />
           <Route path="/payment" element={<Payment />} />
           <Route path="/payment" element={<Payment />} />
-          <Route path="/users/sign_up" element={<Sing_up />} />
+          <Route path="/cart" element={<Cart/>} />
+          <Route path="/user" element={<User/>} />
+
+
         </Routes>
         <Footer />
       </div>

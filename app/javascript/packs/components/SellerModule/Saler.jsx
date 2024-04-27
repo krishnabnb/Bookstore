@@ -154,8 +154,8 @@ export const Saler = () => {
             <th>Book Title</th>
             <th>Price</th>
             <th>Image</th>
-            <th colSpan={2}>Edit</th>
             <th>Delete</th>
+            <th>Edit</th>
           </tr>
         </thead>
         <tbody>
@@ -222,22 +222,32 @@ export const Saler = () => {
                 )}
               </td>
               <td>
+                <button onClick={() => handleDelete(saler.id)}>Delete</button>
+              </td>
+              <td>
                 {editModes[saler.id] ? (
-                  <button onClick={() => handleSubmit(saler)}>Submit</button>
+                  <div>
+                    <button onClick={() => handleSubmit(saler)}>Submit</button>
+                    <button onClick={() => handleBackButtonClick(saler)}>Back</button>
+                  </div>
                 ) : (
                   <button onClick={() => handleEdit(saler.id)}>Edit</button>
                 )}
-              </td>
-              <td>
-                <button onClick={() => handleBackButtonClick(saler)}>Back</button>
-              </td>
-              <td>
-                <button onClick={() => handleDelete(saler.id)}>Delete</button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+      <div className='email'>
+        <div className="left-side">
+          <h2>Subscribe Now to Get Regular Updates</h2>
+          <input type="email" placeholder="Enter your email" />
+          <button className="subscribe-btn">Subscribe</button>
+        </div>
+        <div className='right-side'>
+          <img src='https://websitedemos.net/kathryn-ebook-author-02/wp-content/uploads/sites/1020/2022/02/susbcribe-image.png' alt='img'/>
+        </div>
+      </div>
     </div>
   );
 };
