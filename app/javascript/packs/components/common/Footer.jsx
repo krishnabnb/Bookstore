@@ -25,7 +25,6 @@ const Footer = () => {
         />
         <div className="white-line"></div>
       </div>
-      <div style={styles.line}></div>
 
       <div style={styles.copyright}>
         &nbsp;
@@ -38,17 +37,6 @@ const Footer = () => {
 };
 
 const styles = {
-  line: {
-    position: 'absolute',
-    top: '90%',
-    left: '50%',
-    marginTop: '100px',
-    transform: 'translate(-50%, -50%)',
-    width: '1470px',
-    height: '0.5px',
-    backgroundColor: 'white',
-    color: 'white'
-  },
   footer: {
     backgroundColor: '#333',
     color: '#fff',

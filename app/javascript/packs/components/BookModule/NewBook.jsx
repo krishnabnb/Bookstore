@@ -10,12 +10,11 @@ export const NewBook = (props) => {
     const author = formFields.author.value;
     const description = formFields.description.value;
     const price = formFields.price.value;
-    const release_date = formFields.release_date.value;
     const published_status = formFields.published_status.value;
     const published_at = formFields.published_at.value;
 
 
-    props.handleFormSubmit(title, author, description, price, release_date, published_status, published_at);
+    props.handleFormSubmit(title, author, description, price, published_status, published_at);
     e.target.reset();
   };
 
@@ -31,9 +30,6 @@ export const NewBook = (props) => {
         <input type="text" id="description" ref={(input) => formFields.description = input} placeholder="Enter the book description" className='input-bio' />
       </div>
       <div>
-        <input type="date" id="release_date" ref={(input) => formFields.release_date = input} placeholder="Enter the release_date" className='text-bio-with' />
-      </div>
-      <div>
         <input type="text" id="price" ref={(input) => formFields.price = input} placeholder="Enter the price" className='input-bio' />
       </div>
       <div>
@@ -44,5 +40,10 @@ export const NewBook = (props) => {
       </div>
       <button type="submit" className='submitButton'>Submit</button>
     </form>
+
+    
+      
   );
+
+
 };

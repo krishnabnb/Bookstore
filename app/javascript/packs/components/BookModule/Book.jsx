@@ -39,8 +39,8 @@ export const Book = () => {
     }
   };
 
-  const handleFormSubmit = (title, author, description, release_date, price, published_status, published_at) => {
-    const body = JSON.stringify({ book: { title, author, description, release_date, price, published_status, published_at } })
+  const handleFormSubmit = (title, author, description, price, published_status, published_at) => {
+    const body = JSON.stringify({ book: { title, author, description, price, published_status, published_at } })
     fetch('http://192.168.1.3:3000/api/v1/books', {
       method: 'POST',
       headers: {
@@ -140,6 +140,36 @@ export const Book = () => {
     setBooks(prevBooks =>
       prevBooks.map(b => (b.id === book.id ? updatedBook : b))
     );
+    const handleChange = (e, book) => {
+      const { name, value } = e.target;
+      const updatedBook = { ...book, [name]: value };
+      setBooks(prevBooks =>
+        prevBooks.map(b => (b.id === book.id ? updatedBook : b))
+      );
+    };
+  };
+  const handleToggleStatus = async (id) => {
+    try {
+      const response = await fetch(`http://192.168.1.3:3000/api/v1/books/${id}/update_status`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      if (response.ok) {
+        const updatedBooks = books.map(book => {
+          if (book.id === id) {
+            return { ...book, published_status: book.published_status === 'published' ? 'unpublished' : 'published' };
+          }
+          return book;
+        });
+        setBooks(updatedBooks);
+      } else {
+        throw new Error('Failed to update status');
+      }
+    } catch (error) {
+      console.error('Error updating status:', error);
+    }
   };
 
   return (
@@ -163,12 +193,13 @@ export const Book = () => {
             <th>Title</th>
             <th>Author</th>
             <th>Description</th>
-            <th>Release Date</th>
             <th>Price</th>
             <th>Published_Stattus</th>
             <th>Published_at</th>
             <th>Delete</th>
             <th>Edit</th>
+            <th>Changed status</th>
+
           </tr>
         </thead>
         <tbody>
@@ -208,18 +239,6 @@ export const Book = () => {
                   />
                 ) : (
                   book.description
-                )}
-              </td>
-              <td>
-                {editModes[book.id] ? (
-                  <input
-                    name="release_date"
-                    value={book.release_date}
-                    onChange={e => handleChange(e, book)}
-                    placeholder="Release Date"
-                  />
-                ) : (
-                  book.release_date
                 )}
               </td>
               <td>
@@ -271,6 +290,12 @@ export const Book = () => {
                   <button onClick={() => handleEdit(book.id)}>Edit</button>
                 )}
               </td>
+
+              <td>
+              <button onClick={() => handleToggleStatus(book.id)}>
+                Change Status
+              </button>
+            </td>
             </tr>
           ))}
         </tbody>
@@ -287,4 +312,5 @@ export const Book = () => {
       </div>
     </div>
   );
+
 };
