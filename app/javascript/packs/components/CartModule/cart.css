@@ -1,0 +1,26 @@
+.input-cart {
+  width: 900px;
+  height: 35px;
+  margin-left: 250px;
+  margin-top: 10px;
+}
+
+
+.input-withcart {
+  width: 900px;
+  height: 35px;
+  margin-left: 250px;
+  margin-top: 10px;
+}
+
+.submit_Button{
+  background-color: #946659;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 3px;
+  height: 40px;
+  cursor: pointer;
+  margin-left: -570px;
+  margin-top: 20px;
+}

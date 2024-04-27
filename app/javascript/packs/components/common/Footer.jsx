@@ -11,7 +11,6 @@ const Footer = () => {
           <a href="#" style={styles.link}>Books</a>
           <a href="#" style={styles.link}>Contact</a>
         </div>
-        <div style={styles.line}></div> {/* Horizontal white line */}
         <div style={styles.icons}>
           <a href='#'><FaInstagram color="white" /></a>
           <a href='#'><FaFacebook color="white" /></a>
@@ -22,14 +21,16 @@ const Footer = () => {
         <img
           src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZQGH6_1Q5hZbccQanQsEx_fN9qN6hlQ1Ifg&usqp=CAU"
           alt="Sample Image"
-          style={styles.image} // Added style for image size
+          style={styles.image}
         />
         <div className="white-line"></div>
       </div>
+      <div style={styles.line}></div>
+
       <div style={styles.copyright}>
-        &nbsp; {/* Add some space */}
-        <br /> {/* Add a line break */}
-        &nbsp; {/* Add some space */}
+        &nbsp;
+        <br />
+        &nbsp;
         Copyright © 2024 eBook Author | Powered by eBook Author
       </div>
     </footer>
@@ -37,11 +38,22 @@ const Footer = () => {
 };
 
 const styles = {
+  line: {
+    position: 'absolute',
+    top: '90%',
+    left: '50%',
+    marginTop: '100px',
+    transform: 'translate(-50%, -50%)',
+    width: '1470px',
+    height: '0.5px',
+    backgroundColor: 'white',
+    color: 'white'
+  },
   footer: {
     backgroundColor: '#333',
     color: '#fff',
     padding: '20px 0',
-    marginTop: '80px',
+    marginTop: '-17px',
     textAlign: 'center',
   },
   container: {
@@ -64,16 +76,6 @@ const styles = {
     margin: '0 10px',
     transition: 'color 0.3s ease',
     fontSize: '14px',
-  },
-  line: {
-    position: 'absolute',
-    top: '90%',
-    left: '50%',
-    marginTop: '100px',
-    transform: 'translate(-50%, -50%)',
-    width: '1470px',
-    height: '0.5px',
-    backgroundColor: 'white',
   },
   icons: {
     position: 'absolute',

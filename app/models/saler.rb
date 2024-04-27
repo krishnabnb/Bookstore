@@ -9,5 +9,4 @@
 # end
 
 class Saler < ApplicationRecord
-
 end
