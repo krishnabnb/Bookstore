@@ -2,6 +2,7 @@ import React from 'react';
 import './bio.css';
 import {  FaInstagram } from 'react-icons/fa';
 
+
 const Bio = () => {
   return (
     <div>
