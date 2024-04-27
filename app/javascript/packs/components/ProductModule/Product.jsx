@@ -37,8 +37,8 @@ export const Product = () => {
           <h4>Fantasy</h4>
         </div>
         <div className="product-text">
-          <Link to="/science"><img src='/image/p9.jpg' alt='Product 2' className='product productSecond' /></Link>
-          <h4>Science fiction</h4>
+          <Link to="/historical"><img src='/image/p9.jpg' alt='Product 2' className='product productSecond' /></Link>
+          <h4>Historical fiction</h4>
         </div>
         <div className="product-text">
           <Link to="/horror"><img src='/image/p10.jpg' alt='Product 3' className='product productSecond' /></Link>
@@ -55,8 +55,8 @@ export const Product = () => {
           <h4>Romance</h4>
         </div>
         <div className="product-text">
-          <Link to="/historical"><img src='/image/p8.jpg' alt='Product 2' className='product productSecond' /></Link>
-          <h4>Historical fiction</h4>
+          <Link to="/science"><img src='/image/p8.jpg' alt='Product 2' className='product productSecond' /></Link>
+          <h4>Science fiction</h4>
         </div>
         <div className="product-text">
           <Link to="/thrillers"><img src='/image/p14.jpg' alt='Product 3' className='product productSecond' /></Link>

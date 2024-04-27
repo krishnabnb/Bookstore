@@ -148,30 +148,6 @@ export const Book = () => {
       );
     };
   };
-  const handleToggleStatus = async (id) => {
-    try {
-      const response = await fetch(`http://192.168.1.3:3000/api/v1/books/${id}/update_status`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-      if (response.ok) {
-        const updatedBooks = books.map(book => {
-          if (book.id === id) {
-            return { ...book, published_status: book.published_status === 'published' ? 'unpublished' : 'published' };
-          }
-          return book;
-        });
-        setBooks(updatedBooks);
-      } else {
-        throw new Error('Failed to update status');
-      }
-    } catch (error) {
-      console.error('Error updating status:', error);
-    }
-  };
-
   return (
     <div>
       <div>
