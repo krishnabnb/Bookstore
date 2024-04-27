@@ -1,13 +1,12 @@
 class Api::V1::BooksController < ApplicationController
-  skip_before_action :verify_authenticity_token
-  before_action :set_book,only:[:show, :update, :destroy]
+  before_action :set_book, only: [:show, :update, :destroy]
+
   def index
     @books = Book.all
     render json: @books
   end
 
   def show
-    @book = Book.find(params[:id])
     render json: @book
   end
 
@@ -27,18 +26,24 @@ class Api::V1::BooksController < ApplicationController
       render json: @book.errors, status: :unprocessable_entity
     end
   end
-  
 
   def destroy
     @book.destroy
-    render json:{message: "book destroy succesfully"},status: :ok
+    render json: { message: "Book destroyed successfully" }, status: :ok
+  end
+
+  def search
+    @books = Book.where("title LIKE ? OR description LIKE ? OR publish_at = ? OR published_status = ?", "%#{params[:title]}%", "%#{params[:description]}%", params[:published_at], params[:published_status])
+    render json: @books
   end
 
   private
+
   def set_book
     @book = Book.find(params[:id])
   end
+
   def book_params
-    params.require(:book).permit(:title, :author, :description, :release_date, :price, :image)
+    params.require(:book).permit(:title, :author, :description, :release_date, :price, :image, :published_status, :published_at)
   end
 end
