@@ -130,6 +130,9 @@ export const Book = () => {
     }
   };
 
+
+
+
   const deleteBook = id => {
     setBooks(prevBooks => prevBooks.filter(book => book.id !== id));
   };
@@ -148,6 +151,7 @@ export const Book = () => {
       );
     };
   };
+
   const handleToggleStatus = async (id) => {
     try {
       const response = await fetch(`http://192.168.1.3:3000/api/v1/books/${id}/update_status`, {
@@ -157,9 +161,10 @@ export const Book = () => {
         }
       });
       if (response.ok) {
+        const updatedBook = await response.json();
         const updatedBooks = books.map(book => {
           if (book.id === id) {
-            return { ...book, published_status: book.published_status === 'published' ? 'unpublished' : 'published' };
+            return updatedBook;
           }
           return book;
         });
@@ -187,6 +192,14 @@ export const Book = () => {
           <NewBook handleFormSubmit={handleFormSubmit} />
         </div>
       </div>
+      <form className="search-form">
+        <input type="text" placeholder="Search by title" className='search-input' />
+        <input type="text" placeholder="Search by description" className='search-input' />
+        <input type="date" placeholder="Search by published_at" className='search-input' />
+        <input type="text"  placeholder="Search by published_status" className='search-input' />
+        <button type="submit" className='searchButton'>Search</button>
+        <button type="button" className='cancelButton'>Cancel</button>
+      </form>
       <table className="salers-table">
         <thead>
           <tr>
@@ -314,3 +327,6 @@ export const Book = () => {
   );
 
 };
+
+
+
