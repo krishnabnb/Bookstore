@@ -1,11 +1,11 @@
 
 .bio-container {
   padding: 7%;
-  margin: 20px  0; 
-  background-color: #edd; 
+  margin: 20px  0;
+  background-color: #edd;
   text-align: center;
   padding: 7%;
-  margin: 20px  0; 
+  margin: 20px  0;
   text-align: center;
 }
 
@@ -29,7 +29,6 @@
 }
 .story{
   margin: 15%;
-  margin-top: 6%;
 }
 .text-bio {
   width: 40%;
@@ -52,7 +51,7 @@ h1{
   float: right;
 }
 .award-section {
-  display: flex; 
+  display: flex;
 
 }
 
@@ -67,8 +66,8 @@ h1{
 }
 .bio-container-last{
   padding: 7%;
-  margin: 20px  0; 
-  background-color:#946659; 
+  margin: 20px  0;
+  background-color:#946659;
   margin-top: 7%;
   color: white;
   text-align: center;
@@ -100,13 +99,13 @@ h1{
 }
 
 .visit-instagram-btn {
-  margin-top: 10px; 
-  background-color: #946659; 
+  margin-top: 10px;
+  background-color: #946659;
   color: white;
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
-  
+
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
@@ -139,22 +138,22 @@ h1{
 }
 .text-bio-3 h1{
   line-height: 60px;
-} 
+}
 .text-bio-3 p{
   line-height: 30px;
 }
 
 .email{
   padding: 7%;
-  margin: 20px  0; 
-  background-color: #edd; 
+  margin: 20px  0;
+  background-color: #edd;
   margin-top: 5%;
 }
 .right-side  img{
   margin-top: -25%;
   margin-right: 20%;
   float: right;
-  
+
 }
 .left-side h2{
   margin-left: 20%;
@@ -172,7 +171,7 @@ h1{
 
 
 .subscribe-btn{
-  background-color: #946659; 
+  background-color: #946659;
   color: white;
   padding: 10px 20px;
   margin-left: 20px;

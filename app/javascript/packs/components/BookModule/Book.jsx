@@ -39,8 +39,8 @@ export const Book = () => {
     }
   };
 
-  const handleFormSubmit = (title, author, description, release_date, price, published_status, published_at) => {
-    const body = JSON.stringify({ book: { title, author, description, release_date, price, published_status, published_at } })
+  const handleFormSubmit = (title, author, description, price, published_status, published_at) => {
+    const body = JSON.stringify({ book: { title, author, description, price, published_status, published_at } })
     fetch('http://192.168.1.3:3000/api/v1/books', {
       method: 'POST',
       headers: {
@@ -163,7 +163,6 @@ export const Book = () => {
             <th>Title</th>
             <th>Author</th>
             <th>Description</th>
-            <th>Release Date</th>
             <th>Price</th>
             <th>Published_Stattus</th>
             <th>Published_at</th>
@@ -208,18 +207,6 @@ export const Book = () => {
                   />
                 ) : (
                   book.description
-                )}
-              </td>
-              <td>
-                {editModes[book.id] ? (
-                  <input
-                    name="release_date"
-                    value={book.release_date}
-                    onChange={e => handleChange(e, book)}
-                    placeholder="Release Date"
-                  />
-                ) : (
-                  book.release_date
                 )}
               </td>
               <td>
