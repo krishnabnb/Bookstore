@@ -140,8 +140,14 @@ export const Book = () => {
     setBooks(prevBooks =>
       prevBooks.map(b => (b.id === book.id ? updatedBook : b))
     );
+    const handleChange = (e, book) => {
+      const { name, value } = e.target;
+      const updatedBook = { ...book, [name]: value };
+      setBooks(prevBooks =>
+        prevBooks.map(b => (b.id === book.id ? updatedBook : b))
+      );
+    };
   };
-
   return (
     <div>
       <div>
@@ -168,6 +174,8 @@ export const Book = () => {
             <th>Published_at</th>
             <th>Delete</th>
             <th>Edit</th>
+            <th>Changed status</th>
+
           </tr>
         </thead>
         <tbody>
@@ -258,6 +266,12 @@ export const Book = () => {
                   <button onClick={() => handleEdit(book.id)}>Edit</button>
                 )}
               </td>
+
+              <td>
+              <button onClick={() => handleToggleStatus(book.id)}>
+                Change Status
+              </button>
+            </td>
             </tr>
           ))}
         </tbody>
@@ -274,4 +288,5 @@ export const Book = () => {
       </div>
     </div>
   );
+
 };
