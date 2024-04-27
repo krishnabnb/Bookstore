@@ -7,7 +7,6 @@ class CheckPublishedBooksJob < ApplicationJob
     @books.each do |book|
       if Date.parse(book.published_at) <= Date.current
         book.update(published_status: "published")
-        # puts "----------------#{book.inspect}"
       else
         book.update(published_status: "unpublished")
       end
