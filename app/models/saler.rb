@@ -9,5 +9,5 @@
 # end
 
 class Saler < ApplicationRecord
-bo
+
 end
