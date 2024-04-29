@@ -2,6 +2,8 @@ import React from 'react'
 
 export const Sing_up = () => {
   return (
-    <div>Sing_up</div>
+    <div>
+      <h1>sign"_up</h1>
+    </div>
   )
 }
