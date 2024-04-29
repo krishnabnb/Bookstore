@@ -1,4 +1,6 @@
 class Api::V1::CustomersController < ApplicationController
+  skip_before_action :verify_authenticity_token
+
   before_action :set_customer , only:[:show, :update, :destroy]
 
   def index
@@ -16,7 +18,7 @@ class Api::V1::CustomersController < ApplicationController
     if  @customer.save
       render json: @customer, status: :created
     else
-      render json: @customer.erroers, status: :unprocessable_entity
+      render json: @customer.errors, status: :unprocessable_entity
     end
   end
 
@@ -24,7 +26,7 @@ class Api::V1::CustomersController < ApplicationController
     if @customer.update(customer_params)
       render json: @customer, status: :ok
     else
-      render @customer.erroers, status: :unprocessable_entity
+      render @customer.errors, status: :unprocessable_entity
     end
   end
 
