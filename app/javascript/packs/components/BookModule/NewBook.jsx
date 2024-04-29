@@ -45,7 +45,7 @@ export const NewBook = (props) => {
 
   return (
     <div>
-      <form onSubmit={handleFormSubmit}>
+      <f onSubmit={handleFormSubmit}>
         <div>
           <input type="text" id="title" ref={(input) => formFields.title = input} placeholder="Enter the title" className='input-bio' />
         </div>
@@ -65,17 +65,7 @@ export const NewBook = (props) => {
           <input type="date" id="published_at" ref={(input) => formFields.published_at = input} placeholder="Enter the Published_at" className='text-bio-with' />
         </div>
         <button type="submit" className='submitButton'>Submit</button>
-      </form>
-      <form onSubmit={handleSearchSubmit} className="search-form">
-        <input type="text" name="title" value={searchFields.title} onChange={handleInputChange} placeholder="Search by title" className='search-input' />
-        <input type="text" name="description" value={searchFields.description} onChange={handleInputChange} placeholder="Search by description" className='search-input' />
-        <input type="date" name="published_at" value={searchFields.published_at} onChange={handleInputChange} placeholder="Search by published_at" className='search-input' />
-        <input type="text" name="published_status" value={searchFields.published_status} onChange={handleInputChange} placeholder="Search by published_status" className='search-input' />
-        <button type="submit" className='searchButton'>Search</button>
-        <button type="button" onClick={handleCancel} className='cancelButton'>Cancel</button>
-      </form>
+      </f>
     </div>
   );
-
-
 };
