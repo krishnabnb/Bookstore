@@ -9,7 +9,6 @@ import {
 } from "react-router-dom";
 import { Book }from './BookModule/Book';
 import { Saler } from './SellerModule/Saler';
-import { Sing_up } from './Login/Sing_up';
 import Bio from "./About/Bio"
 import {Product} from "./ProductModule/Product"
 import { Payment } from "./PaymentModule/Payment";
@@ -28,6 +27,7 @@ import Horror from "./image/Horror"
 import Historical from "./image/Historical"
 import Fantasy from "./image/Fantasy"
 import Business from "./image/Business"
+
 
 const App = () => {
   return (
@@ -57,6 +57,7 @@ const App = () => {
           <Route path="/historical" element={<Historical/>} />
           <Route path="/fantasy" element={<Fantasy/>} />
           <Route path="/business" element={<Business/>} />
+
         </Routes>
         <Footer />
       </div>

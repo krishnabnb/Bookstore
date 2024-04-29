@@ -55,6 +55,7 @@ class Api::V1::BooksController < ApplicationController
     render json: @books
   end
 
+
   private
 
   def set_book

@@ -7,9 +7,16 @@ export const Book = () => {
     const savedBooks = localStorage.getItem('books');
     return savedBooks ? JSON.parse(savedBooks) : [];
   });
+
   const [error, setError] = useState(null);
   const [editModes, setEditModes] = useState({});
   const [originalBooks, setOriginalBooks] = useState({});
+  const [searchQuery, setSearchQuery] = useState({
+    title: '',
+    description: '',
+    published_at: '',
+    published_status: ''
+  });
 
   useEffect(() => {
     fetch('http://192.168.1.3:3000/api/v1/books')
@@ -20,8 +27,11 @@ export const Book = () => {
           acc[book.id] = { ...book };
           return acc;
         }, {}));
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+        setError(error.message);
       });
-    fetchBooks();
   }, []);
 
   const fetchBooks = async () => {
@@ -130,9 +140,6 @@ export const Book = () => {
     }
   };
 
-
-
-
   const deleteBook = id => {
     setBooks(prevBooks => prevBooks.filter(book => book.id !== id));
   };
@@ -143,13 +150,6 @@ export const Book = () => {
     setBooks(prevBooks =>
       prevBooks.map(b => (b.id === book.id ? updatedBook : b))
     );
-    const handleChange = (e, book) => {
-      const { name, value } = e.target;
-      const updatedBook = { ...book, [name]: value };
-      setBooks(prevBooks =>
-        prevBooks.map(b => (b.id === book.id ? updatedBook : b))
-      );
-    };
   };
 
   const handleToggleStatus = async (id) => {
@@ -177,6 +177,35 @@ export const Book = () => {
     }
   };
 
+  const handleSearch = async () => {
+    try {
+      const response = await fetch('http://192.168.1.3:3000/api/v1/books?title=' + searchQuery.title + '&description=' + searchQuery.description + '&published_at=' + searchQuery.published_at + '&published_status=' + searchQuery.published_status);
+      if (response.ok) {
+        const data = await response.json();
+        setBooks(data);
+      } else {
+        throw new Error('Failed to fetch data');
+      }
+    } catch (error) {
+      console.error('Error searching data:', error);
+      setError(error.message);
+    }
+  };
+
+  const handleSearchInputChange = (e) => {
+    setSearchQuery({ ...searchQuery, [e.target.name]: e.target.value });
+  };
+
+  const handleCancelSearch = () => {
+    setSearchQuery({
+      title: '',
+      description: '',
+      published_at: '',
+      published_status: ''
+    });
+    fetchBooks();
+  };
+
   return (
     <div>
       <div>
@@ -193,12 +222,12 @@ export const Book = () => {
         </div>
       </div>
       <form className="search-form">
-        <input type="text" placeholder="Search by title" className='search-input' />
-        <input type="text" placeholder="Search by description" className='search-input' />
-        <input type="date" placeholder="Search by published_at" className='search-input' />
-        <input type="text"  placeholder="Search by published_status" className='search-input' />
-        <button type="submit" className='searchButton'>Search</button>
-        <button type="button" className='cancelButton'>Cancel</button>
+        <input type="text" name="title" placeholder="Search by title" className='search-input' value={searchQuery.title} onChange={handleSearchInputChange} />
+        <input type="text" name="description" placeholder="Search by description" className='search-input' value={searchQuery.description} onChange={handleSearchInputChange} />
+        <input type="text" name="published_at" placeholder="Search by published_at" className='search-input' value={searchQuery.published_at} onChange={handleSearchInputChange} />
+        <input type="text" name="published_status" placeholder="Search by published_status" className='search-input' value={searchQuery.published_status} onChange={handleSearchInputChange} />
+        <button type="button" className='searchButton' onClick={handleSearch}>Search</button>
+        <button type="button" className='cancelButton' onClick={handleCancelSearch}>Cancel</button> {/* Add Cancel button */}
       </form>
       <table className="salers-table">
         <thead>
@@ -207,12 +236,11 @@ export const Book = () => {
             <th>Author</th>
             <th>Description</th>
             <th>Price</th>
-            <th>Published_Stattus</th>
+            <th>Published_Status</th>
             <th>Published_at</th>
             <th>Delete</th>
             <th>Edit</th>
             <th>Changed status</th>
-
           </tr>
         </thead>
         <tbody>
@@ -325,8 +353,4 @@ export const Book = () => {
       </div>
     </div>
   );
-
 };
-
-
-

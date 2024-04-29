@@ -20,6 +20,8 @@ const Header = () => {
           <li><Link to="/product">Product</Link></li>
           <li><Link to="/cart"><FaShoppingCart /></Link></li>
           <li><Link to="/user"><FaUser/></Link></li>
+          <li><Link to="/sing_up">sing_up</Link></li>
+
         </ul>
       </nav>
     </div>
