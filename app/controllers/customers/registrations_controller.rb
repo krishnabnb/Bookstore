@@ -1,6 +1,24 @@
 # frozen_string_literal: true
 
 class Customers::RegistrationsController < Devise::RegistrationsController
+  skip_before_action :verify_authenticity_token
+  respond_to :json
+  def create
+    @customer = Customer.new(customer_params)
+    if @customer.save
+      sign_in(@customer) # Automatically sign in the newly created customer
+      redirect_to root_path, notice: "Welcome! You have signed up successfully." # Redirect to the root path
+    else
+      render json: { errors: @customer.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
+
+
+  private
+
+  def customer_params
+    params.require(:customer).permit(:firstname, :lastname, :email, :password, :password_confirmation)
+  end
   # before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
 

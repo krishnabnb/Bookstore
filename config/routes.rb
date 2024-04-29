@@ -1,11 +1,14 @@
 Rails.application.routes.draw do
  
+  # devise_for :customers, controllers: {
+  #   registrations: 'customers/registrations',
+  #   sessions: 'customers/sessions'
+  # }
   devise_for :customers, controllers: {
-    registrations: 'registrations',
-    sessions: 'sessions'
+    sessions: 'customers/sessions'
   }
-
   root to: 'home#index'
+  
   namespace :api do
     namespace :v1 do
       resources :salers
@@ -19,6 +22,5 @@ Rails.application.routes.draw do
       resources :carts
       resources :contacts
     end
-
   end
 end
