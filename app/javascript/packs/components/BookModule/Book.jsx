@@ -130,6 +130,9 @@ export const Book = () => {
     }
   };
 
+
+
+
   const deleteBook = id => {
     setBooks(prevBooks => prevBooks.filter(book => book.id !== id));
   };
@@ -148,6 +151,32 @@ export const Book = () => {
       );
     };
   };
+
+  const handleToggleStatus = async (id) => {
+    try {
+      const response = await fetch(`http://192.168.1.3:3000/api/v1/books/${id}/update_status`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      if (response.ok) {
+        const updatedBook = await response.json();
+        const updatedBooks = books.map(book => {
+          if (book.id === id) {
+            return updatedBook;
+          }
+          return book;
+        });
+        setBooks(updatedBooks);
+      } else {
+        throw new Error('Failed to update status');
+      }
+    } catch (error) {
+      console.error('Error updating status:', error);
+    }
+  };
+
   return (
     <div>
       <div>
@@ -163,6 +192,14 @@ export const Book = () => {
           <NewBook handleFormSubmit={handleFormSubmit} />
         </div>
       </div>
+      <form className="search-form">
+        <input type="text" placeholder="Search by title" className='search-input' />
+        <input type="text" placeholder="Search by description" className='search-input' />
+        <input type="date" placeholder="Search by published_at" className='search-input' />
+        <input type="text"  placeholder="Search by published_status" className='search-input' />
+        <button type="submit" className='searchButton'>Search</button>
+        <button type="button" className='cancelButton'>Cancel</button>
+      </form>
       <table className="salers-table">
         <thead>
           <tr>
@@ -290,3 +327,6 @@ export const Book = () => {
   );
 
 };
+
+
+
