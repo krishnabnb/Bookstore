@@ -218,6 +218,7 @@ export const Book = () => {
           <NewBook handleFormSubmit={handleFormSubmit} />
         </div>
       </div>
+
       <form className="search-form">
         <input type="text" name="title" placeholder="Search by title" className='search-input' value={searchQuery.title} onChange={handleSearchInputChange} />
         <input type="text" name="description" placeholder="Search by description" className='search-input' value={searchQuery.description} onChange={handleSearchInputChange} />
@@ -239,7 +240,6 @@ export const Book = () => {
             <th>Delete</th>
             <th>Edit</th>
             <th>Changed status</th>
-
           </tr>
         </thead>
         <tbody>
@@ -352,8 +352,4 @@ export const Book = () => {
       </div>
     </div>
   );
-
 };
-
-
-

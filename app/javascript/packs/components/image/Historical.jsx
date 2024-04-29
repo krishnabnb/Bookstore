@@ -9,7 +9,7 @@ const Historical = () => {
       <div>
         <div className='bio-container'>
           <div className='title-2'>
-            <h1>Horror stories</h1>
+            <h1>Historical stories</h1>
             <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit</p>
           </div>
         </div>
@@ -26,8 +26,8 @@ const Historical = () => {
           <Link to="/cart"><button className="subscribe-btn">₹229.00 - Purchase</button></Link>
         </div>
         <div className="product-text">
-          <img src='/image/bb1.jpg' alt='Product 3' className='product productSecond' />
-          <h4>Tales of Horror by Nikesh Murali</h4>
+          <img src='/image/p7.jpg' alt='Product 3' className='product productSecond' />
+          <h4>world History</h4>
           <Link to="/cart"><button className="subscribe-btn">₹219.00 - Purchase</button></Link>
         </div>
       </div>
@@ -43,8 +43,8 @@ const Historical = () => {
           <Link to="/cart"><button className="subscribe-btn">₹331.00 - Purchase</button></Link>
         </div>
         <div className="product-text">
-          <img src='/image/b5.jpg' alt='Product 3' className='product productSecond' />
-          <h4>Playthings</h4>
+          <img src='/image/image.png' alt='Product 3' className='product productSecond' />
+          <h4>Modern Indian History</h4>
           <Link to="/cart"><button className="subscribe-btn">₹235.00 - Purchase</button></Link>
         </div>
       </div>

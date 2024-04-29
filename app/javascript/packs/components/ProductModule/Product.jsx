@@ -26,16 +26,8 @@ export const Product = () => {
           <Link to="/crime"><img src='/image/p3.jpg' alt='Product 3' className='product productSecond' /></Link>
           <h4>Crime</h4>
         </div>
-        <div className="product-text">
-          <Link to="/fairy-tales"><img src='/image/p7.jpg' alt='Product 4' className='product productSecond' /></Link>
-          <h4>Fairy tales, fables, and folk tales</h4>
-        </div>
       </div>
       <div className='product-container'>
-        <div className="product-text">
-          <Link to="/fantasy"><img src='/image/p13.jpg' alt='Product 1' className='product' /></Link>
-          <h4>Fantasy</h4>
-        </div>
         <div className="product-text">
           <Link to="/historical"><img src='/image/p9.jpg' alt='Product 2' className='product productSecond' /></Link>
           <h4>Historical fiction</h4>
@@ -57,10 +49,6 @@ export const Product = () => {
         <div className="product-text">
           <Link to="/science"><img src='/image/p8.jpg' alt='Product 2' className='product productSecond' /></Link>
           <h4>Science fiction</h4>
-        </div>
-        <div className="product-text">
-          <Link to="/thrillers"><img src='/image/p14.jpg' alt='Product 3' className='product productSecond' /></Link>
-          <h4>Thrillers</h4>
         </div>
         <div className="product-text">
           <Link to="/business"><img src='/image/p15.jpg' alt='Product 4' className='product productSecond' /></Link>

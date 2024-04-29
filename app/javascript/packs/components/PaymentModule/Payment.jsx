@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { NewPayment } from './NewPayment';
+import { Link } from 'react-router-dom';
 
 export const Payment = () => {
   const [payments, setPayments] = useState(() => {
