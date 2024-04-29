@@ -13,6 +13,8 @@ class Api::V1::PaymentsController < ApplicationController
 
   def create
     @payment = Payment.new(payment_params)
+    @payment.date ||= Date.today 
+  
     if @payment.save
       render json: @payment, status: :created
     else
@@ -20,7 +22,6 @@ class Api::V1::PaymentsController < ApplicationController
     end
   end
   
-
   def update
     if @payment.update(payment_params)
       render json: @payment
