@@ -1,6 +1,13 @@
 # frozen_string_literal: true
 
 class Customers::SessionsController < Devise::SessionsController
+  respond_to :json
+
+  # def create
+  #   super do |resource|
+  #     render json: resource.as_json, status: :ok and return if resource.persisted?
+  #   end
+  # end
   # before_action :configure_sign_in_params, only: [:create]
 
   # GET /resource/sign_in
