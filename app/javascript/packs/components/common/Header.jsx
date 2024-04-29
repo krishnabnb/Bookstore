@@ -19,7 +19,8 @@ const Header = () => {
           <li><Link to="/payment">Payment</Link></li>
           <li><Link to="/product">Product</Link></li>
           <li><Link to="/cart"><FaShoppingCart /></Link></li>
-          <li><Link to="/user"><FaUser/></Link></li>
+          <li><Link to="/customers/sign_up"><FaUser/></Link></li>
+          
         </ul>
       </nav>
     </div>
