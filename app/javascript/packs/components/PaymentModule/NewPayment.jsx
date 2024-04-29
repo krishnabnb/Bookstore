@@ -79,8 +79,7 @@ export const NewPayment = (props) => {
       </select>
       {error && <div className="error-message">{error}</div>}
       <div>
-        <button type="submit" className="submit_Button">
-          Submit
+        <button type="submit" className="submit_Button">Submit
         </button>
       </div>
     </form>

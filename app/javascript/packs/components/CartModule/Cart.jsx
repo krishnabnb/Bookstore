@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { NewCart } from './NewCart';
+import { Link } from 'react-router-dom';
 
 export const Cart = () => {
   const [carts, setCarts] = useState(() => {
@@ -174,6 +175,9 @@ export const Cart = () => {
         <div className='form-field'>
         <NewCart handleFormSubmit={handleFormSubmit} />
         </div>
+      </div>
+      <div>
+        <Link to="/payment"><button className="payment-btn">Payment</button></Link>
       </div>
       <table className="salers-table">
         <thead>
