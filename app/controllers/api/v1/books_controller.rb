@@ -5,7 +5,7 @@ class Api::V1::BooksController < ApplicationController
     @books = Book.all
     render json: @books
   end
-  
+
   def show
     render json: @book
   end
@@ -46,7 +46,7 @@ class Api::V1::BooksController < ApplicationController
     render json: { message: "Book destroyed successfully" }, status: :ok
   end
   def search
-    @books = Book.where(nil) 
+    @books = Book.where(nil)
     @books = @books.where("title LIKE ?", "%#{params[:title]}%") if params[:title].present?
     @books = @books.where("description LIKE ?", "%#{params[:description]}%") if params[:description].present?
     @books = @books.where(published_at: params[:published_at]) if params[:published_at].present?
