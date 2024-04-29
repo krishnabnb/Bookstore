@@ -33,6 +33,9 @@ export const Newuser = (props) => {
       <div>
         <input type="number" id="contactno" ref={(input) => formFields.contactno = input} placeholder="Enter the contactNo" className='input-bio' />
       </div>
+      <div>
+        <input type="text" id="email" ref={(input) => formFields.email = input} placeholder="Enter the email" className='input-bio' />
+      </div>
       <button type="submit" className='submitButton'>Submit</button>
     </form>
   )

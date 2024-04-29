@@ -42,6 +42,9 @@ export const NewPayment = (props) => {
     props.handleMathodChange(selectedMathod);
   };
 
+  const currentDate = new Date().toISOString().split('T')[0];
+
+
   return (
     <form onSubmit={handleFormSubmit}>
       <input
@@ -52,7 +55,14 @@ export const NewPayment = (props) => {
         readOnly={true}
         className="input-withcart"
       />
-      <input type="date" id="date" ref={(input) => (formFields.date = input)} placeholder="Enter the date" className="input-withcart"/>
+      <input
+        type="date"
+        id="date"
+        ref={(input) => (formFields.date = input)}
+        placeholder="Enter the date"
+        className="input-withcart"
+        defaultValue={currentDate}
+      />
 
       <select
         id="mathod"
