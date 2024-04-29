@@ -25,7 +25,14 @@ Devise.setup do |config|
   # note that it will be overwritten if you use your own mailer class
   # with default "from" parameter.
   config.mailer_sender = 'please-change-me-at-config-initializers-devise@example.com'
+  def after_sign_in_path_for(resource)
+    root_path # Or the path you want to redirect users to after signing in
+  end
 
+  # Redirect after sign-up
+  def after_sign_up_path_for(resource)
+    root_path # Or the path you want to redirect users to after signing up
+  end
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'
 
@@ -304,6 +311,7 @@ Devise.setup do |config|
   # Note: These might become the new default in future versions of Devise.
   config.responder.error_status = :unprocessable_entity
   config.responder.redirect_status = :see_other
+  config.sign_in_after_sign_up = true
 
   # ==> Configuration for :registerable
 
