@@ -1,36 +1,26 @@
 class Api::V1::CustomersController < ApplicationController
-  skip_before_action :verify_authenticity_token
-  before_action :authenticate_customer!
 
   before_action :set_customer , only:[:show, :update, :destroy]
 
   def index
     @customers = Customer.all
-    puts "all customer list "
     render json: @customers
   end
-  
+
   def show
     @customer = Customer.find(params[:id])
     render json: @customer
   end
   
-  # def create
-  #   @customer = Customer.new(customer_params)
-  #   if  @customer.save
-  #     render json: @customer, status: :created
-  #   else
-  #     render json: @customer.errors, status: :unprocessable_entity
-  #   end
-  # end
   def create
     @customer = Customer.new(customer_params)
-    if @customer.save
+    if  @customer.save
       render json: @customer, status: :created
     else
-      render json: { errors: @customer.errors.full_messages }, status: :unprocessable_entity
+      render json: @customer.errors, status: :unprocessable_entity
     end
   end
+
 
   def update
     if @customer.update(customer_params)
@@ -47,7 +37,7 @@ class Api::V1::CustomersController < ApplicationController
 
   private
   def customer_params
-    params.require(:customer).permit(:firstname, :lastname, :address, :city, :contactno , :email, :password, :password_confirmation)
+    params.require(:customer).permit(:firstname, :lastname, :address, :city, :contactno)
   end
 
   def set_customer

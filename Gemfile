@@ -72,4 +72,3 @@ gem "image_processing", "~> 1.12"
 
 gem 'rack-cors'
 gem 'sidekiq-cron'
-gem 'devise'

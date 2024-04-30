@@ -39,8 +39,8 @@ export const User = () => {
     }
   };
 
-  const handleFormSubmit = (firstname, lastname, address, city, contactno, email) => {
-    const body = JSON.stringify({ customer: { firstname, lastname, address, city, contactno, email } })
+  const handleFormSubmit = (firstname, lastname, address, city, contactno) => {
+    const body = JSON.stringify({ customer: { firstname, lastname, address, city, contactno } })
     fetch('http://192.168.1.3:3000/api/v1/customers', {
       method: 'POST',
       headers: {
@@ -154,7 +154,6 @@ export const User = () => {
             <th>Address</th>
             <th>City</th>
             <th>ContactNo</th>
-            <th>email</th>
             <th>Delete</th>
             <th>Edit</th>
           </tr>
@@ -220,18 +219,6 @@ export const User = () => {
                   />
                 ) : (
                   customer.contactno
-                )}
-              </td>
-              <td>
-                {editModes[customer.id] ? (
-                  <input
-                    name="email"
-                    value={customer.email}
-                    onChange={e => handleChange(e, customer)}
-                    placeholder="email"
-                  />
-                ) : (
-                  customer.email
                 )}
               </td>
               <td>

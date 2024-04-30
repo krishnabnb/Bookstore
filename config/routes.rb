@@ -1,12 +1,6 @@
 Rails.application.routes.draw do
  
-  # devise_for :customers, controllers: {
-  #   registrations: 'customers/registrations',
-  #   sessions: 'customers/sessions'
-  # }
-  devise_for :customers, controllers: {
-    sessions: 'customers/sessions'
-  }
+ 
   root to: 'home#index'
   
   namespace :api do
