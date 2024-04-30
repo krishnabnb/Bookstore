@@ -25,14 +25,14 @@ Devise.setup do |config|
   # note that it will be overwritten if you use your own mailer class
   # with default "from" parameter.
   config.mailer_sender = 'please-change-me-at-config-initializers-devise@example.com'
-  def after_sign_in_path_for(resource)
-    root_path # Or the path you want to redirect users to after signing in
-  end
+  # def after_sign_in_path_for(resource)
+  #   root_path # Or the path you want to redirect users to after signing in
+  # end
 
-  # Redirect after sign-up
-  def after_sign_up_path_for(resource)
-    root_path # Or the path you want to redirect users to after signing up
-  end
+  # # Redirect after sign-up
+  # def after_sign_up_path_for(resource)
+  #   root_path # Or the path you want to redirect users to after signing up
+  # end
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'
 
@@ -311,11 +311,27 @@ Devise.setup do |config|
   # Note: These might become the new default in future versions of Devise.
   config.responder.error_status = :unprocessable_entity
   config.responder.redirect_status = :see_other
-  config.sign_in_after_sign_up = true
+
+#  config.sign_in_after_sign_up = true
 
   # ==> Configuration for :registerable
 
   # When set to false, does not sign a user in automatically after their password is
   # changed. Defaults to true, so a user is signed in automatically after changing a password.
   # config.sign_in_after_change_password = true
+end
+def after_sign_in_path_for(resource)
+  root_path
+end
+
+def after_sign_up_path_for(resource)
+  root_path
+end
+
+# config/initializers/devise.rb
+
+Devise::RegistrationsController.class_eval do
+  def sign_up(resource_name, resource)
+    sign_in(resource_name, resource)
+  end
 end

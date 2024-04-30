@@ -11,7 +11,7 @@ export const User = () => {
   const [originalCustomers, setOriginalCustomers] = useState({});
 
   useEffect(() => {
-    fetch('http://192.168.1.3:3000//api/v1/customers')
+    fetch('http://192.168.1.3:3000/api/v1/customers')
 
       .then(response => response.json())
       .then(data => {

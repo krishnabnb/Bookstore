@@ -3,7 +3,8 @@ import '../CartModule/cart.css';
 
 export const NewPayment = (props) => {
   const [carts, setCarts] = useState([]);
-  const [mathod, setMathod] = useState('');
+  const [method, setMethod] = useState('');
+  const [selectedCartId, setSelectedCartId] = useState('');
   const formFields = {};
   const [error, setError] = useState(null);
 
@@ -30,20 +31,25 @@ export const NewPayment = (props) => {
     e.preventDefault();
     const amount = formFields.amount.value;
     const date = formFields.date.value;
-    const cart_id = formFields.cart_id.value;
+    const cartId = selectedCartId;
 
-    props.handleFormSubmit(amount, date, mathod, cart_id);
+    if (!cartId) {
+      setError('Please select a cart.');
+      return;
+    }
+
+    props.handleFormSubmit(amount, date, method, cartId);
     e.target.reset();
+    setError(null);
   };
 
-  const handleMathodChange = (e) => {
-    const selectedMathod = e.target.value;
-    setMathod(selectedMathod);
-    props.handleMathodChange(selectedMathod);
+  const handleMethodChange = (e) => {
+    const selectedMethod = e.target.value;
+    setMethod(selectedMethod);
+    props.handleMethodChange(selectedMethod);
   };
 
   const currentDate = new Date().toISOString().split('T')[0];
-
 
   return (
     <form onSubmit={handleFormSubmit}>
@@ -65,19 +71,20 @@ export const NewPayment = (props) => {
       />
 
       <select
-        id="mathod"
-        value={mathod}
-        onChange={handleMathodChange}
+        id="method"
+        value={method}
+        onChange={handleMethodChange}
         className="input-cart"
       >
-        <option value="">Select mathod</option>
+        <option value="">Select method</option>
         <option value="cash">Cash</option>
         <option value="online_payment">Online Payment</option>
       </select>
 
       <select
         id="cart_id"
-        ref={(input) => (formFields.cart_id = input)}
+        value={selectedCartId}
+        onChange={(e) => setSelectedCartId(e.target.value)}
         className="input-cart"
       >
         <option value="">Select cart</option>
@@ -89,7 +96,8 @@ export const NewPayment = (props) => {
       </select>
       {error && <div className="error-message">{error}</div>}
       <div>
-        <button type="submit" className="submit_Button">Submit
+        <button type="submit" className="submit_Button" disabled={!selectedCartId}>
+          Submit
         </button>
       </div>
     </form>

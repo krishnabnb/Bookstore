@@ -23,32 +23,35 @@ import Business from "./image/Business";
 
 const App = () => {
   return (
-    <BrowserRouter>
-      <div>
-        <Header />
-        <Routes>
-          <Route path="/bio" element={<Bio />} />
-          <Route path="/" element={<Home />} />
-          <Route path="/contect" element={<Contact />} />
-          <Route path="/book" element={<Book />} />
-          <Route path="/saler" element={<Saler />} />
-          <Route path="/product" element={<Product />} />
-          <Route path="/payment" element={<Payment />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/sign_up" element={<User />} />
-          <Route path="/classics" element={<Classics />} />
-          <Route path="/crime" element={<Crime />} />
-          <Route path="/adventure" element={<Adventure />} />
-          <Route path="/science" element={<Science />} />
-          <Route path="/romance" element={<Romance />} />
-          <Route path="/novel" element={<Novel />} />
-          <Route path="/horror" element={<Horror />} />
-          <Route path="/historical" element={<Historical />} />
-          <Route path="/business" element={<Business />} />
-        </Routes>
-        <Footer />
-      </div>
-    </BrowserRouter>
+    <div>
+      <BrowserRouter>
+        <div>
+          <Header />
+          <Routes>
+            <Route path="/bio" element={<Bio />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/contect" element={<Contact />} />
+            <Route path="/book" element={<Book />} />
+            <Route path="/saler" element={<Saler />} />
+            <Route path="/product" element={<Product />} />
+            <Route path="/payment" element={<Payment />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/sign_up" element={<User />} />
+            <Route path="/classics" element={<Classics />} />
+            <Route path="/crime" element={<Crime />} />
+            <Route path="/adventure" element={<Adventure />} />
+            <Route path="/science" element={<Science />} />
+            <Route path="/romance" element={<Romance />} />
+            <Route path="/novel" element={<Novel />} />
+            <Route path="/horror" element={<Horror />} />
+            <Route path="/historical" element={<Historical />} />
+            <Route path="/business" element={<Business />} />
+
+          </Routes>
+          <Footer />
+        </div>
+      </BrowserRouter>
+    </div>
   );
 };
 
