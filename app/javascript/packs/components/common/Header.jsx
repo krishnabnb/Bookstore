@@ -4,11 +4,18 @@ import './header.css';
 import { BrowserRouter as Router, Link } from 'react-router-dom';
 
 const Header = () => {
+  const [isSignedIn, setIsSignedIn] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
+
+  // const handleSignOut = () => {
+  //   setIsSignedIn(false);
+  //   setIsDropdownOpen(false);
+  // };
+
 
   return (
     <div>
@@ -25,18 +32,20 @@ const Header = () => {
           <li><Link to="/payment">Payment</Link></li>
           <li><Link to="/product">Product</Link></li>
           <li className="dropdown">
-            <Link to="/customer"   onClick={toggleDropdown}>
+            <Link to="/customer" onClick={toggleDropdown}>
               <FaUser/>
               {isDropdownOpen && (
                 <ul className="dropdown-menu">
-                  <li><Link to="/SignIn">SignIn</Link></li>
-                  <li><Link to="/">SingOut</Link></li>
+                  {isSignedIn ? (
+                    <li><Link to="/">SignOut</Link></li>
+                  ) : (
+                    <li><Link to="/SignIn">SignIn</Link></li>
+                  )}
                 </ul>
               )}
             </Link>
           </li>
           <li><Link to="/cart"><FaShoppingCart /></Link></li>
-
         </ul>
       </nav>
     </div>
