@@ -11,10 +11,9 @@ export const NewBook = (props) => {
       const author = formFields.author.value;
       const description = formFields.description.value;
       const price = formFields.price.value;
-      const published_status = formFields.published_status.value;
       const published_at = formFields.published_at.value;
 
-      props.handleFormSubmit(title, author, description, price, published_status, published_at);
+      props.handleFormSubmit(title, author, description, price, published_at);
       e.target.reset();
     }}>
       <div>
@@ -28,9 +27,6 @@ export const NewBook = (props) => {
       </div>
       <div>
         <input type="text" id="price" ref={(input) => formFields.price = input} placeholder="Enter the price" className='input-bio' />
-      </div>
-      <div>
-        <input type="text" id="published_status" ref={(input) => formFields.published_status = input} placeholder="Enter the Published_status" readOnly={true} className='input-bio' />
       </div>
       <div>
         <input type="date" id="published_at" ref={(input) => formFields.published_at = input} placeholder="Enter the Published_at" className='text-bio-with' />

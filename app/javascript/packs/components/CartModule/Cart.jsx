@@ -176,9 +176,6 @@ export const Cart = () => {
         <NewCart handleFormSubmit={handleFormSubmit} />
         </div>
       </div>
-      <div>
-        <Link to="/payment"><button className="payment-btn">Payment</button></Link>
-      </div>
       <table className="salers-table">
         <thead>
           <tr>
@@ -253,6 +250,9 @@ export const Cart = () => {
                 ) : (
                   <button onClick={() => handleEdit(cart.id)}>Edit</button>
                 )}
+              </td>
+              <td>
+                <Link to={`/payment/${cart.id}`}><button>Payment</button></Link>
               </td>
             </tr>
           ))}

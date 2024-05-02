@@ -12,8 +12,7 @@ export const User = () => {
 
   useEffect(() => {
     fetch('http://192.168.1.3:3000/api/v1/customers')
-
-      .then(response => response.json())
+    .then(response => response.json())
       .then(data => {
         setCustomers(data);
         setOriginalCustomers(data.reduce((acc, customer) => {
