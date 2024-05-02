@@ -3,6 +3,7 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import './home.css';
+import { FaFacebook, FaInstagram, FaTwitter } from 'react-icons/fa';
 
 export const Home = () => {
   const settings = {
@@ -40,19 +41,19 @@ export const Home = () => {
         <h2>AS FEATURED ON</h2>
         <div className="images">
           <div>
-            <img src="https://websitedemos.net/kathryn-ebook-author-02/wp-content/uploads/sites/1020/2022/04/featured-logo3.svg"/>
+            <img src="https://websitedemos.net/kathryn-ebook-author-02/wp-content/uploads/sites/1020/2022/04/featured-logo3.svg" alt="Featured Logo 3" />
           </div>
           <div>
-            <img src="https://websitedemos.net/kathryn-ebook-author-02/wp-content/uploads/sites/1020/2022/04/featured-logo4.svg"/>
+            <img src="https://websitedemos.net/kathryn-ebook-author-02/wp-content/uploads/sites/1020/2022/04/featured-logo4.svg" alt="Featured Logo 4" />
           </div>
           <div>
-            <img src="https://websitedemos.net/kathryn-ebook-author-02/wp-content/uploads/sites/1020/2022/04/featured-logo5.svg"/>
+            <img src="https://websitedemos.net/kathryn-ebook-author-02/wp-content/uploads/sites/1020/2022/04/featured-logo5.svg" alt="Featured Logo 5" />
           </div>
           <div>
-            <img src="https://websitedemos.net/kathryn-ebook-author-02/wp-content/uploads/sites/1020/2022/04/featured-logo1.svg"/>
+            <img src="https://websitedemos.net/kathryn-ebook-author-02/wp-content/uploads/sites/1020/2022/04/featured-logo1.svg" alt="Featured Logo 1" />
           </div>
           <div>
-            <img src="https://websitedemos.net/kathryn-ebook-author-02/wp-content/uploads/sites/1020/2022/04/featured-logo2.svg"/>
+            <img src="https://websitedemos.net/kathryn-ebook-author-02/wp-content/uploads/sites/1020/2022/04/featured-logo2.svg" alt="Featured Logo 2" />
           </div>
         </div>
       </div>
@@ -65,7 +66,6 @@ export const Home = () => {
         <h1>A Word From The Author</h1>
         <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
         <button className="btn">READ MORE</button>
-         <div style={styles.line}></div>
       </div>
       <div>
         <div className='story-container'>
@@ -75,12 +75,12 @@ export const Home = () => {
             <button className="btn123">BUY COMPLETE SERIES</button>
           </div>
           <div className='image-container abcd'>
-            <img src="https://websitedemos.net/kathryn-ebook-author-02/wp-content/uploads/sites/1020/2022/02/book-cover1.png" alt='Profile' />
-            <img src="https://websitedemos.net/kathryn-ebook-author-02/wp-content/uploads/sites/1020/2022/02/book-cover2.png" alt='profile' />
+            <img src="https://websitedemos.net/kathryn-ebook-author-02/wp-content/uploads/sites/1020/2022/02/book-cover1.png" alt='Book Cover 1' />
+            <img src="https://websitedemos.net/kathryn-ebook-author-02/wp-content/uploads/sites/1020/2022/02/book-cover2.png" alt='Book Cover 2' />
           </div>
           <div className='image-container xbcd'>
-            <img src='https://websitedemos.net/kathryn-ebook-author-02/wp-content/uploads/sites/1020/2022/02/book-cover3.png' alt='profile'/>
-            <img src='https://websitedemos.net/kathryn-ebook-author-02/wp-content/uploads/sites/1020/2022/02/book-cover4.png' alt='profile' />
+            <img src='https://websitedemos.net/kathryn-ebook-author-02/wp-content/uploads/sites/1020/2022/02/book-cover3.png' alt='Book Cover 3' />
+            <img src='https://websitedemos.net/kathryn-ebook-author-02/wp-content/uploads/sites/1020/2022/02/book-cover4.png' alt='Book Cover 4' />
           </div>
         </div>
       </div>
@@ -91,23 +91,9 @@ export const Home = () => {
           <button className="subscribe-btn">Subscribe</button>
         </div>
         <div className='right-side'>
-          <img src='https://websitedemos.net/kathryn-ebook-author-02/wp-content/uploads/sites/1020/2022/02/susbcribe-image.png' alt='img'/>
+          <img src='https://websitedemos.net/kathryn-ebook-author-02/wp-content/uploads/sites/1020/2022/02/susbcribe-image.png' alt='Subscription Image' />
         </div>
       </div>
     </div>
   );
 };
-
-const styles = {
-  line: {
-    position: 'absolute',
-    top: '90%',
-    left: '50%',
-    marginTop: '710px',
-    transform: 'translate(-50%, -50%)',
-    width: '590px',
-    height: '0.5px',
-    backgroundColor: ' #946659',
-    marginLeft: '300px',
-  },
-}
