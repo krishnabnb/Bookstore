@@ -11,7 +11,7 @@ export const User = () => {
   const [originalCustomers, setOriginalCustomers] = useState({});
 
   useEffect(() => {
-    fetch('http://192.168.1.3:3000/api/v1/customers')
+    fetch('http://localhost:3000/api/v1/customers')
     .then(response => response.json())
       .then(data => {
         setCustomers(data);
@@ -25,7 +25,7 @@ export const User = () => {
 
   const fetchCustomers = async () => {
     try {
-      const response = await fetch('http://192.168.1.3:3000/api/v1/customers');
+      const response = await fetch('http://localhost:3000/api/v1/customers');
       if (response.ok) {
         const data = await response.json();
         setCustomers(data);
@@ -40,7 +40,7 @@ export const User = () => {
 
   const handleFormSubmit = (firstname, lastname, address, city, contactno) => {
     const body = JSON.stringify({ customer: { firstname, lastname, address, city, contactno } })
-    fetch('http://192.168.1.3:3000/api/v1/customers', {
+    fetch('http://localhost:3000/api/v1/customers', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -73,7 +73,7 @@ export const User = () => {
   };
 
   const handleupdate = customer => {
-    fetch(`http://192.168.1.3:3000/api/v1/customers/${customer.id}`, {
+    fetch(`http://localhost:3000/api/v1/customers/${customer.id}`, {
       method: 'PUT',
       body: JSON.stringify({customer: customer}),
       headers: {
@@ -106,7 +106,7 @@ export const User = () => {
   const handleDelete = async id => {
     const confirmed = window.confirm("Are you sure you want to delete this contact?");
     if (confirmed) {
-      const response = await fetch(`http://192.168.1.3:3000/api/v1/customers/${id}`, {
+      const response = await fetch(`http://localhost:3000/api/v1/customers/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json'
