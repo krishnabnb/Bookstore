@@ -3,7 +3,6 @@ class CustomerSerializer
   attributes :id, :email, :created_at
 
   attribute :created_date do |customer|
-    customer && customer.created_at.strftime('%d/%m/%Y')
-  end
-  
+    customer && customer.created_at.strftime('%m/%d/%y')
+  end 
 end

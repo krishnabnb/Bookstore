@@ -1,8 +1,6 @@
 Rails.application.routes.draw do
   root to: 'home#index'
   get '*path', to: 'home#index'
-
-  get 'current_customer', to: 'current_customer#index'
   devise_for :customers, path: '', path_names: {
   sign_in: 'login',
   sign_out: 'logout',
@@ -12,6 +10,8 @@ Rails.application.routes.draw do
     sessions:'customers/sessions',
   registrations: 'customers/registrations'
   }
+
+  get '/current_customer', to: 'current_customer#index' 
 
 
   namespace :api do
