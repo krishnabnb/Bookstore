@@ -25,12 +25,47 @@ nav ul li a:hover{
   color: red;
   text-decoration: underline;
 }
-nav ul li a.active { 
+nav ul li a.active {
   color: blue;
 }
 
 nav ul li a svg {
-  float: right; 
+  float: right;
   margin-right: 20px;
   font-size: 20px;
+}
+
+.dropdown {
+  position: relative;
+  float: right;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1;
+  display: none;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+.dropdown-menu li {
+  list-style: none;
+}
+
+.dropdown-menu li a {
+  display: block;
+  color: #333;
+  text-decoration: none;
+  padding: 8px 12px;
+}
+
+.dropdown-menu li a:hover {
+  background-color: #f0f0f0;
 }

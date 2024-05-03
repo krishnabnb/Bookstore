@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   registrations: 'customers/registrations'
   }
 
+  get '*path', to: 'home#index'
 
   namespace :api do
     namespace :v1 do

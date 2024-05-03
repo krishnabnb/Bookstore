@@ -46,8 +46,8 @@ export const Book = () => {
     }
   };
 
-  const handleFormSubmit = (title, author, description, price, published_status, published_at) => {
-    const body = JSON.stringify({ book: { title, author, description, price, published_status, published_at } })
+  const handleFormSubmit = (title, author, description, price, published_at) => {
+    const body = JSON.stringify({ book: { title, author, description, price, published_at } })
     fetch('http://192.168.1.3:3000/api/v1/books', {
       method: 'POST',
       headers: {

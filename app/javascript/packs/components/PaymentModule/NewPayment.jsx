@@ -1,11 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import '../CartModule/cart.css';
+import { useParams } from 'react-router-dom';
 
 export const NewPayment = (props) => {
+
+  const { cartId } = useParams();
   const [carts, setCarts] = useState([]);
-  const [mathod, setMathod] = useState('');
+  const [method, setMethod] = useState('');
+  const [selectedCartId, setSelectedCartId] = useState(cartId);
   const formFields = {};
   const [error, setError] = useState(null);
+  const [payments, setPayments] = useState(() => {
+    const savedPayments = localStorage.getItem('payments');
+    return savedPayments ? JSON.parse(savedPayments) : [];
+  });
 
   useEffect(() => {
     fetchCarts();
@@ -28,68 +36,54 @@ export const NewPayment = (props) => {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    const amount = formFields.amount.value;
-    const date = formFields.date.value;
-    const cart_id = formFields.cart_id.value;
+    const cartId = selectedCartId;
 
-    props.handleFormSubmit(amount, date, mathod, cart_id);
+    if (!cartId) {
+      setError('Please select a cart.');
+      return;
+    }
+
+    props.handleFormSubmit(method, cartId);
     e.target.reset();
+    setError(null);
   };
 
-  const handleMathodChange = (e) => {
-    const selectedMathod = e.target.value;
-    setMathod(selectedMathod);
-    props.handleMathodChange(selectedMathod);
+  const handleMethodChange = (e) => {
+    const selectedMethod = e.target.value;
+    setMethod(selectedMethod);
+    props.handleMethodChange(selectedMethod);
   };
 
-  const currentDate = new Date().toISOString().split('T')[0];
-
+  const handleCartIdChange = (e) => {
+    setSelectedCartId(e.target.value);
+  };
 
   return (
     <form onSubmit={handleFormSubmit}>
-      <input
-        type="text"
-        id="amount"
-        ref={(input) => (formFields.amount = input)}
-        placeholder="Enter the amount"
-        readOnly={true}
-        className="input-withcart"
-      />
-      <input
-        type="date"
-        id="date"
-        ref={(input) => (formFields.date = input)}
-        placeholder="Enter the date"
-        className="input-withcart"
-        defaultValue={currentDate}
-      />
-
       <select
-        id="mathod"
-        value={mathod}
-        onChange={handleMathodChange}
+        id="method"
+        value={method}
+        onChange={handleMethodChange}
         className="input-cart"
       >
-        <option value="">Select mathod</option>
+        <option value="">Select method</option>
         <option value="cash">Cash</option>
         <option value="online_payment">Online Payment</option>
       </select>
 
-      <select
+      <input
+        type="text"
         id="cart_id"
-        ref={(input) => (formFields.cart_id = input)}
+        placeholder="Enter the cart_id"
         className="input-cart"
-      >
-        <option value="">Select cart</option>
-        {carts.map((cart) => (
-          <option key={cart.id} value={cart.id}>
-            {cart.id}
-          </option>
-        ))}
-      </select>
+        value={selectedCartId}
+        onChange={handleCartIdChange}
+      />
+
       {error && <div className="error-message">{error}</div>}
       <div>
-        <button type="submit" className="submit_Button">Submit
+        <button type="submit" className="submit_Button" disabled={!selectedCartId}>
+          Submit
         </button>
       </div>
     </form>

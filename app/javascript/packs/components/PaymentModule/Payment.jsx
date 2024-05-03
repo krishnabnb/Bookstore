@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { NewPayment } from './NewPayment';
-import { Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+
 
 export const Payment = () => {
+  let { cartId } = useParams();
+
   const [payments, setPayments] = useState(() => {
     const savedPayments = localStorage.getItem('payments');
     return savedPayments ? JSON.parse(savedPayments) : [];
@@ -53,8 +56,8 @@ export const Payment = () => {
     }
   };
 
-  const handleFormSubmit = (amount, date, mathod, cart_id) => {
-    const body = JSON.stringify({ payment: { amount, date, mathod, cart_id} })
+  const handleFormSubmit = (mathod, cart_id) => {
+    const body = JSON.stringify({ payment: {mathod, cart_id} })
     fetch('http://192.168.1.3:3000/api/v1/payments', {
       method: 'POST',
       headers: {
