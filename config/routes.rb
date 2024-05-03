@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  root to: 'home#index'
+  get '*path', to: 'home#index'
+
   get 'current_customer', to: 'current_customer#index'
   devise_for :customers, path: '', path_names: {
   sign_in: 'login',
@@ -10,7 +13,6 @@ Rails.application.routes.draw do
   registrations: 'customers/registrations'
   }
 
-  get '*path', to: 'home#index'
 
   namespace :api do
     namespace :v1 do
@@ -27,5 +29,4 @@ Rails.application.routes.draw do
       resources :contacts
     end
   end
-  root to: 'home#index'
 end
