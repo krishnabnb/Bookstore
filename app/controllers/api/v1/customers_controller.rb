@@ -1,8 +1,7 @@
 class Api::V1::CustomersController < ApplicationController
-  # before_action :authenticate_user!
-  # before_action :authenticate_customer!, only: [:show]
+  before_action :authenticate_customer!
 
-  # before_action :set_customer , only:[:show, :update, :destroy]
+  before_action :set_customer , only:[:show, :update, :destroy]
 
   def index
     @customers = Customer.all
@@ -13,7 +12,7 @@ class Api::V1::CustomersController < ApplicationController
     @customer = Customer.find(params[:id])
     render json: @customer
   end
-  
+
   def create
     @customer = Customer.new(customer_params)
     if  @customer.save
@@ -39,7 +38,7 @@ class Api::V1::CustomersController < ApplicationController
 
   private
   def customer_params
-    params.require(:customer).permit(:firstname, :lastname, :address, :city, :contactno)
+    params.require(:customer).permit(:firstname, :lastname, :address, :city, :contactno, :email)
   end
 
   def set_customer
