@@ -4,10 +4,10 @@
   background: transparent;
   border: 2px solid rgba(255, 255, 255, .1);
   box-shadow: 0 0 10px rgba(0, 0, 0, .2);
-  height: 490px;
+  height: 850px;
   border-radius: 10px;
   color: #fff;
-  margin-left: 400px;
+  margin-left: 380px;
   display: flex;
   align-items: center;
   overflow: hidden;
@@ -15,7 +15,6 @@
   backdrop-filter: blur(30px);
 
 }
-
 .sing {
   min-height: 100hv;
   align-items: center;
@@ -123,4 +122,62 @@ form .register-link{
 
 .register-link p a:hover{
   text-decoration: underline;
+}
+
+.icon123{
+  margin-left: 400px;
+}
+
+.sidebar-toggle {
+  cursor: pointer;
+  color: #fff;
+  padding: 10px;
+}
+
+.sidebar {
+  width: 300px;
+  background-color: #333;
+  color: #fff;
+  padding: 20px;
+  position: fixed;
+  top: 80px;
+  right: -390px;
+  transition: right 0.3s ease;
+  height: 100%;
+  font-style: bold italic;
+  text-align: left;
+  font-size: 12px;
+}
+
+.sidebar.active {
+  right: 0;
+}
+
+.iconnoci{
+  margin-top: 20px;
+}
+
+.password-section {
+  margin-top: 40px;
+}
+
+.sidebar h2 {
+  margin-bottom: 10px;
+}
+
+.separator {
+  border-bottom: 1px solid #666;
+  margin: 30px 0;
+}
+
+.lines{
+  margin-top: 27px;
+}
+
+.circle{
+  margin-left: 160px;
+}
+
+.user{
+  margin-top: 25px;
 }

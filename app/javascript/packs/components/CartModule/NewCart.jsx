@@ -13,7 +13,7 @@ export const NewCart = (props) => {
 
   const fetchCustomers = async () => {
     try {
-      const response = await fetch('http://192.168.1.3:3000/api/v1/customers');
+      const response = await fetch('http://192.168.1.11:3000/api/v1/customers');
       if (response.ok) {
         const data = await response.json();
         setCustomers(data);
@@ -27,7 +27,7 @@ export const NewCart = (props) => {
 
   const fetchBooks = async () => {
     try {
-      const response = await fetch('http://192.168.1.3:3000/api/v1/books');
+      const response = await fetch('http://192.168.1.11:3000/api/v1/books');
       if (response.ok) {
         const data = await response.json();
         setBooks(data);

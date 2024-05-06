@@ -12,7 +12,7 @@ export const Contact = () => {
   const [originalContacts, setOriginalContacts] = useState({});
 
   useEffect(() => {
-    fetch('http://192.168.1.3:3000/api/v1/contacts')
+    fetch('http://192.168.1.11:3000/api/v1/contacts')
       .then(response => response.json())
       .then(data => {
         setContacts(data);
@@ -26,7 +26,7 @@ export const Contact = () => {
 
   const fetchContacts = async () => {
     try {
-      const response = await fetch('http://192.168.1.3:3000/api/v1/contacts');
+      const response = await fetch('http://192.168.1.11:3000/api/v1/contacts');
       if (response.ok) {
         const data = await response.json();
         setContacts(data);
@@ -55,7 +55,7 @@ export const Contact = () => {
   };
 
   const handleupdate = contact => {
-    fetch(`http://192.168.1.3:3000/api/v1/salers/${saler.id}`, {
+    fetch(`http://192.168.1.11:3000/api/v1/salers/${saler.id}`, {
       method: 'PUT',
       body: JSON.stringify({contact: contact}),
       headers: {
@@ -88,7 +88,7 @@ export const Contact = () => {
   const handleDelete = async id => {
     const confirmed = window.confirm("Are you sure you want to delete this contact?");
     if (confirmed) {
-      const response = await fetch(`http://192.168.1.3:3000/api/v1/contacts/${id}`, {
+      const response = await fetch(`http://192.168.1.11:3000/api/v1/contacts/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json'
@@ -114,7 +114,7 @@ export const Contact = () => {
 
   const handleFormSubmit = (name, email, subject, massage) => {
     const body = JSON.stringify({ contact: { name, email, subject, massage } })
-    fetch('http://192.168.1.3:3000/api/v1/contacts', {
+    fetch('http://192.168.1.11:3000/api/v1/contacts', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
