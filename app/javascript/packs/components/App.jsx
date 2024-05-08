@@ -20,7 +20,6 @@ import Novel from "./image/Novel";
 import Horror from "./image/Horror";
 import Historical from "./image/Historical";
 import Business from "./image/Business";
-import SignUp from './sing_up/SignUp';
 import Login from './sing_up/Login';
 import { Logout } from './sing_up/Logout';
 
@@ -50,7 +49,6 @@ const App = () => {
             <Route path="/historical" element={<Historical />} />
             <Route path="/business" element={<Business />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/SignUp" element={<SignUp />} />
           </Routes>
           <Footer />
         </div>
