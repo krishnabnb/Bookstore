@@ -14,6 +14,7 @@ const Header = () => {
   const handleLogout = () => {
     setIsSignedIn(false);
   };
+
   return (
     <div>
       <nav>
@@ -36,7 +37,7 @@ const Header = () => {
                   {isSignedIn ? (
                     <li onClick={handleLogout}><Link to="/">Logout</Link></li>
                   ) : (
-                    <li><Link to="/SignIn">SignIn</Link></li>
+                    <li><Link to="/login">Login</Link></li>
                   )}
                 </ul>
               )}
@@ -50,3 +51,11 @@ const Header = () => {
 };
 
 export default Header;
+
+
+
+
+
+
+
+

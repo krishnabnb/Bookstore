@@ -13,7 +13,7 @@ export const Saler = () => {
   const [originalSalers, setOriginalSalers] = useState({});
 
   useEffect(() => {
-    fetch('http://192.168.1.3:3000/api/v1/salers')
+    fetch('http://192.168.1.11:3000/api/v1/salers')
       .then(response => response.json())
       .then(data => {
         setSalers(data);
@@ -27,7 +27,7 @@ export const Saler = () => {
 
   const fetchSalers = async () => {
     try {
-      const response = await fetch('http://192.168.1.3:3000/api/v1/salers');
+      const response = await fetch('http://192.168.1.11:3000/api/v1/salers');
       if (response.ok) {
         const data = await response.json();
         setSalers(data);
@@ -42,7 +42,7 @@ export const Saler = () => {
 
   const handleFormSubmit = (name, email, book_title, price, image) => {
     const body = JSON.stringify({ saler: { name, email, book_title, price, image } });
-    fetch('http://192.168.1.3:3000/api/v1/salers', {
+    fetch('http://192.168.1.11:3000/api/v1/salers', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -88,7 +88,7 @@ export const Saler = () => {
   const handleDelete = id => {
     const confirmed = window.confirm("Are you sure you want to delete this saler?");
     if (confirmed) {
-      fetch(`http://192.168.1.3:3000/api/v1/salers/${id}`, {
+      fetch(`http://192.168.1.11:3000/api/v1/salers/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json'
@@ -105,7 +105,7 @@ export const Saler = () => {
   };
 
   const handleUpdate = saler => {
-    fetch(`http://192.168.1.3:3000/api/v1/salers/${saler.id}`, {
+    fetch(`http://192.168.1.11:3000/api/v1/salers/${saler.id}`, {
       method: 'PUT',
       body: JSON.stringify({ saler: saler }),
       headers: {

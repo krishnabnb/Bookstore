@@ -20,8 +20,8 @@ import Novel from "./image/Novel";
 import Horror from "./image/Horror";
 import Historical from "./image/Historical";
 import Business from "./image/Business";
-import SignUp from './SignUp';
-import SignIn from './SignIn';
+import Login from './sing_up/Login';
+import { Logout } from './sing_up/Logout';
 
 const App = () => {
   return (
@@ -48,8 +48,7 @@ const App = () => {
             <Route path="/horror" element={<Horror />} />
             <Route path="/historical" element={<Historical />} />
             <Route path="/business" element={<Business />} />
-            <Route path="/SignIn" element={<SignIn />} />
-            <Route path="/SignUp" element={<SignUp />} />
+            <Route path="/login" element={<Login />} />
           </Routes>
           <Footer />
         </div>

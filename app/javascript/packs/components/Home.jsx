@@ -67,6 +67,33 @@ export const Home = () => {
         <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
         <button className="btn">READ MORE</button>
       </div>
+      {/* <div>
+        <div className='box'>
+          <h2>Mystery Boxes by Kitabay</h2>
+        </div>
+        <div class="rectangle-box">
+        <div className='box-image'>
+            <img src='/image/book1.jpeg' alt='Box' />
+          </div>
+
+          <ul>
+            <li><a href="#">Available in 3 Sizes</a></li>
+            <li><a href="#">Over 8 Different Genres</a></li>
+            <li><a href="#">Up to 80% discount</a></li>
+          </ul>
+          <ul>
+            <li><a href="#">100% Original Books</a></li>
+            <li><a href="#">Includes Free Bookmarks</a></li>
+            <li><a href="#">Free Doorstep Delivery</a></li>
+          </ul>
+          <div className='box-line'>
+            <h3>Starting at ₹1199 for 10 Books</h3>
+          </div>
+          <div>
+            <button className='btn23'>shop now</button>
+          </div>
+        </div>
+      </div> */}
       <div>
         <div className='story-container'>
           <div className='text-container'>

@@ -49,10 +49,13 @@ class Customers::SessionsController < Devise::SessionsController
     end
   end
 
-
   def destroy
-    sign_out(current_customer)  
-    render json: { message: 'Logged out successfully' }
+    if current_customer
+      sign_out(current_customer)
+      render json: { message: 'Logged out successfully' }
+    else
+      render json: { error: 'No active session' }, status: :unprocessable_entity
+    end
   end
 
   private

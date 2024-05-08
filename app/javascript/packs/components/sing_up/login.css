@@ -1,142 +1,4 @@
-/* .wrapper{
-  position: relative;
-  width: 500px;
-  background: transparent;
-  border: 2px solid rgba(255, 255, 255, .1);
-  box-shadow: 0 0 10px rgba(0, 0, 0, .2);
-  height: 490px;
-  border-radius: 10px;
-  color: #fff;
-  margin-left: 400px;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-  transition: height .2s ease;
-  backdrop-filter: blur(30px);
-
-}
-
-.sing {
-  min-height: 100hv;
-  align-items: center;
-  display: flex;
-  font-family: "Poppins", sans-serif;
-  padding: 230px;
-  background: url('https://getwallpapers.com/wallpaper/full/7/4/d/920740-popular-beautiful-background-pics-1920x1200-for-4k-monitor.jpg')
-  no-repeat;
-  background-size: cover;
-  background-position: center;
-}
-
-.wrapper .form-box{
-  width: 100%;
-  padding: 40px;
-}
-
-form h1{
-  font-size: 36px;
-  text-align: center;
-  margin-right: 60px;
-}
-
-form .input-box{
-  position: relative;
-  width: 100%;
-  height: 50px;
-  margin: 30px 0;
-}
-
-.input-box input{
-  width: 100%;
-  height: 100%;
-  background: transparent;
-  border: none;
-  outline: none;
-  border: 2px solid rgba(255, 255, 255, .1);
-  border-radius: 40px;
-  font-size: 16px;
-  color: #fff;
-  padding: 5px 5px 5px 10px;
-}
-
-.input-box input::placeholder{
-  color: #fff;
-}
-
-.input-box .icon{
-  position: absolute;
-  right: 30px;
-  top: 50%;
-  transform: 0 -50%;
-  font-size: 16px;
-}
-
-form.remember-forgot{
-  display: flex;
-  justify-content: space-between;
-  font-size: 14.5px;
-  margin: -15px 0 15px;
-}
-
-.remember-forgot label input{
-  accent-color: #fff;
-  margin-right: 4px;
-}
-
-.remember-forgot a{
-  color: #fff;
-  text-decoration: none;
-  margin-left: 130px;
-}
-
-.remember-forgot a:hover {
-  text-decoration: underline;
-}
-
-.button123{
-  width: 100%;
-  height: 45px;
-  background: #fff;
-  border: none;
-  outline: none;
-  margin-top: 20px;
-  border-radius: 40px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, .1);
-  cursor: pointer;
-  font-size: 16px;
-  color: #333;
-  font-weight: 700;
-}
-
-form .register-link{
-  font-size: 14.5px;
-  text-align: center;
-  margin: 20px 0 15px;
-  margin-right: 70px;
-}
-
-.register-link p a{
-  color: #fff;
-  text-decoration: none;
-  font-weight: 600;
-}
-
-.register-link p a:hover{
-  text-decoration: underline;
-} */
-
-
-
-
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap');
-
-
-/* * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-	font-family: 'Montserrat', sans-serif;
-} */
 
 body,
 input {
@@ -149,7 +11,7 @@ input {
   background-color: #fff;
   min-height: 910px;
   overflow: hidden;
-  margin-top: 100px;
+  margin-top: 50px;
 }
 
 .forms-container {
@@ -267,12 +129,12 @@ form.sign-in-form {
 
 .btnx1y2 {
   width: 150px;
-  background-color: #F86F03;
+  background-color: #af8579;
   border: none;
   outline: none;
   height: 49px;
   border-radius: 4px;
-  color: #fff;
+  color: #000000;
   text-transform: uppercase;
   font-weight: 600;
   margin: 10px 0;
@@ -281,7 +143,8 @@ form.sign-in-form {
 }
 
 .btnx1y2:hover {
-  background-color: #f98c39;
+  background-color: #3a322d;
+  color: #f0f0f0;
 }
 .panels-container {
   position: absolute;
@@ -301,7 +164,8 @@ form.sign-in-form {
   top: -10%;
   right: 48%;
   transform: translateY(-50%);
-  background-image: linear-gradient(-45deg, #F86F03 0%, #FFA41B 100%);
+
+  background: linear-gradient(87.4deg, rgb(255, 241, 165) 1.9%, rgb(200, 125, 76) 49.7%, rgb(83, 54, 54) 100.5%);
   transition: 1.8s ease-in-out;
   border-radius: 50%;
   z-index: 6;
