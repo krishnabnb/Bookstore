@@ -31,24 +31,47 @@
 #   end
 # end
 
+# class Customers::RegistrationsController < Devise::RegistrationsController
+#   skip_before_action :verify_authenticity_token
+#   respond_to :json
 
+#   def create
+#     @customer = Customer.new(sign_up_params)
+#     if @customer.save
+#       render json: { message: 'Successfully registered.', customer: @customer }, status: :created
+#     else
+#       render json: { error: @customer.errors.full_messages.join(', ') }, status: :unprocessable_entity
+#     end
+#   end
 
+#   private
+
+#   def sign_up_params
+#     params.require(:customer).permit(:firstname, :lastname, :address, :city, :contactno, :email, :password, :password_confirmation)
+#   end
+# end
 class Customers::RegistrationsController < Devise::RegistrationsController
   skip_before_action :verify_authenticity_token
   respond_to :json
 
   def create
-    @customer = Customer.new(sign_up_params)
-    if @customer.save
-      render json: { message: 'Successfully registered.', customer: @customer }, status: :created
+    customer = Customer.new(customer_params)
+    if customer.save
+      token = encode_token(customer_id: customer.id)
+      render json: { token: token }, status: :created
     else
-      render json: { error: @customer.errors.full_messages.join(', ') }, status: :unprocessable_entity
+      render json: { error: customer.errors.full_messages.join(', ') }, status: :unprocessable_entity
     end
   end
 
   private
 
-  def sign_up_params
+  def customer_params
     params.require(:customer).permit(:firstname, :lastname, :address, :city, :contactno, :email, :password, :password_confirmation)
   end
+
+  def encode_token(payload)
+    JWT.encode(payload, 'd3312d781ea0bb3a7d80050a443b66d993bbc8df5a212264262096cd92ea3ca05d6da5fb1bdd4ca7a588a04ddf896c65bbde5e92c4b941bc49cb3238efcf34e8')
+  end
 end
+

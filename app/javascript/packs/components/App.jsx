@@ -22,13 +22,13 @@ import Historical from "./image/Historical";
 import Business from "./image/Business";
 import Login from './sing_up/Login';
 import { Logout } from './sing_up/Logout';
-
 const App = () => {
   return (
     <div>
       <BrowserRouter>
         <div>
           <Header />
+
           <Routes>
             <Route path="/customer" element={<User />}/>
             <Route path="/bio" element={<Bio />} />
@@ -48,7 +48,7 @@ const App = () => {
             <Route path="/horror" element={<Horror />} />
             <Route path="/historical" element={<Historical />} />
             <Route path="/business" element={<Business />} />
-            <Route path="/login" element={<Login />} />
+            <Route path="/sign" element={<Login />} />
           </Routes>
           <Footer />
         </div>

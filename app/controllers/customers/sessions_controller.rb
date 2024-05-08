@@ -48,20 +48,15 @@ class Customers::SessionsController < Devise::SessionsController
       render json: { error: 'Invalid email or password' }, status: :unauthorized
     end
   end
-
   def destroy
-    if current_customer
-      sign_out(current_customer)
-      render json: { message: 'Logged out successfully' }
-    else
-      render json: { error: 'No active session' }, status: :unprocessable_entity
-    end
+    session[:customer_id] = nil # or any other session clearance logic
+    render json: { message: "Logged out successfully" }, status: :ok
   end
 
   private
 
   def encode_token(payload)
-    JWT.encode(payload, '8f623e67de85ad4e6e6bd5b490f13323b84c15a727ba0a4286cdfe91898a299bb58b6470daa4fdbe163980b3624e78631ca962d88976ca96d1a2126210f022a3')
+    JWT.encode(payload, 'd3312d781ea0bb3a7d80050a443b66d993bbc8df5a212264262096cd92ea3ca05d6da5fb1bdd4ca7a588a04ddf896c65bbde5e92c4b941bc49cb3238efcf34e8')
   end
 end
 
