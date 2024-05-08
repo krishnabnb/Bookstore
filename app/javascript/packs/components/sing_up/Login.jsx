@@ -17,6 +17,7 @@ function Login() {
       body: JSON.stringify({ email, password }),
     });
     const data = await response.json();
+    localStorage.set
     console.log(data);
   };
 
@@ -63,3 +64,6 @@ function Login() {
 }
 
 export default Login;
+
+
+
