@@ -1,19 +1,10 @@
 import React, { useState } from 'react';
 import { FaUser, FaShoppingCart } from 'react-icons/fa';
 import './header.css';
-import { Link } from 'react-router-dom';
+import { BrowserRouter as Router, Link } from 'react-router-dom';
 
 const Header = () => {
-  const [isSignedIn, setIsSignedIn] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-  };
-
-  const handleLogout = () => {
-    setIsSignedIn(false);
-  };
 
   return (
     <div>
@@ -24,25 +15,15 @@ const Header = () => {
         <ul>
           <li className="active"><Link to="/">Home</Link></li>
           <li><Link to="/bio">Bio</Link></li>
-          <li><Link to="/contact">ContactUs</Link></li>
+          <li><Link to="/contect">ContactUs</Link></li>
           <li><Link to="/book">Books</Link></li>
           <li><Link to="/saler">Salers</Link></li>
           <li><Link to="/payment">Payment</Link></li>
           <li><Link to="/product">Product</Link></li>
-          <li className="dropdown">
-            <div onClick={toggleDropdown}>
-              <FaUser/>
-              {isDropdownOpen && (
-                <ul className="dropdown-menu">
-                  {isSignedIn ? (
-                    <li onClick={handleLogout}><Link to="/">Logout</Link></li>
-                  ) : (
-                    <li><Link to="/login">Login</Link></li>
-                  )}
-                </ul>
-              )}
-            </div>
-          </li>
+          <li><Link to="/customer" ><FaUser/></Link></li>
+          <li><Link to="/sign">Login</Link></li>
+          <li><Link to="/logout">Logout</Link></li>
+
           <li><Link to="/cart"><FaShoppingCart /></Link></li>
         </ul>
       </nav>
@@ -51,11 +32,3 @@ const Header = () => {
 };
 
 export default Header;
-
-
-
-
-
-
-
-
