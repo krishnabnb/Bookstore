@@ -14,7 +14,6 @@ const Header = () => {
   const handleLogout = () => {
     setIsSignedIn(false);
   };
-
   return (
     <div>
       <nav>
