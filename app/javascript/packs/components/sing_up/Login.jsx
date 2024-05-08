@@ -14,20 +14,9 @@ function Login() {
   const [address,setAddress] = useState("");
   const [contactno,setContactno] = useState("");
   const [city,setCity] = useState("");
+  const jwt = require('jsonwebtoken');
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const response = await fetch('http://192.168.1.11:3000/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, password }),
-    });
-    const data = await response.json();
-    localStorage.set
-    console.log(data);
-  };
+
   const [isSignUpMode, setIsSignUpMode] = useState(false);
   const handleSignUpClick = () => {
     setIsSignUpMode(true);
@@ -35,7 +24,32 @@ function Login() {
   const handleSignInClick = () => {
     setIsSignUpMode(false);
   };
-  
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch('http://192.168.1.11:3000/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Login failed');
+      }
+
+      const data = await response.json();
+      const token = data.token;
+      sessionStorage.setItem('jsonwebtoken', token);
+
+      console.log('Login successful', token);
+    } catch (error) {
+      console.error('Login error:', error.message);
+    }
+  };
+
 
   const register = async (e) => {
     let item = {
@@ -58,6 +72,7 @@ function Login() {
       setErrors(result.errors);
     }
   }
+
   return (
     <div>
     <div className={`container ${isSignUpMode ? 'sign-up-mode' : ''}`}>
@@ -76,7 +91,7 @@ function Login() {
             <div className='remember-forgot'>
               <label><input type='checkbox' />
               Remember me </label>
-              <a href="#">Forgot password?</a>
+              <Link to='/Forgotepass'>Forgot password?</Link>
             </div>
             <input type="submit" value="Login" className="btnx1y2 solid" />
             <p className="social-text">Or Sign in with social platforms</p>
