@@ -17,29 +17,22 @@ export const Book = () => {
     published_status: ''
   });
 
-
   useEffect(() => {
-    fetch('http://192.168.1.3:3000/api/v1/books')
-      .then(response => response.json())
-      .then(data => {
-        setBooks(data);
-        setOriginalBooks(data.reduce((acc, book) => {
-          acc[book.id] = { ...book };
-          return acc;
-        }, {}));
-      });
     fetchBooks();
   }, []);
 
   const fetchBooks = async () => {
     try {
-      const response = await fetch('http://192.168.1.3:3000/api/v1/books');
-      if (response.ok) {
-        const data = await response.json();
-        setBooks(data);
-      } else {
+      const response = await fetch('http://192.168.1.11:3000/api/v1/books');
+      if (!response.ok) {
         throw new Error('Failed to fetch data');
       }
+      const data = await response.json();
+      setBooks(data);
+      setOriginalBooks(data.reduce((acc, book) => {
+        acc[book.id] = { ...book };
+        return acc;
+      }, {}));
     } catch (error) {
       console.error('Error fetching data:', error);
       setError(error.message);
@@ -48,7 +41,7 @@ export const Book = () => {
 
   const handleFormSubmit = (title, author, description, price, published_at) => {
     const body = JSON.stringify({ book: { title, author, description, price, published_at } })
-    fetch('http://192.168.1.3:3000/api/v1/books', {
+    fetch('http://192.168.1.11:3000/api/v1/books', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -74,7 +67,7 @@ export const Book = () => {
 
   const handleSubmit = async book => {
     try {
-      const response = await fetch(`http://192.168.1.3:3000/api/v1/books/${book.id}`, {
+      const response = await fetch(`http://192.168.1.11:3000/api/v1/books/${book.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
@@ -118,7 +111,7 @@ export const Book = () => {
     const confirmed = window.confirm("Are you sure you want to delete this book?");
     if (confirmed) {
       try {
-        const response = await fetch(`http://192.168.1.3:3000/api/v1/books/${id}`, {
+        const response = await fetch(`http://192.168.1.11:3000/api/v1/books/${id}`, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json'
@@ -151,7 +144,7 @@ export const Book = () => {
 
   const handleToggleStatus = async (id) => {
     try {
-      const response = await fetch(`http://192.168.1.3:3000/api/v1/books/${id}/update_status`, {
+      const response = await fetch(`http://192.168.1.11:3000/api/v1/books/${id}/update_status`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json'
@@ -176,7 +169,7 @@ export const Book = () => {
 
   const handleSearch = async () => {
     try {
-      const response = await fetch('http://192.168.1.3:3000/api/v1/books?title=' + searchQuery.title + '&description=' + searchQuery.description + '&published_at=' + searchQuery.published_at + '&published_status=' + searchQuery.published_status);
+      const response = await fetch('http://192.168.1.11:3000/api/v1/books?title=' + searchQuery.title + '&description=' + searchQuery.description + '&published_at=' + searchQuery.published_at + '&published_status=' + searchQuery.published_status);
       if (response.ok) {
         const data = await response.json();
         setBooks(data);

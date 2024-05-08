@@ -11,11 +11,6 @@ const Header = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
-  // const handleSignOut = () => {
-  //   setIsSignedIn(false);
-  //   setIsDropdownOpen(false);
-  // };
-
 
   return (
     <div>
@@ -39,7 +34,7 @@ const Header = () => {
                   {isSignedIn ? (
                     <li><Link to="/">SignOut</Link></li>
                   ) : (
-                    <li><Link to="/SignIn">SignIn</Link></li>
+                    <li><Link to="/login">Login</Link></li>
                   )}
                 </ul>
               )}
@@ -53,3 +48,11 @@ const Header = () => {
 };
 
 export default Header;
+
+
+
+
+
+
+
+

@@ -12,7 +12,7 @@ export const Contact = () => {
   const [originalContacts, setOriginalContacts] = useState({});
 
   useEffect(() => {
-    fetch('http://192.168.1.3:3000/api/v1/contacts')
+    fetch('http://192.168.1.11:3000/api/v1/contacts')
       .then(response => response.json())
       .then(data => {
         setContacts(data);
@@ -26,7 +26,7 @@ export const Contact = () => {
 
   const fetchContacts = async () => {
     try {
-      const response = await fetch('http://192.168.1.3:3000/api/v1/contacts');
+      const response = await fetch('http://192.168.1.11:3000/api/v1/contacts');
       if (response.ok) {
         const data = await response.json();
         setContacts(data);
@@ -55,7 +55,7 @@ export const Contact = () => {
   };
 
   const handleupdate = contact => {
-    fetch(`http://192.168.1.3:3000/api/v1/salers/${saler.id}`, {
+    fetch(`http://192.168.1.11:3000/api/v1/salers/${saler.id}`, {
       method: 'PUT',
       body: JSON.stringify({contact: contact}),
       headers: {
@@ -88,7 +88,7 @@ export const Contact = () => {
   const handleDelete = async id => {
     const confirmed = window.confirm("Are you sure you want to delete this contact?");
     if (confirmed) {
-      const response = await fetch(`http://192.168.1.3:3000/api/v1/contacts/${id}`, {
+      const response = await fetch(`http://192.168.1.11:3000/api/v1/contacts/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json'
@@ -114,7 +114,7 @@ export const Contact = () => {
 
   const handleFormSubmit = (name, email, subject, massage) => {
     const body = JSON.stringify({ contact: { name, email, subject, massage } })
-    fetch('http://192.168.1.3:3000/api/v1/contacts', {
+    fetch('http://192.168.1.11:3000/api/v1/contacts', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -134,14 +134,14 @@ export const Contact = () => {
 
   return (
     <div>
-      <div className='bio-container'>
+      <div className='bio'>
         <div className='title-2'>
           <h1>Contact</h1>
           <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit</p>
         </div>
       </div>
       <div className="main">
-        <div className='container'>
+        <div className=''>
           <h1 className='heding'>Get In Touch</h1>
         </div>
         <div className='line-1'>
@@ -258,13 +258,12 @@ const styles = {
   line_to: {
     position: 'absolute',
     top: '-28%',
-    right: '5%',
-    marginTop: '850px',
+    right: '15%',
+    marginTop: '990px',
     transform: 'translate(-50%, -50%)',
     width: '590px',
     height: '0.5px',
     backgroundColor: ' #946659',
-    marginLeft: '340px',
 
   },
 }

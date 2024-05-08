@@ -1,7 +1,9 @@
-# # frozen_string_literal: true
+# # # frozen_string_literal: true
 
 # class Customers::RegistrationsController < Devise::RegistrationsController
 #   skip_before_action :verify_authenticity_token
+#   before_action :check_customer_logged_in, only: [:new]
+
 
 #   respond_to :json
 #   private
@@ -22,8 +24,13 @@
 #       }, status: :unprocessable_entity
 #     end
 #   end
+#   def check_customer_logged_in
+#     if customer_signed_in?
+#       redirect_to logout_path
+#     end
+#   end
 # end
-# app/controllers/customers/registrations_controller.rb
+
 
 
 class Customers::RegistrationsController < Devise::RegistrationsController
@@ -45,4 +52,3 @@ class Customers::RegistrationsController < Devise::RegistrationsController
     params.require(:customer).permit(:firstname, :lastname, :address, :city, :contactno, :email, :password, :password_confirmation)
   end
 end
-
