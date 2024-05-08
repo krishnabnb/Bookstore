@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   get 'current_customer/index'
   root to: 'home#index'
 
-  get 'current_customer', to: 'current_customer#show'
+  get 'current_customer', to: 'current_customer#index'
 
   devise_for :customers, path: '', path_names: {
     sign_in: 'login',
@@ -22,7 +22,7 @@ Rails.application.routes.draw do
           patch :update_status
         end
       end
-      resources :customers
+      resources :customers, only: [:index, :show, :create, :update, :destroy]
       resources :payments
       resources :carts
       resources :contacts

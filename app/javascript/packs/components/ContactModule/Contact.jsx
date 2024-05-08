@@ -134,14 +134,14 @@ export const Contact = () => {
 
   return (
     <div>
-      <div className='bio-container'>
+      <div className='bio'>
         <div className='title-2'>
           <h1>Contact</h1>
           <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit</p>
         </div>
       </div>
       <div className="main">
-        <div className='container'>
+        <div className=''>
           <h1 className='heding'>Get In Touch</h1>
         </div>
         <div className='line-1'>
@@ -258,13 +258,12 @@ const styles = {
   line_to: {
     position: 'absolute',
     top: '-28%',
-    right: '5%',
-    marginTop: '850px',
+    right: '15%',
+    marginTop: '990px',
     transform: 'translate(-50%, -50%)',
     width: '590px',
     height: '0.5px',
     backgroundColor: ' #946659',
-    marginLeft: '340px',
 
   },
 }

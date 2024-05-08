@@ -8,6 +8,8 @@
   width: 100%;
   height: 500px;
   object-fit: cover;
+  margin-top: 10px;
+  margin-right: 20px;
 }
 
 .header {
@@ -24,6 +26,7 @@
 .header .images {
   display: flex;
   justify-content: center;
+  margin-top: 20px;
 }
 
 .header .images div {
@@ -92,7 +95,7 @@
   height: 50px;
   cursor: pointer;
   margin-left: 280px;
-  margin-top: 10px;
+  margin-top: 30px;
 }
 
 .box{
@@ -101,60 +104,19 @@
   font-style: italic;
 }
 
-.rectangle-box {
-  width: 1400px;
-  height: 300px;
-  background-color: rgb(172, 68, 9);
-  margin-bottom: 20px;
-  margin-left: 200px;
-  border-radius: 30px;
-  padding: 20px;
+.text-bio-2{
+  width: 40%;
+  line-height: 30px;
+  margin-top: -100%;
+  font-size: 17px;
+  margin-right: 10%;
+  float: right;
 }
 
-.rectangle-box ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-  margin-top: 60px;
-  display: inline-block;
+.text-header{
+  margin-bottom: 50px;
 }
 
-.rectangle-box li {
-  margin-bottom: 10px;
-}
-
-.rectangle-box a {
-  color: white;
-  text-decoration: none;
-  font-size: 20px;
-  margin-left: 70px;
-  display: block;
-}
-
-.box-line{
-  font-size: 20px;
-  font-style: italic;
-  margin-left: 70px;
-  margin-top: 30px;
-}
-
-
-.btn23{
-  background-color: rgb(17, 15, 15);
-  color: rgb(172, 68, 9);
-  border: none;
-  border-radius: 30px;
-  height: 60px;
-  cursor: pointer;
-  margin-left: 70px;
-  margin-top: 10px;
-  font-size: 14px;
-  width: 140px;
-}
-
-.box-image{
-margin-left: 1000px;
-/* background-color:rgb(172, 68, 9) ; */
-/* margin-bottom: 300px; */
-height: 10px;
+.text-header12{
+  margin-bottom: 500px;
 }
