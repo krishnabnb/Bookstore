@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { FaUser, FaShoppingCart } from 'react-icons/fa';
 import './header.css';
@@ -14,6 +15,7 @@ const Header = () => {
   const handleLogout = () => {
     setIsSignedIn(false);
   };
+
   return (
     <div>
       <nav>
@@ -50,11 +52,3 @@ const Header = () => {
 };
 
 export default Header;
-
-
-
-
-
-
-
-
