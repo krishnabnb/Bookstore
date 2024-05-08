@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  get 'current_customer/index'
   root to: 'home#index'
 
   get 'current_customer', to: 'current_customer#index'

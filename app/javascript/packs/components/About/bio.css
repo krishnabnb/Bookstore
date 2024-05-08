@@ -174,8 +174,9 @@ h1{
   background-color: #946659;
   color: white;
   padding: 10px 20px;
-  margin-left: 20px;
+  margin-left: 10px;
   border: none;
+  margin-bottom: 80px;
   border-radius: 3px;
   height: 40px;
   cursor: pointer;

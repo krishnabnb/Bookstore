@@ -46,6 +46,15 @@ class Customers::RegistrationsController < Devise::RegistrationsController
     end
   end
 
+  def destroy
+    if current_customer
+      sign_out(current_customer)
+      render json: { message: 'Logged out successfully' }
+    else
+      render json: { error: 'No active session' }, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def sign_up_params
