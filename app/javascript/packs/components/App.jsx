@@ -28,7 +28,6 @@ const App = () => {
       <BrowserRouter>
         <div>
           <Header />
-
           <Routes>
             <Route path="/customer" element={<User />}/>
             <Route path="/bio" element={<Bio />} />

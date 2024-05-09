@@ -57,11 +57,11 @@ const Header = () => {
   //   } catch (error) {
   //     console.error('Logout error:', error.message);
   //   }
-  // };
+  // }; 
 
   const handleLogout = async () => {
     try {
-      const token = localStorage.getItem('jsonwebtoken');
+      const token = sessionStorage.getItem('jsonwebtoken');
   
       const response = await fetch('http://192.168.1.11:3000/logout', {
         method: 'DELETE',
@@ -75,8 +75,7 @@ const Header = () => {
       if (!response.ok) {
         throw new Error('Logout failed');
       }
-  
-      localStorage.removeItem('jsonwebtoken');
+      sessionStorage.removeItem('jsonwebtoken');
   
       setIsLoggedIn(false);
   

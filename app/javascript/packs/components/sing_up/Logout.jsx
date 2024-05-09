@@ -5,7 +5,7 @@ import React from 'react';
 const Logout = () => {
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
+    sessionStorage.removeItem('token');
     history.push('/login');
   };
 
