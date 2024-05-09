@@ -84,7 +84,6 @@ import Historical from "./image/Historical";
 import Business from "./image/Business";
 import Login from './sing_up/Login';
 import Logout from './sing_up/Logout';
-import { Forgotepass } from './sing_up/Forgotepass';
 
 const App = () => {
   return (
@@ -113,12 +112,11 @@ const App = () => {
             <Route path="/historical" element={<Historical />} />
             <Route path="/business" element={<Business />} />
             <Route path="/logout" element={<Logout />} />
-            <Route path="/forgotepass" element={<Forgotepass />} />
-
           </Routes>
           <Footer />
         </div>
       </BrowserRouter>
+
     </div>
   );
 };

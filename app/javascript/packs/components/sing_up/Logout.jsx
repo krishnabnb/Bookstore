@@ -1,20 +1,37 @@
-// import React, { useState } from 'react';
-// import axios from 'axios';
-// // import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
 
-// const Logout = ({ onLogout }) => {
-//   const handleLogout = async () => {
-//     try {
-//       await axios.delete('http://192.168.1.11:3000/logout');
-//     } catch (error) {
-//       console.error('Logout failed:', error);
-//     }
-//   };
+const Logout = () => {
+  useEffect(() => {
+    handleLogout();
+  }, []);
 
-//   return (
-//     // <Link to="/"><button onClick={handleLogout}>Logout</button></Link>\
-//     <button onClick={handleLogout}>Logout</button>
-//   );
-// };
+  const handleLogout = async () => {
+    try {
+      const token = sessionStorage.getItem('jsonwebtoken');
+      const response = await fetch('http://192.168.1.11:3000/logout', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ token })
+      });
 
-// export default Logout;
+      if (response.ok) {
+        console.log('Logged out successfully');
+        sessionStorage.removeItem('jsonwebtoken');
+      } else {
+        throw new Error('Failed to logout');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  const handleLogoutButtonClick = () => {
+    handleLogout();
+  };
+};
+
+export default Logout;
+
+
