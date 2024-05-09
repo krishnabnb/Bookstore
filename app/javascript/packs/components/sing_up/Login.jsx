@@ -88,9 +88,8 @@ function Login() {
     } catch (error) {
       console.error('Registration error:', error.message);
     }
-  };
+  }
 
-  
   return (
     <div>
     <div className={`container ${isSignUpMode ? 'sign-up-mode' : ''}`}>
@@ -109,7 +108,7 @@ function Login() {
             <div className='remember-forgot'>
               <label><input type='checkbox' />
               Remember me </label>
-              <a href="#">Forgot password?</a>
+              <Link to='/Forgotepass'>Forgot password?</Link>
             </div>
             <input type="submit" value="Login" className="btnx1y2 solid" />
             <p className="social-text">Or Sign in with social platforms</p>

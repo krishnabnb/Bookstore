@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"; // Added Navigate
 import Header from './common/Header';
 import Footer from './common/Footer';
 import { Home } from './Home';
@@ -21,7 +21,8 @@ import Horror from "./image/Horror";
 import Historical from "./image/Historical";
 import Business from "./image/Business";
 import Login from './sing_up/Login';
-import { Logout } from './sing_up/Logout';
+import Logout from './sing_up/Logout';
+
 const App = () => {
   return (
     <div>
@@ -29,7 +30,8 @@ const App = () => {
         <div>
           <Header />
           <Routes>
-            <Route path="/customer" element={<User />}/>
+            <Route path="/sign" element={<Login />}/>
+            <Route path="/customer" element={<User />} />
             <Route path="/bio" element={<Bio />} />
             <Route path="/" element={<Home />} />
             <Route path="/contect" element={<Contact />} />
@@ -47,11 +49,12 @@ const App = () => {
             <Route path="/horror" element={<Horror />} />
             <Route path="/historical" element={<Historical />} />
             <Route path="/business" element={<Business />} />
-            <Route path="/sign" element={<Login />} />
+            <Route path="/logout" element={<Logout />} />
           </Routes>
           <Footer />
         </div>
       </BrowserRouter>
+
     </div>
   );
 };
