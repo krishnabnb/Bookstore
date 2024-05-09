@@ -3,5 +3,6 @@ class CurrentCustomerController < ApplicationController
 
   def index
     render json: current_customer, status: :ok
+    puts "-------------------#{current_customer.inspect}"
   end
 end

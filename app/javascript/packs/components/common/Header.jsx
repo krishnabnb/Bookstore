@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaUser, FaShoppingCart } from 'react-icons/fa';
 import './header.css';
 import { BrowserRouter as Router, Link } from 'react-router-dom';
 
 const Header = () => {
-
 
   return (
     <div>

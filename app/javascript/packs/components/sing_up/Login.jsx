@@ -25,6 +25,7 @@ function Login() {
     setIsSignUpMode(false);
   };
 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -42,7 +43,7 @@ function Login() {
 
       const data = await response.json();
       const token = data.token;
-      sessionStorage.setItem('jsonwebtoken', token);
+      sessionStorage.setItem('jsonwebtoken', token); 
 
       console.log('Login successful', token);
     } catch (error) {
@@ -50,26 +51,42 @@ function Login() {
     }
   };
 
-
   const register = async (e) => {
-    let item = {
-      customer: {firstname,lastname,address,city,contactno,email,password,password_confirmation
+    e.preventDefault();
+    try {
+      let item = {
+        customer: {
+          firstname,
+          lastname,
+          address,
+          city,
+          contactno,
+          email,
+          password,
+          password_confirmation
+        }
+      };
+  
+      let response = await fetch('http://192.168.1.11:3000/signup', {
+        method: 'POST',
+        body: JSON.stringify(item),
+        headers: {
+          "Content-Type": 'application/json',
+          "Accept": 'application/json'
+        }
+      });
+  
+      if (!response.ok) {
+        throw new Error('Registration failed');
       }
-    };
+  
+      const data = await response.json();
+      const token = data.token;
+      sessionStorage.setItem('jsonwebtoken', token);
 
-    let result = await fetch('http://192.168.1.11:3000/signup',{
-      method:'POST',
-      body:JSON.stringify(item),
-      headers:{
-        "content-Type":'application/json',
-        "Accept" : 'application/json'
-      }
-    })
-    result = await result.json()
-    console.warn(result)
-
-    if (result.status !== 200) {
-      setErrors(result.errors);
+      console.log('Registration successful', token);
+    } catch (error) {
+      console.error('Registration error:', error.message);
     }
   }
 
