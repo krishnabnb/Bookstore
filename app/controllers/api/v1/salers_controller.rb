@@ -1,5 +1,7 @@
 class Api::V1::SalersController < ApplicationController
   before_action :set_saler , only:[:show, :update, :destroy]
+  # before_action :authenticate_customer!
+
 
   def index
     @salers = Saler.all

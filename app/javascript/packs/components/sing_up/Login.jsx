@@ -15,19 +15,6 @@ function Login() {
   const [contactno,setContactno] = useState("");
   const [city,setCity] = useState("");
   const jwt = require('jsonwebtoken');
-
-  const isEmailValid = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
-
-  const isPasswordValid = (password) => {
-    return password.length >= 6;
-  };
-
-  const isContactnoValid = (contactno) => {
-    return contactno.length == 10;
-  };
   const [isSignUpMode, setIsSignUpMode] = useState(false);
 
   const handleSignUpClick = () => {
@@ -40,15 +27,7 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!isEmailValid(email)) {
-      alert('Invalid email format');
-      return;
-    }
-
-    if (!isPasswordValid(password)) {
-      alert('Password must be at least 6 characters long');
-      return;
-    }
+ 
 
     try {
       const response = await fetch('http://192.168.1.11:3000/login', {
@@ -56,31 +35,13 @@ function Login() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ customer: { email, password } })
       });
 
       const data = await response.json();
 
       if (!response.ok) {
         throw new Error('Login failed');
-      }
-
-      if (!data || !data.status) {
-        console.log('Invalid response:', data);
-        alert('Invalid response from server');
-        return;
-      }
-
-      if (data.status.code === 404) {
-        console.log('Email not found:', data);
-        alert('Email not found');
-        return;
-      }
-
-      if (data.status.code !== 200) {
-        console.log('Invalid email or password:', data);
-        alert('Invalid email or password');
-        return;
       }
 
       const token = data.token;
@@ -92,8 +53,6 @@ function Login() {
       alert('An error occurred. Please try again later.');
     }
   };
-
-
   const register = async (e) => {
     e.preventDefault();
     try {
@@ -109,31 +68,6 @@ function Login() {
           password_confirmation
         }
       };
-
-      if (!isEmailValid(email)) {
-        alert('Invalid email format');
-        return;
-      }
-
-      if (!isPasswordValid(password)) {
-        alert('Password must be at least 6 characters long');
-        return;
-      }
-
-      if (password !== password_confirmation) {
-        alert('Password and confirmation password do not match');
-        return;
-      }
-
-      if (!password  || !password_confirmation || !email || !firstname || !lastname || !address || !city || !contactno ) {
-        alert('balnk filde');
-        return;
-      }
-
-      if (!isContactnoValid(contactno)){
-        alert('contactno is not valid');
-        return;
-      }
       let response = await fetch('http://192.168.1.11:3000/signup', {
         method: 'POST',
         body: JSON.stringify(item),
