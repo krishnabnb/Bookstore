@@ -1,8 +1,12 @@
 class CurrentCustomerController < ApplicationController
-  before_action :authenticate_customer!
+  # before_action :authenticate_customer!
 
   def index
-    render json: current_customer, status: :ok
-    puts "-------------------#{current_customer.inspect}"
+    if current_customer.present?
+      render json: { email: current_customer.email }, status: :ok
+      puts "-------------------#{current_customer.inspect}"
+    else
+      render_error("Current customer not found", 404)
+    end
   end
 end

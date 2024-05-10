@@ -17,7 +17,6 @@ function Login() {
   const [contactno,setContactno] = useState("");
   const [city,setCity] = useState("");
   const jwt = require('jsonwebtoken');
-
   const [isSignUpMode, setIsSignUpMode] = useState(false);
   const handleSignUpClick = () => {
     setIsSignUpMode(true);
@@ -41,7 +40,6 @@ function Login() {
         const errorData = await response.json();
         throw new Error(errorData.error);
       }
-
       const data = await response.json();
       const token = data.token;
       sessionStorage.setItem('jsonwebtoken', token);
@@ -57,7 +55,6 @@ function Login() {
       toastr.error('Backend error: ' + error.message);
     }
   };
-
   const register = async (e) => {
     e.preventDefault();
     try {
@@ -73,7 +70,6 @@ function Login() {
           password_confirmation
         }
       };
-
       let response = await fetch('http://192.168.1.11:3000/signup', {
         method: 'POST',
         body: JSON.stringify(item),

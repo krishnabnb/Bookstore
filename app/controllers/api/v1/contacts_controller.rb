@@ -1,5 +1,7 @@
 class Api::V1::ContactsController < ApplicationController
   before_action :set_contact, only: [:show, :update, :destroy]
+  # before_action :authenticate_customer!
+
 
   def index
     @contacts = Contact.all
