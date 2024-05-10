@@ -82,7 +82,7 @@ end
 #     reset_session
 #     render json: { message: "Logged out successfully" }, status: :ok
 #   end
-  
+
 
 #   private
 
@@ -90,5 +90,5 @@ end
 #     JWT.encode(payload, 'd3312d781ea0bb3a7d80050a443b66d993bbc8df5a212264262096cd92ea3ca05d6da5fb1bdd4ca7a588a04ddf896c65bbde5e92c4b941bc49cb3238efcf34e8')
 #   end
 
- 
+
 # end
