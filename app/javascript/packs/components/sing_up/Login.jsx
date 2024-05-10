@@ -3,6 +3,8 @@ import './login.css';
 import { FaInstagram, FaGoogle, FaLinkedinIn} from "react-icons/fa";
 import { FaTwitter } from "react-icons/fa6";
 import { Link } from 'react-router-dom';
+import toastr from 'toastr';
+import 'toastr/build/toastr.css';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -16,7 +18,6 @@ function Login() {
   const [city,setCity] = useState("");
   const jwt = require('jsonwebtoken');
   const [isSignUpMode, setIsSignUpMode] = useState(false);
-
   const handleSignUpClick = () => {
     setIsSignUpMode(true);
   };
@@ -26,31 +27,32 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
- 
-
     try {
       const response = await fetch('http://192.168.1.11:3000/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ customer: { email, password } })
+        body: JSON.stringify({customer:{ email, password }}),
       });
 
-      const data = await response.json();
-
       if (!response.ok) {
-        throw new Error('Login failed');
+        const errorData = await response.json();
+        throw new Error(errorData.error);
       }
-
+      const data = await response.json();
       const token = data.token;
       sessionStorage.setItem('jsonwebtoken', token);
+
       console.log('Login successful', token);
-      window.location.href = '/customer';
-    } catch (error) {
+
+      toastr.success('Login successful');
+      setTimeout(function() {
+          window.location.href = '/customer';
+      }, 1000);
+          } catch (error) {
       console.error('Login error:', error.message);
-      alert('An error occurred. Please try again later.');
+      toastr.error('Backend error: ' + error.message);
     }
   };
   const register = async (e) => {
@@ -78,19 +80,23 @@ function Login() {
       });
 
       if (!response.ok) {
-        throw new Error('Registration failed');
+        const errorData = await response.json();
+        throw new Error(errorData.status.message);
       }
 
       const data = await response.json();
       const token = data.token;
       sessionStorage.setItem('jsonwebtoken', token);
+      toastr.success('Ragistration successful');
 
-      console.log('  successful', token);
-      window.location.href = '/customer';
+      setTimeout(function() {
+        window.location.href = '/customer';
+      }, 2000);
     } catch (error) {
       console.error('Registration error:', error.message);
+      toastr.error( error.message);
     }
-  }
+  };
 
   return (
     <div>
@@ -110,7 +116,7 @@ function Login() {
               <div className='remember-forgot'>
                 <label><input type='checkbox' />
                 Remember me </label>
-                <Link to='/Forgotepass'>Forgot password?</Link>
+                <Link to='/forgotepassword'>Forgot password?</Link>
               </div>
               <input type="submit" value="Login" className="btnx1y2 solid" />
               <p className="social-text">Or Sign in with social platforms</p>

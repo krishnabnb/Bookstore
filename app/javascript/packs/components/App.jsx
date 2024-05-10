@@ -22,15 +22,18 @@ import Historical from "./image/Historical";
 import Business from "./image/Business";
 import Login from './sing_up/Login';
 import Logout from './sing_up/Logout';
+import CurrentCustomer from './sing_up/Currentcustomer';
+// import Forgotepassword from './sing_up/Forgotepassword';
 
 const App = () => {
+
   return (
     <div>
       <BrowserRouter>
       <div>
         <Routes>
             <Route path="/" element={<Login />}/>
-            <Route path="/customer" element={<><Header/><User/><Footer/></>} />
+            <Route path="/customer" element={<><CurrentCustomer/><Header/><User/><Footer/></>} />
             <Route path="/bio" element={<><Header/><Bio /><Footer/></>} />
             <Route path="/home" element={<><Header/><Home /><Footer/></>}/>
             <Route path="/contect" element={<><Header/><Contact /><Footer/></>} />
@@ -52,7 +55,6 @@ const App = () => {
           </Routes>
         </div>
       </BrowserRouter>
-
     </div>
   );
 };
