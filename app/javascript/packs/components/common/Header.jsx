@@ -12,16 +12,17 @@ const Header = () => {
           <img style={{ height: '50px', marginLeft: '30px', marginTop: '-40px'}} src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZQGH6_1Q5hZbccQanQsEx_fN9qN6hlQ1Ifg&usqp=CAU" alt="Logo" />
         </div>
         <ul>
-          <li className="active"><Link to="/">Home</Link></li>
+          <li className="active"><Link to="/home">Home</Link></li>
           <li><Link to="/bio">Bio</Link></li>
           <li><Link to="/contect">ContactUs</Link></li>
           <li><Link to="/book">Books</Link></li>
           <li><Link to="/saler">Salers</Link></li>
           <li><Link to="/payment">Payment</Link></li>
           <li><Link to="/product">Product</Link></li>
-          <li><Link to="/customer" ><FaUser/></Link></li>
-          <li><Link to="/sign">Login</Link></li>
           <li><Link to="/logout">Logout</Link></li>
+
+          <li><Link to="/customer" ><FaUser/></Link></li>
+          <li><Link to="/"></Link></li>
 
           <li><Link to="/cart"><FaShoppingCart /></Link></li>
         </ul>

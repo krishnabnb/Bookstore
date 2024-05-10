@@ -27,31 +27,29 @@ const App = () => {
   return (
     <div>
       <BrowserRouter>
-        <div>
-          <Header />
-          <Routes>
-            <Route path="/sign" element={<Login />}/>
-            <Route path="/customer" element={<User />} />
-            <Route path="/bio" element={<Bio />} />
-            <Route path="/" element={<Home />} />
-            <Route path="/contect" element={<Contact />} />
-            <Route path="/book" element={<Book />} />
-            <Route path="/saler" element={<Saler />} />
-            <Route path="/product" element={<Product />} />
-            <Route path="/payment/:cartId" element={<Payment />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/classics" element={<Classics />} />
-            <Route path="/crime" element={<Crime />} />
-            <Route path="/adventure" element={<Adventure />} />
-            <Route path="/science" element={<Science />} />
-            <Route path="/romance" element={<Romance />} />
-            <Route path="/novel" element={<Novel />} />
-            <Route path="/horror" element={<Horror />} />
-            <Route path="/historical" element={<Historical />} />
-            <Route path="/business" element={<Business />} />
-            <Route path="/logout" element={<Logout />} />
+      <div>
+        <Routes>
+            <Route path="/" element={<Login />}/>
+            <Route path="/customer" element={<><Header/><User/><Footer/></>} />
+            <Route path="/bio" element={<><Header/><Bio /><Footer/></>} />
+            <Route path="/home" element={<><Header/><Home /><Footer/></>}/>
+            <Route path="/contect" element={<><Header/><Contact /><Footer/></>} />
+            <Route path="/book" element={<><Header/><Book /><Footer/></>} />
+            <Route path="/saler" element={<><Header/><Saler /><Footer/></>} />
+            <Route path="/product" element={<><Header/><Product /><Footer/></>} />
+            <Route path="/payment/:cartId" element={<><Header/><Payment /><Footer/></>} />
+            <Route path="/cart" element={<><Header/><Cart /><Footer/></>} />
+            <Route path="/classics" element={<><Header/><Classics /><Footer/></>} />
+            <Route path="/crime" element={<><Header/><Crime /><Footer/></>} />
+            <Route path="/adventure" element={<><Header/><Adventure /><Footer/></>} />
+            <Route path="/science" element={<><Header/><Science /><Footer/></>} />
+            <Route path="/romance" element={<><Header/><Romance /><Footer/></>} />
+            <Route path="/novel" element={<><Header/><Novel /><Footer/></>} />
+            <Route path="/horror" element={<><Header/><Horror /><Footer/></>} />
+            <Route path="/historical" element={<><Header/><Historical /><Footer/></>} />
+            <Route path="/business" element={<><Header/><Business /><Footer/></>} />
+            <Route path="/logout" element={<><Header/><Logout /><Footer/></>} />
           </Routes>
-          <Footer />
         </div>
       </BrowserRouter>
 
