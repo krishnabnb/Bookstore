@@ -23,7 +23,6 @@ class Customers::SessionsController < Devise::SessionsController
   end
 
   private
-
   def respond_with(resource, token)
     render json: {
       status: { code: 200, message: 'Logged in successfully.' },
@@ -33,6 +32,7 @@ class Customers::SessionsController < Devise::SessionsController
   end
 
   def respond_to_on_destroy
+      
     render json: {
       status: 200,
       message: "Logged out successfully"
@@ -48,18 +48,6 @@ class Customers::SessionsController < Devise::SessionsController
     redirect_to logout_path if customer_signed_in?
   end
 end
-
-
-
-# set_customer
-
-
-
-
-
-
-
-
 
 
 

@@ -25,7 +25,6 @@ function Login() {
     setIsSignUpMode(false);
   };
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -66,7 +65,6 @@ function Login() {
           password_confirmation
         }
       };
-  
       let response = await fetch('http://192.168.1.11:3000/signup', {
         method: 'POST',
         body: JSON.stringify(item),
@@ -79,7 +77,7 @@ function Login() {
       if (!response.ok) {
         throw new Error('Registration failed');
       }
-  
+
       const data = await response.json();
       const token = data.token;
       sessionStorage.setItem('jsonwebtoken', token);
@@ -162,7 +160,6 @@ function Login() {
               <input type='password' placeholder='password_confirmation' value={password_confirmation} onChange={(e)=>setPassword_confirmation(e.target.value)} required/>
             </div>
             <Link to="/customer"><button onClick={register} className='btnx1y2'>SignUp</button></Link>
-
             <p className="social-text">Or Sign up with social platforms</p>
             <div className="social-media">
               <a href="#" className="social-icon">
