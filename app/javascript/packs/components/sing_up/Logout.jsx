@@ -22,6 +22,9 @@ const Logout = () => {
       } else {
         throw new Error('Failed to logout');
       }
+
+      window.location.href = '/';
+
     } catch (error) {
       console.error('Error:', error);
     }
