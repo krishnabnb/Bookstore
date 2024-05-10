@@ -1,5 +1,4 @@
 # # # frozen_string_literal: true
-
 # class Customers::RegistrationsController < Devise::RegistrationsController
 #   skip_before_action :verify_authenticity_token
 #   before_action :check_customer_logged_in, only: [:new]
@@ -10,9 +9,11 @@
 
 #   def respond_with(resource, _opts = {})
 #     if  request.method == "POST" && resource.persisted?
+#       token = generate_token(resource)
 #       render json: {
 #         status: {code: 200, message: 'Signed up sucessfully.'},
-#         data: CustomerSerializer.new(resource).serializable_hash[:data][:attributes]
+#         data: CustomerSerializer.new(resource).serializable_hash[:data][:attributes],
+#         token: token 
 #       },status: :ok
 #     elsif request.method == "DELETE"
 #       render json: {
@@ -24,6 +25,12 @@
 #       }, status: :unprocessable_entity
 #     end
 #   end
+
+#   def generate_token(customer)
+#     payload = { customer_id: customer.id, jti: SecureRandom.uuid }
+#     JWT.encode(payload, 'd3312d781ea0bb3a7d80050a443b66d993bbc8df5a212264262096cd92ea3ca05d6da5fb1bdd4ca7a588a04ddf896c65bbde5e92c4b941bc49cb3238efcf34e8')
+#   end
+
 #   def check_customer_logged_in
 #     if customer_signed_in?
 #       redirect_to logout_path
@@ -49,7 +56,7 @@
 #   def sign_up_params
 #     params.require(:customer).permit(:firstname, :lastname, :address, :city, :contactno, :email, :password, :password_confirmation)
 #   end
-# end
+# # end
 class Customers::RegistrationsController < Devise::RegistrationsController
   skip_before_action :verify_authenticity_token
   respond_to :json
