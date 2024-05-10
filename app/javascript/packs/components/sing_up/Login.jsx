@@ -3,6 +3,8 @@ import './login.css';
 import { FaInstagram, FaGoogle, FaLinkedinIn} from "react-icons/fa";
 import { FaTwitter } from "react-icons/fa6";
 import { Link } from 'react-router-dom';
+import toastr from 'toastr';
+import 'toastr/build/toastr.css';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -16,20 +18,7 @@ function Login() {
   const [city,setCity] = useState("");
   const jwt = require('jsonwebtoken');
 
-  const isEmailValid = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
-
-  const isPasswordValid = (password) => {
-    return password.length >= 6;
-  };
-
-  const isContactnoValid = (contactno) => {
-    return contactno.length == 10;
-  };
   const [isSignUpMode, setIsSignUpMode] = useState(false);
-
   const handleSignUpClick = () => {
     setIsSignUpMode(true);
   };
@@ -39,60 +28,35 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!isEmailValid(email)) {
-      alert('Invalid email format');
-      return;
-    }
-
-    if (!isPasswordValid(password)) {
-      alert('Password must be at least 6 characters long');
-      return;
-    }
-
     try {
       const response = await fetch('http://192.168.1.11:3000/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({customer:{ email, password }}),
       });
 
-      const data = await response.json();
-
       if (!response.ok) {
-        throw new Error('Login failed');
+        const errorData = await response.json();
+        throw new Error(errorData.error);
       }
 
-      if (!data || !data.status) {
-        console.log('Invalid response:', data);
-        alert('Invalid response from server');
-        return;
-      }
-
-      if (data.status.code === 404) {
-        console.log('Email not found:', data);
-        alert('Email not found');
-        return;
-      }
-
-      if (data.status.code !== 200) {
-        console.log('Invalid email or password:', data);
-        alert('Invalid email or password');
-        return;
-      }
-
+      const data = await response.json();
       const token = data.token;
       sessionStorage.setItem('jsonwebtoken', token);
+
       console.log('Login successful', token);
-      window.location.href = '/customer';
-    } catch (error) {
+
+      toastr.success('Login successful');
+      setTimeout(function() {
+          window.location.href = '/customer';
+      }, 1000);
+          } catch (error) {
       console.error('Login error:', error.message);
-      alert('An error occurred. Please try again later.');
+      toastr.error('Backend error: ' + error.message);
     }
   };
-
 
   const register = async (e) => {
     e.preventDefault();
@@ -110,30 +74,6 @@ function Login() {
         }
       };
 
-      if (!isEmailValid(email)) {
-        alert('Invalid email format');
-        return;
-      }
-
-      if (!isPasswordValid(password)) {
-        alert('Password must be at least 6 characters long');
-        return;
-      }
-
-      if (password !== password_confirmation) {
-        alert('Password and confirmation password do not match');
-        return;
-      }
-
-      if (!password  || !password_confirmation || !email || !firstname || !lastname || !address || !city || !contactno ) {
-        alert('balnk filde');
-        return;
-      }
-
-      if (!isContactnoValid(contactno)){
-        alert('contactno is not valid');
-        return;
-      }
       let response = await fetch('http://192.168.1.11:3000/signup', {
         method: 'POST',
         body: JSON.stringify(item),
@@ -144,19 +84,23 @@ function Login() {
       });
 
       if (!response.ok) {
-        throw new Error('Registration failed');
+        const errorData = await response.json();
+        throw new Error(errorData.status.message);
       }
 
       const data = await response.json();
       const token = data.token;
       sessionStorage.setItem('jsonwebtoken', token);
+      toastr.success('Ragistration successful');
 
-      console.log('  successful', token);
-      window.location.href = '/customer';
+      setTimeout(function() {
+        window.location.href = '/customer';
+      }, 2000);
     } catch (error) {
       console.error('Registration error:', error.message);
+      toastr.error( error.message);
     }
-  }
+  };
 
   return (
     <div>
@@ -176,7 +120,7 @@ function Login() {
               <div className='remember-forgot'>
                 <label><input type='checkbox' />
                 Remember me </label>
-                <Link to='/Forgotepass'>Forgot password?</Link>
+                <Link to='/forgotepassword'>Forgot password?</Link>
               </div>
               <input type="submit" value="Login" className="btnx1y2 solid" />
               <p className="social-text">Or Sign in with social platforms</p>
