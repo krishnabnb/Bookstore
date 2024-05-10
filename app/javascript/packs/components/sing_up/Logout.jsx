@@ -19,6 +19,7 @@ const Logout = () => {
       if (response.ok) {
         console.log('Logged out successfully');
         sessionStorage.removeItem('jsonwebtoken');
+        
       } else {
         throw new Error('Failed to logout');
       }

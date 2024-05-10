@@ -1,5 +1,6 @@
 class Api::V1::CartsController < ApplicationController
   before_action :set_cart, only: [:show, :update, :destroy]
+  # before_action :authenticate_customer!
 
   def index
     @carts = Cart.all.includes(:customer, :book)

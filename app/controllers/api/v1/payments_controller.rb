@@ -1,5 +1,6 @@
 class Api::V1::PaymentsController < ApplicationController
   before_action :set_payment, only: [:show, :update, :destroy]
+  # before_action :authenticate_customer!
 
   def index
     @payments = Payment.all
