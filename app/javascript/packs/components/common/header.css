@@ -70,3 +70,9 @@ nav ul li a svg {
   background-color: #f0f0f0;
 }
 
+
+.currentcustomer{
+  color: rgb(59, 160, 97);
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-weight: 900;
+}
