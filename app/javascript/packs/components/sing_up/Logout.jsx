@@ -11,7 +11,7 @@ const Logout = () => {
       const response = await fetch('http://192.168.1.11:3000/logout', {
         method: 'DELETE',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({ token })
       });
@@ -19,7 +19,6 @@ const Logout = () => {
       if (response.ok) {
         console.log('Logged out successfully');
         sessionStorage.removeItem('jsonwebtoken');
-        
       } else {
         throw new Error('Failed to logout');
       }
@@ -30,9 +29,11 @@ const Logout = () => {
       console.error('Error:', error);
     }
   };
-  const handleLogoutButtonClick = () => {
-    handleLogout();
-  };
+
+  // Call handleLogout when the component renders
+  handleLogout();
+
+  return null; // or render a loading spinner or a message
 };
 
 export default Logout;
