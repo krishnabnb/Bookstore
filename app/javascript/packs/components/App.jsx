@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"; // Added Navigate
 import Header from './common/Header';
 import Footer from './common/Footer';
@@ -23,9 +23,34 @@ import Business from "./image/Business";
 import Login from './sing_up/Login';
 import Logout from './sing_up/Logout';
 import CurrentCustomer from './sing_up/Currentcustomer';
-// import Forgotepassword from './sing_up/Forgotepassword';
+import Forgotepassword from './Forgotepassword';
 
 const App = () => {
+  // const [currentCustomerEmail, setCurrentCustomerEmail] = useState('');
+
+  // useEffect(() => {
+  //   const fetchCurrentCustomerEmail = async () => {
+  //     try {
+  //       const token = sessionStorage.getItem('jsonwebtoken');
+  //       if (!token) {
+  //         throw new Error('JWT token not found');
+  //       }
+
+  //       const response = await axios.get('http://192.168.1.11:3000/current_customer', {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`
+  //         }
+  //       });
+
+  //       const { email } = response.data.current_customer;
+  //       setCurrentCustomerEmail(email);
+  //     } catch (error) {
+  //       console.error('Error fetching current customer email:', error);
+  //     }
+  //   };
+
+  //   fetchCurrentCustomerEmail();
+  // }, []);
 
   return (
     <div>
@@ -33,7 +58,10 @@ const App = () => {
       <div>
         <Routes>
             <Route path="/" element={<Login />}/>
-            <Route path="/customer" element={<><CurrentCustomer/><Header/><User/><Footer/></>} />
+            <Route path="/forgotepassword" element={<Forgotepassword />}/>
+            <Route path="/customer" element={<><Header/><User/><Footer/></>} />
+            {/* <Route path="/customer" element={<><Header /><User email={currentCustomerEmail} /><Footer /></>} /> */}
+
             <Route path="/bio" element={<><Header/><Bio /><Footer/></>} />
             <Route path="/home" element={<><Header/><Home /><Footer/></>}/>
             <Route path="/contect" element={<><Header/><Contact /><Footer/></>} />

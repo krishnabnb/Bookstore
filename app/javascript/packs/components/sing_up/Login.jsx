@@ -1,26 +1,29 @@
 import React, { useState } from 'react';
 import './login.css';
-import { FaInstagram, FaGoogle, FaLinkedinIn} from "react-icons/fa";
+import { FaInstagram, FaGoogle, FaLinkedinIn } from "react-icons/fa";
 import { FaTwitter } from "react-icons/fa6";
 import { Link } from 'react-router-dom';
 import toastr from 'toastr';
 import 'toastr/build/toastr.css';
+import axios from 'axios';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [password_confirmation, setPassword_confirmation]=useState("")
+  const [password_confirmation, setPassword_confirmation] = useState("");
   const [errors, setErrors] = useState([]);
-  const [firstname,setFirstname] = useState("");
-  const [lastname,setLastname] = useState("");
-  const [address,setAddress] = useState("");
-  const [contactno,setContactno] = useState("");
-  const [city,setCity] = useState("");
-  const jwt = require('jsonwebtoken');
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
+  const [address, setAddress] = useState("");
+  const [contactno, setContactno] = useState("");
+  const [city, setCity] = useState("");
   const [isSignUpMode, setIsSignUpMode] = useState(false);
+  const [currentCustomer, setCurrentCustomer] = useState(null);
+
   const handleSignUpClick = () => {
     setIsSignUpMode(true);
   };
+
   const handleSignInClick = () => {
     setIsSignUpMode(false);
   };
@@ -28,29 +31,40 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      // Login request
       const response = await fetch('http://192.168.1.11:3000/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({customer:{ email, password }}),
+        body: JSON.stringify({ customer: { email, password } }),
       });
 
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.error);
       }
+
       const data = await response.json();
       const token = data.token;
       sessionStorage.setItem('jsonwebtoken', token);
 
-      console.log('Login successful', token);
+      const currentCustomerResponse = await axios.get('http://192.168.1.11:3000/current_customer', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
 
+      const { current_customer } = currentCustomerResponse.data;
+      setCurrentCustomer(current_customer);
+
+      console.log('Login successful', token);
       toastr.success('Login successful');
-      setTimeout(function() {
-          window.location.href = '/customer';
+
+      setTimeout(function () {
+        window.location.href = '/customer';
       }, 1000);
-          } catch (error) {
+    } catch (error) {
       console.error('Login error:', error.message);
       toastr.error('Backend error: ' + error.message);
     }
@@ -69,13 +83,14 @@ function Login() {
           password,
           password_confirmation
         }
-      };
+      }
       let response = await fetch('http://192.168.1.11:3000/signup', {
         method: 'POST',
         body: JSON.stringify(item),
         headers: {
           "Content-Type": 'application/json',
-          "Accept": 'application/json'
+          "Accept": 'application/json',
+          'Authorization': `Bearer ${sessionStorage.getItem('jsonwebtoken')}` // Include token in headers
         }
       });
 
@@ -87,16 +102,17 @@ function Login() {
       const data = await response.json();
       const token = data.token;
       sessionStorage.setItem('jsonwebtoken', token);
-      toastr.success('Ragistration successful');
+      toastr.success('Registration successful');
 
-      setTimeout(function() {
+      setTimeout(function () {
         window.location.href = '/customer';
       }, 2000);
     } catch (error) {
       console.error('Registration error:', error.message);
-      toastr.error( error.message);
+      toastr.error(error.message);
     }
   };
+
 
   return (
     <div>
@@ -135,6 +151,11 @@ function Login() {
                 </a>
               </div>
             </form>
+            {currentCustomer && (
+        <div>
+          <h2>Welcome, {currentCustomer.email}</h2>
+        </div>
+      )}
             <form action="#"className="sign-up-form">
               <h2 className="title">Sign up</h2>
               <div className="input-field">
