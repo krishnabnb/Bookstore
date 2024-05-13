@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './login.css';
-import { FaInstagram, FaGoogle, FaLinkedinIn } from "react-icons/fa";
+import { FaInstagram, FaGoogle, FaLinkedinIn} from "react-icons/fa";
 import { FaTwitter } from "react-icons/fa6";
 import { Link } from 'react-router-dom';
 import toastr from 'toastr';
@@ -9,19 +9,18 @@ import 'toastr/build/toastr.css';
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [password_confirmation, setPassword_confirmation] = useState("");
+  const [password_confirmation, setPassword_confirmation]=useState("")
   const [errors, setErrors] = useState([]);
-  const [firstname, setFirstname] = useState("");
-  const [lastname, setLastname] = useState("");
-  const [address, setAddress] = useState("");
-  const [contactno, setContactno] = useState("");
-  const [city, setCity] = useState("");
+  const [firstname,setFirstname] = useState("");
+  const [lastname,setLastname] = useState("");
+  const [address,setAddress] = useState("");
+  const [contactno,setContactno] = useState("");
+  const [city,setCity] = useState("");
+  const jwt = require('jsonwebtoken');
   const [isSignUpMode, setIsSignUpMode] = useState(false);
-
   const handleSignUpClick = () => {
     setIsSignUpMode(true);
   };
-
   const handleSignInClick = () => {
     setIsSignUpMode(false);
   };
@@ -34,7 +33,7 @@ function Login() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ customer: { email, password } }),
+        body: JSON.stringify({customer:{ email, password }}),
       });
 
       if (!response.ok) {
@@ -46,7 +45,6 @@ function Login() {
       if (!contentType || !contentType.includes('application/json')) {
         throw new Error('Response is not in JSON format');
       }
-
       const data = await response.json();
       const token = data.token;
       sessionStorage.setItem('jsonwebtoken', token);
@@ -74,7 +72,7 @@ function Login() {
       setTimeout(function () {
         window.location.href = '/customer';
       }, 1000);
-    } catch (error) {
+          } catch (error) {
       console.error('Login error:', error.message);
       toastr.error('Login failed: ' + error.message);
     }
@@ -94,7 +92,7 @@ function Login() {
           password,
           password_confirmation
         }
-      }
+      };
       let response = await fetch('http://192.168.1.11:3000/signup', {
         method: 'POST',
         body: JSON.stringify(item),
@@ -112,14 +110,14 @@ function Login() {
       const data = await response.json();
       const token = data.token;
       sessionStorage.setItem('jsonwebtoken', token);
-      toastr.success('Registration successful');
+      toastr.success('Ragistration successful');
 
-      setTimeout(function () {
+      setTimeout(function() {
         window.location.href = '/customer';
       }, 2000);
     } catch (error) {
       console.error('Registration error:', error.message);
-      toastr.error(error.message);
+      toastr.error( error.message);
     }
   };
 

@@ -17,6 +17,7 @@ module BookStore
     # the framework and any gems in your application.
     config.active_job.queue_adapter = :sidekiq
     
+    Rails.application.config.filter_parameters += [:token]
 
   end
 end
