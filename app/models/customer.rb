@@ -7,10 +7,11 @@ class Customer < ApplicationRecord
 
   has_many :carts, dependent: :destroy
 
-  validates :firstname, presence: true
-  validates :lastname, presence: true
+  
+  validates :firstname, presence: true, format: { with: /\A[a-zA-Z]+\z/, message: "enter valid"}
+  validates :lastname, presence: true, format: { with: /\A[a-zA-Z]+\z/, message: "enter valid" }
   validates :address, presence: true
-  validates :city, presence: true
+  validates :city, presence: true, format: { with: /\A[a-zA-Z\s]+\z/, message: "only allows valid city" }
   validates :email, format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i, message: "must be a valid email address" }
   validates :contactno, format: { with: /\A\d{10}\z/, message: "must be a 10-digit number" }
   validates :password, length: { minimum: 6 }
