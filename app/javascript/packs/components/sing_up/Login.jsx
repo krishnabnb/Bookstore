@@ -5,7 +5,6 @@ import { FaTwitter } from "react-icons/fa6";
 import { Link } from 'react-router-dom';
 import toastr from 'toastr';
 import 'toastr/build/toastr.css';
-import axios from 'axios';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -18,7 +17,6 @@ function Login() {
   const [contactno, setContactno] = useState("");
   const [city, setCity] = useState("");
   const [isSignUpMode, setIsSignUpMode] = useState(false);
-  const [currentCustomer, setCurrentCustomer] = useState(null);
 
   const handleSignUpClick = () => {
     setIsSignUpMode(true);
@@ -31,7 +29,6 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Login request
       const response = await fetch('http://192.168.1.11:3000/login', {
         method: 'POST',
         headers: {
@@ -42,33 +39,47 @@ function Login() {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error);
+        throw new Error(errorData.error || 'Login failed');
+      }
+
+      const contentType = response.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        throw new Error('Response is not in JSON format');
       }
 
       const data = await response.json();
       const token = data.token;
       sessionStorage.setItem('jsonwebtoken', token);
 
-      const currentCustomerResponse = await axios.get('http://192.168.1.11:3000/current_customer', {
+      const customerResponse = await fetch('http://192.168.1.11:3000/current_customer', {
+        method: 'GET',
         headers: {
-          Authorization: `Bearer ${token}`
+          'Authorization': `Bearer ${token}`
         }
       });
 
-      const { current_customer } = currentCustomerResponse.data;
-      setCurrentCustomer(current_customer);
+      if (customerResponse.status === 401) {
+        throw new Error('Unauthorized: Invalid token');
+      }
+
+      if (!customerResponse.ok) {
+        const errorData = await customerResponse.json();
+        throw new Error(`Failed to fetch current customer: ${errorData.error}`);
+      }
+
+      const customerData = await customerResponse.json();
+      console.log('Current customer:', customerData);
 
       console.log('Login successful', token);
-      toastr.success('Login successful');
-
       setTimeout(function () {
         window.location.href = '/customer';
       }, 1000);
     } catch (error) {
       console.error('Login error:', error.message);
-      toastr.error('Backend error: ' + error.message);
+      toastr.error('Login failed: ' + error.message);
     }
   };
+
   const register = async (e) => {
     e.preventDefault();
     try {
@@ -90,7 +101,6 @@ function Login() {
         headers: {
           "Content-Type": 'application/json',
           "Accept": 'application/json',
-          'Authorization': `Bearer ${sessionStorage.getItem('jsonwebtoken')}` // Include token in headers
         }
       });
 
@@ -112,7 +122,6 @@ function Login() {
       toastr.error(error.message);
     }
   };
-
 
   return (
     <div>
@@ -151,11 +160,6 @@ function Login() {
                 </a>
               </div>
             </form>
-            {currentCustomer && (
-        <div>
-          <h2>Welcome, {currentCustomer.email}</h2>
-        </div>
-      )}
             <form action="#"className="sign-up-form">
               <h2 className="title">Sign up</h2>
               <div className="input-field">
@@ -190,11 +194,8 @@ function Login() {
                 <i className="fas fa-lock"></i>
                 <input type='password' placeholder='password_confirmation' value={password_confirmation} onChange={(e)=>setPassword_confirmation(e.target.value)} required/>
               </div>
-              {/* <Link to="/customer"><input type="submit" value="signup" onClick={register} className='btnx1y2' /></Link> */}
-                <input type="submit" value="signup" onClick={register} className='btnx1y2' />
-
+              <input type="submit" value="signup" onClick={register} className='btnx1y2' />
               <p className="social-text">Or Sign up with social platforms</p>
-
               <div className="social-media">
                 <a href="#" className="social-icon">
                 <FaInstagram className='icon'></FaInstagram>
@@ -242,16 +243,6 @@ function Login() {
           </div>
         </div>
       </div>
-      {/* <div className='email'>
-        <div className="left-side">
-          <h2>Subscribe Now to Get Regular Updates</h2>
-          <input type="email" placeholder="Enter your email" />
-          <button className="subscribe-btn">Subscribe</button>
-        </div>
-        <div className='right-side'>
-          <img src='https://websitedemos.net/kathryn-ebook-author-02/wp-content/uploads/sites/1020/2022/02/susbcribe-image.png' alt='Subscription Image'/>
-        </div>
-      </div> */}
     </div>
   );
 };
