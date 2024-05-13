@@ -21,10 +21,15 @@ class Customers::SessionsController < Devise::SessionsController
     end
   end
   def destroy
-    sign_out(:customer) if customer_signed_in? 
-    render json: {
-      status: 200,
-      message: "Logged out successfully"
-    }, status: :ok
+    if params[:token].blank?
+      render_error("Token is missing", 400)
+    else
+      logout 
+      render json: {
+        status: 200,
+        message: "Logged out successfully"
+      }, status: :ok
+    end
   end
+  
 end
