@@ -1,23 +1,29 @@
 import React, { useState } from 'react';
 import './login.css';
-import { FaInstagram, FaGoogle, FaLinkedinIn} from "react-icons/fa";
+import { FaInstagram, FaGoogle, FaLinkedinIn, FaUnlock, FaUserAlt } from "react-icons/fa";
+import { FaPhone, FaRegUser } from "react-icons/fa6";
 import { FaTwitter } from "react-icons/fa6";
 import { Link } from 'react-router-dom';
 import toastr from 'toastr';
 import 'toastr/build/toastr.css';
+import { MdLocationCity, MdEmail } from "react-icons/md";
+import { ImAddressBook } from "react-icons/im";
+import { BiShow, BiHide } from "react-icons/bi";
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [password_confirmation, setPassword_confirmation]=useState("")
+  const [password_confirmation, setPassword_confirmation] = useState("");
   const [errors, setErrors] = useState([]);
-  const [firstname,setFirstname] = useState("");
-  const [lastname,setLastname] = useState("");
-  const [address,setAddress] = useState("");
-  const [contactno,setContactno] = useState("");
-  const [city,setCity] = useState("");
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
+  const [address, setAddress] = useState("");
+  const [contactno, setContactno] = useState("");
+  const [city, setCity] = useState("");
   const jwt = require('jsonwebtoken');
   const [isSignUpMode, setIsSignUpMode] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
   const handleSignUpClick = () => {
     setIsSignUpMode(true);
   };
@@ -33,7 +39,7 @@ function Login() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({customer:{ email, password }}),
+        body: JSON.stringify({ customer: { email, password } }),
       });
 
       if (!response.ok) {
@@ -48,6 +54,7 @@ function Login() {
       const data = await response.json();
       const token = data.token;
       sessionStorage.setItem('jsonwebtoken', token);
+      toastr.success('Login successful');
 
       const customerResponse = await fetch('http://192.168.1.11:3000/current_customer', {
         method: 'GET',
@@ -68,15 +75,18 @@ function Login() {
       const customerData = await customerResponse.json();
       console.log('Current customer:', customerData);
 
+      sessionStorage.setItem('customerEmail', customerData.email);
+
       console.log('Login successful', token);
       setTimeout(function () {
         window.location.href = '/customer';
       }, 1000);
-          } catch (error) {
+    } catch (error) {
       console.error('Login error:', error.message);
       toastr.error('Login failed: ' + error.message);
     }
   };
+
 
   const register = async (e) => {
     e.preventDefault();
@@ -129,17 +139,24 @@ function Login() {
             <form onSubmit={handleSubmit} className="sign-in-form">
               <h2 className="title123">Sign in</h2>
               <div className="input-field">
-                <i className="fas fa-user"></i>
+                <a href="#" className="iconicon">
+                  <FaUserAlt className='icon'></FaUserAlt>
+                </a>
                 <input type='email' placeholder='email' value={email} onChange={(e) => setEmail(e.target.value)}/>
               </div>
               <div className="input-field">
-                <i className="fas fa-lock"></i>
-                <input type="password" placeholder='password' value={password} onChange={(e) => setPassword(e.target.value)}/>
+                <a href="#" className="iconicon">
+                  <FaUnlock className='icon'></FaUnlock>
+                </a>
+                <div className="password-input-container">
+                  <input type={showPassword ? "text" : "password"} placeholder='password' value={password} onChange={(e) => setPassword(e.target.value)}/>
+                  <a href="#" className="toggle-password-icon" onClick={() => setShowPassword(!showPassword)}>
+                    {showPassword ? <BiHide className='icon'></BiHide> : <BiShow className='icon'></BiShow>}
+                  </a>
+                </div>
               </div>
               <div className='remember-forgot'>
-                <label><input type='checkbox' />
-                Remember me </label>
-                <Link to='/forgotepassword'>Forgot password?</Link>
+                <Link to='/forgotepassword' className='password'>Forgot password?</Link>
               </div>
               <input type="submit" value="Login" className="btnx1y2 solid" />
               <p className="social-text">Or Sign in with social platforms</p>
@@ -161,37 +178,64 @@ function Login() {
             <form action="#"className="sign-up-form">
               <h2 className="title">Sign up</h2>
               <div className="input-field">
-                <i className="fas fa-user"></i>
+                <a href="#" className="iconicon">
+                  <FaUserAlt className='icon'></FaUserAlt>
+                </a>
                 <input type='text' placeholder='firstname' value={firstname} onChange={(e)=>setFirstname(e.target.value)} />
               </div>
               <div className="input-field">
-                <i className="fas fa-user"></i>
+                <a href="#" className="iconicon">
+                  <FaRegUser className='icon'></FaRegUser>
+                </a>
                 <input type='text' placeholder='lastname' value={lastname} onChange={(e)=>setLastname(e.target.value)} />
               </div>
               <div className="input-field">
-                <i className="fas fa-user"></i>
+                <a href="#" className="iconicon">
+                  <ImAddressBook className='icon'></ImAddressBook>
+                </a>
                 <input type='text' placeholder='address' value={address} onChange={(e)=>setAddress(e.target.value)} />
               </div>
               <div className="input-field">
-                <i className="fas fa-user"></i>
+                <a href="#" className="iconicon">
+                  <MdLocationCity className='icon'></MdLocationCity>
+                </a>
                 <input type='text' placeholder='city' value={city} onChange={(e)=>setCity(e.target.value)} />
               </div>
               <div className="input-field">
-                <i className="fas fa-user"></i>
+                <a href="#" className="iconicon">
+                  <FaPhone className='icon'></FaPhone>
+                </a>
                 <input type='text' placeholder='contactno' value={contactno} onChange={(e)=>setContactno(e.target.value)} />
               </div>
               <div className="input-field">
-                <i className="fas fa-envelope"></i>
+                <a href="#" className="iconicon">
+                  <MdEmail className='icon'></MdEmail>
+                </a>
                 <input type='text' placeholder='email' value={email} onChange={(e)=>setEmail(e.target.value)}/>
               </div>
               <div className="input-field">
-                <i className="fas fa-lock"></i>
-                <input type='password' placeholder='password'  value={password} onChange={(e)=>setPassword(e.target.value)}/>
+                <a href="#" className="iconicon">
+                  <FaUnlock className='icon'></FaUnlock>
+                </a>
+                <div className="password-input-container">
+                  <input type={showPassword ? "text" : "password"} placeholder='password' value={password} onChange={(e) => setPassword(e.target.value)}/>
+                  <a href="#" className="toggle-password-icon" onClick={() => setShowPassword(!showPassword)}>
+                    {showPassword ? <BiHide className='icon'></BiHide> : <BiShow className='icon'></BiShow>}
+                  </a>
+                </div>
               </div>
               <div className="input-field">
-                <i className="fas fa-lock"></i>
-                <input type='password' placeholder='password_confirmation' value={password_confirmation} onChange={(e)=>setPassword_confirmation(e.target.value)} required/>
+                <a href="#" className="iconicon">
+                  <FaUnlock className='icon'></FaUnlock>
+                </a>
+                <div className="password-input-container">
+                  <input type={showPassword ? "text" : "password"} placeholder='password_confirmation' value={password_confirmation} onChange={(e) => setPassword_confirmation(e.target.value)}/>
+                  <a href="#" className="toggle-password-icon" onClick={() => setShowPassword(!showPassword)}>
+                    {showPassword ? <BiHide className='icon'></BiHide> : <BiShow className='icon'></BiShow>}
+                  </a>
+                </div>
               </div>
+
               <input type="submit" value="signup" onClick={register} className='btnx1y2' />
               <p className="social-text">Or Sign up with social platforms</p>
               <div className="social-media">
