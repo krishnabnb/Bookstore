@@ -31,6 +31,7 @@ const Header = () => {
           <li><Link to="/customer">{customerEmail ? customerEmail : <FaUser />}</Link></li>
           <li><Link to="/"></Link></li>
           <li><Link to="/cart"><FaShoppingCart /></Link></li>
+          <li><Link to="/customer" ><FaUser /></Link></li>
         </ul>
       </nav>
     </div>

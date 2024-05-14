@@ -8,11 +8,6 @@ class Api::V1::CustomersController < ApplicationController
     render json: @customers
   end
 
-  def show
-    @customer = Customer.find(params[:id])
-    render json: @customer
-  end
-  
   def create
     @customer = Customer.new(customer_params)
     if  @customer.save
@@ -21,7 +16,6 @@ class Api::V1::CustomersController < ApplicationController
       render json: @customer.errors, status: :unprocessable_entity
     end
   end
-
 
   def update
     if @customer.update(customer_params)
