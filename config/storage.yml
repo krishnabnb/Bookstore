@@ -1,4 +1,4 @@
-test:
+xtest:
   service: Disk
   root: <%= Rails.root.join("tmp/storage") %>
 

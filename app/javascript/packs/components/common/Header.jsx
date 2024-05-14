@@ -4,14 +4,6 @@ import './header.css';
 import { BrowserRouter as Router, Link } from 'react-router-dom';
 
 const Header = () => {
-  const [currentcustomer, setCurrentCustomer] = useState(null);
-
-  useEffect(() => {
-    fetch('http://192.168.1.11:3000//current_customer')
-      .then(response => response.json())
-      .then(data => setCurrentCustomer(data.email))
-      .catch(error => console.error('Error fetching current customer:', error));
-  }, []);
 
   return (
     <div>
@@ -28,9 +20,9 @@ const Header = () => {
           <li><Link to="/payment">Payment</Link></li>
           <li><Link to="/product">Product</Link></li>
           <li><Link to="/logout">Logout</Link></li>
-          <li><Link to="/customer" className='currentcustomer'>{currentcustomer || <FaUser />}</Link></li>
           <li><Link to="/"></Link></li>
           <li><Link to="/cart"><FaShoppingCart /></Link></li>
+          <li><Link to="/customer" ><FaUser /></Link></li>
         </ul>
       </nav>
     </div>

@@ -65,6 +65,12 @@ export const Book = () => {
     }));
   };
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setImage(file);
+  };
+
+
   const handleSubmit = async book => {
     try {
       const response = await fetch(`http://192.168.1.11:3000/api/v1/books/${book.id}`, {
@@ -107,6 +113,7 @@ export const Book = () => {
     }));
   };
 
+  
   const handleDelete = async id => {
     const confirmed = window.confirm("Are you sure you want to delete this book?");
     if (confirmed) {
@@ -194,6 +201,26 @@ export const Book = () => {
       published_status: ''
     });
     fetchBooks();
+  }; 
+
+  const uploader = async (e) => {
+    const file = e.target.files[0];
+    const formData = new FormData();
+    formData.append('file', file);
+  
+    try {
+      const response = await fetch('http://192.168.1.11:3000/api/v1/books', {
+        method: 'POST',
+        body: body,
+      });
+      if (response.ok) {
+        console.log('Image uploaded successfully');
+      } else {
+        throw new Error('Failed to upload image');
+      }
+    } catch (error) {
+      console.error('Error uploading image:', error);
+    }
   };
 
   return (
@@ -218,7 +245,7 @@ export const Book = () => {
         <input type="text" name="published_at" placeholder="Search by published_at" className='search-input' value={searchQuery.published_at} onChange={handleSearchInputChange} />
         <input type="text" name="published_status" placeholder="Search by published_status" className='search-input' value={searchQuery.published_status} onChange={handleSearchInputChange} />
         <button type="button" className='searchButton' onClick={handleSearch}>Search</button>
-        <button type="button" className='cancelButton' onClick={handleCancelSearch}>Cancel</button> {/* Add Cancel button */}
+        <button type="button" className='cancelButton' onClick={handleCancelSearch}>Cancel</button>
       </form>
 
       <table className="salers-table">
@@ -230,6 +257,7 @@ export const Book = () => {
             <th>Price</th>
             <th>Published_Stattus</th>
             <th>Published_at</th>
+            <th>Book Image</th>
             <th>Delete</th>
             <th>Edit</th>
             <th>Changed status</th>
@@ -248,7 +276,8 @@ export const Book = () => {
                   />
                 ) : (
                   book.title
-                )}
+                )}    
+
               </td>
               <td>
                 {editModes[book.id] ? (
@@ -311,13 +340,28 @@ export const Book = () => {
                 )}
               </td>
               <td>
+                {editModes[book.id] ? (
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => {
+                      setImage(e.target.files[0]); 
+                      uploader(e);
+                    }}
+                    placeholder="Upload Image"
+                  />
+                ) : (
+                  <img src={book.image} alt={book.title} /> 
+                )}
+              </td>
+              <td>
                 <button onClick={() => handleDelete(book.id)}>Delete</button>
               </td>
               <td>
                 {editModes[book.id] ? (
                   <div>
                     <button onClick={() => handleSubmit(book)}>Submit</button>
-                    <button onClick={() => handleBackButtonClick(book)}>Back</button>
+                    <button onClick={() => handleBackButtonClick(book)}>Cancel</button>
                   </div>
                 ) : (
                   <button onClick={() => handleEdit(book.id)}>Edit</button>

@@ -5,11 +5,8 @@ class Customers::RegistrationsController < Devise::RegistrationsController
   
   def create
     customer = Customer.new(customer_params)
-  
     if customer.save
       sign_in(customer)
-  
-      
       render json: {
         status: { code: 200, message: 'Logged in successfully.' },
         customer: CustomerSerializer.new(customer).serializable_hash[:data][:attributes],

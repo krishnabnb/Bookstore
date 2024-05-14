@@ -1,14 +1,11 @@
 class Api::V1::CartsController < ApplicationController
   before_action :set_cart, only: [:show, :update, :destroy]
+  skip_before_action :verify_authenticity_token
   # before_action :authenticate_customer!
 
   def index
     @carts = Cart.all.includes(:customer, :book)
     render json: @carts.map { |cart| cart_with_customer_firstname_and_book_title(cart) }
-  end
-
-  def show
-    render json: cart_with_customer_firstname_and_book_title(@cart)
   end
 
   def create
@@ -24,6 +21,7 @@ class Api::V1::CartsController < ApplicationController
     if @cart.update(cart_params)
       render json: cart_with_customer_firstname_and_book_title(@cart), status: :ok
     else
+      puts " ---------------------#{@cart.inspect}"
       render json: { errors: @cart.errors }, status: :unprocessable_entity
     end
   end
@@ -34,12 +32,13 @@ class Api::V1::CartsController < ApplicationController
   end
 
   private
+
   def set_cart
     @cart = Cart.find(params[:id])
   end
 
   def cart_params
-    params.require(:cart).permit(:customer_id, :book_id, :quntity)
+    params.require(:cart).permit(:customer_id, :book_id, :quntity) 
   end
 
   def cart_with_customer_firstname_and_book_title(cart)

@@ -7,11 +7,6 @@ class Api::V1::PaymentsController < ApplicationController
     render json: @payments
   end
 
-  def show
-    @paymen = Payment.find(params[:id])
-    render json: @payments
-  end
-
   def create
     @payment = Payment.new(payment_params)
     @payment.date ||= Date.today 
@@ -22,7 +17,7 @@ class Api::V1::PaymentsController < ApplicationController
       render json: @payment.errors, status: :unprocessable_entity
     end
   end
-  
+
   def update
     if @payment.update(payment_params)
       render json: @payment
@@ -30,7 +25,7 @@ class Api::V1::PaymentsController < ApplicationController
       render json: @payment.errors, status: :unprocessable_entity
     end
   end
-  
+
   def destroy
     @payment.destroy
     render json: { message: "Payment deleted successfully" }, status: :ok
