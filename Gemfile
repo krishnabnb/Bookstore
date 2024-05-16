@@ -26,8 +26,8 @@ gem 'turbolinks', '~> 5'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production
+# gem 'redis', '~> 6.0.0'
 gem 'redis', '~> 4.2'
-
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -47,7 +47,6 @@ end
 
 gem 'jsonapi-serializer'
 
-
 group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'web-console', '>= 3.3.0'
@@ -56,7 +55,6 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
 end
-
 
 group :test do
   # Adds support for Capybara system testing and selenium driver
@@ -71,7 +69,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem "image_processing", "~> 1.12"
 
 gem 'rack-cors'
-gem 'sidekiq-cron'
+gem 'sidekiq', '~> 6.0'
 
 gem "devise-jwt", "~> 0.11.0"
 

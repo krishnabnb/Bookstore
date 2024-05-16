@@ -14,7 +14,7 @@ class Customers::SessionsController < Devise::SessionsController
         status: { code: 200, message: 'Logged in successfully.' },
         customer: CustomerSerializer.new(customer).serializable_hash[:data][:attributes],
         token: request.headers['warden-jwt_auth.token']
-      }, status: :ok
+    }, status: :ok
     else
       render_error("Invalid email or password", 401)
     end

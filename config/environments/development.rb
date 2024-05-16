@@ -27,6 +27,8 @@ Rails.application.configure do
   end
   config.public_file_server.enabled = true
 
+  config.web_console.whitelisted_ips = '192.168.1.11'
+
 
 
   # Store uploaded files on the local file system (see config/storage.yml for options)
