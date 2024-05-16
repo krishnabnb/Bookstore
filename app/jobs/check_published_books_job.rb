@@ -1,7 +1,7 @@
 class CheckPublishedBooksJob < ApplicationJob
   queue_as :default
 
-  def perform(*args)
+  def perform
     @books = Book.all
     updated_books = []
 

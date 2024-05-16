@@ -25,6 +25,9 @@ Rails.application.configure do
 
     config.cache_store = :null_store
   end
+  config.public_file_server.enabled = true
+
+  config.web_console.whitelisted_ips = '192.168.1.11'
 
 
 
