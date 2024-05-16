@@ -3,13 +3,11 @@ import '../SellerModule/saler.css';
 import { NewBook } from './NewBook';
 
 export const Book = () => {
-  const [books, setBooks] = useState(() => {
-    const savedBooks = localStorage.getItem('books');
-    return savedBooks ? JSON.parse(savedBooks) : [];
-  });
+  const [books, setBooks] = useState([]);
   const [error, setError] = useState(null);
   const [editModes, setEditModes] = useState({});
   const [originalBooks, setOriginalBooks] = useState({});
+  const [image, setImage] = useState(null);
   const [searchQuery, setSearchQuery] = useState({
     title: '',
     description: '',
@@ -23,35 +21,44 @@ export const Book = () => {
 
   const fetchBooks = async () => {
     try {
-      const response = await fetch('http://192.168.1.11:3000/api/v1/books');
+      const response = await fetch('http://192.168.1.3:3000/api/v1/books');
       if (!response.ok) {
         throw new Error('Failed to fetch data');
       }
       const data = await response.json();
-      setBooks(data);
-      setOriginalBooks(data.reduce((acc, book) => {
-        acc[book.id] = { ...book };
-        return acc;
-      }, {}));
+      setBooks(data?.book || []);
     } catch (error) {
       console.error('Error fetching data:', error);
       setError(error.message);
     }
   };
 
-  const handleFormSubmit = (title, author, description, price, published_at) => {
-    const body = JSON.stringify({ book: { title, author, description, price, published_at } })
-    fetch('http://192.168.1.11:3000/api/v1/books', {
+  const handleImageChange = (e, book) => {
+    const file = e.target.files[0];
+    setImage(file);
+    const updatedBook = { ...book, image: file };
+    setBooks(prevState =>
+      prevState.map(b => (b.id === book.id ? updatedBook : b))
+    );
+  };
+
+  const handleFormSubmit = async (title, author, description, price, published_at, image) => {
+    console.log("image",image)
+    const formdata = new FormData();
+    formdata.append("book[title]", title);
+    formdata.append("book[author]", author);
+    formdata.append("book[description]", description);
+    formdata.append("book[price]", price);
+    formdata.append("book[published_at]", published_at);
+    formdata.append("book[image]", image);
+    const response = await fetch('http://192.168.1.3:3000/api/v1/books', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: body,
+      body: formdata,
     })
     .then(response => response.json())
-    .then(book => {
-      addNewBook(book);
-    });
+    .then(saler => {
+      addNewBook(book)
+    })
   };
 
   const addNewBook = book => {
@@ -67,7 +74,7 @@ export const Book = () => {
 
   const handleSubmit = async book => {
     try {
-      const response = await fetch(`http://192.168.1.11:3000/api/v1/books/${book.id}`, {
+      const response = await fetch(`http://192.168.1.3:3000/api/v1/books/${book.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
@@ -111,7 +118,7 @@ export const Book = () => {
     const confirmed = window.confirm("Are you sure you want to delete this book?");
     if (confirmed) {
       try {
-        const response = await fetch(`http://192.168.1.11:3000/api/v1/books/${id}`, {
+        const response = await fetch(`http://192.168.1.3:3000/api/v1/books/${id}`, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json'
@@ -144,7 +151,7 @@ export const Book = () => {
 
   const handleToggleStatus = async (id) => {
     try {
-      const response = await fetch(`http://192.168.1.11:3000/api/v1/books/${id}/update_status`, {
+      const response = await fetch(`http://192.168.1.3:3000/api/v1/books/${id}/update_status`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json'
@@ -169,7 +176,7 @@ export const Book = () => {
 
   const handleSearch = async () => {
     try {
-      const response = await fetch('http://192.168.1.11:3000/api/v1/books?title=' + searchQuery.title + '&description=' + searchQuery.description + '&published_at=' + searchQuery.published_at + '&published_status=' + searchQuery.published_status);
+      const response = await fetch('http://192.168.1.3:3000/api/v1/books?title=' + searchQuery.title + '&description=' + searchQuery.description + '&published_at=' + searchQuery.published_at + '&published_status=' + searchQuery.published_status);
       if (response.ok) {
         const data = await response.json();
         setBooks(data);
@@ -211,7 +218,6 @@ export const Book = () => {
           <NewBook handleFormSubmit={handleFormSubmit} />
         </div>
       </div>
-
       <form className="search-form">
         <input type="text" name="title" placeholder="Search by title" className='search-input' value={searchQuery.title} onChange={handleSearchInputChange} />
         <input type="text" name="description" placeholder="Search by description" className='search-input' value={searchQuery.description} onChange={handleSearchInputChange} />
@@ -220,7 +226,6 @@ export const Book = () => {
         <button type="button" className='searchButton' onClick={handleSearch}>Search</button>
         <button type="button" className='cancelButton' onClick={handleCancelSearch}>Cancel</button> {/* Add Cancel button */}
       </form>
-
       <table className="salers-table">
         <thead>
           <tr>
@@ -228,6 +233,7 @@ export const Book = () => {
             <th>Author</th>
             <th>Description</th>
             <th>Price</th>
+            <th>Image</th>
             <th>Published_Stattus</th>
             <th>Published_at</th>
             <th>Delete</th>
@@ -236,7 +242,7 @@ export const Book = () => {
           </tr>
         </thead>
         <tbody>
-          {books.slice().reverse().map(book => (
+          {Array.isArray(books) && books?.map((book) => (
             <tr key={book.id}>
               <td>
                 {editModes[book.id] ? (
@@ -284,6 +290,17 @@ export const Book = () => {
                   />
                 ) : (
                   book.price
+                )}
+              </td>
+              <td>
+                {editModes[book.id] ? (
+                  <input
+                    type="file"
+                    onChange={e => handleImageChange(e, book)}
+                    name="image"
+                  />
+                ) : (
+                  <img src={book.image_url} alt="saler's image" style={{ width: '100px', height: '100px' }} />
                 )}
               </td>
               <td>

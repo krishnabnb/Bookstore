@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import './saler.css';
 
 export const Newsaler = (props) => {
-  const [imagePreviewUrl, setImagePreviewUrl] = useState(null);
   let formFields = {};
-
+  const [file, setFile] = useState(null);
+  console.log(file);
   return (
     <form onSubmit={(e) => {
       e.preventDefault();
@@ -12,11 +12,11 @@ export const Newsaler = (props) => {
       const email = formFields.email.value;
       const bookTitle = formFields.bookTitle.value;
       const price = formFields.price.value;
+      console.log(formFields)
       const image = formFields.image.files[0];
 
-      props.handleFormSubmit(name, email, bookTitle, price, image);
+      props.handleFormSubmit(name, email, bookTitle, price, file);
       e.target.reset();
-      setImagePreviewUrl(null);
     }}>
       <div>
         <input type="text" id="name" ref={(input) => formFields.name = input} placeholder="Enter the name" className='input-bio' />
@@ -31,13 +31,9 @@ export const Newsaler = (props) => {
         <input type="text" id="price" ref={(input) => formFields.price = input} placeholder="Enter the price" className='input-bio' />
       </div>
       <div>
-        <input type="file" id="image" ref={(input) => formFields.image = input} className='input-bio' accept="image/*" onChange={(e) => {
-          const selectedImage = e.target.files[0];
-          const imageUrl = URL.createObjectURL(selectedImage);
-          setImagePreviewUrl(imageUrl);
-        }} />
-        {imagePreviewUrl && <img src={imagePreviewUrl} alt="Selected Image" style={{ maxWidth: '100px', maxHeight: '100px' }} />}
+        <input type="file" id='image' onChange={(e)=> setFile(e.target.files[0])} ref={(input) => formFields.image = input } placeholder='choose image'/>
       </div>
+
       <button type="submit" className='submitButton'>Submit</button>
     </form>
   );

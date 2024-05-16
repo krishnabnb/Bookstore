@@ -3,6 +3,8 @@ import '../SellerModule/saler.css';
 
 export const NewBook = (props) => {
   let formFields = {};
+  const [file, setFile] = useState(null);
+  console.log('file', file)
 
   return (
     <form onSubmit={(e) => {
@@ -13,9 +15,10 @@ export const NewBook = (props) => {
       const price = formFields.price.value;
       const published_at = formFields.published_at.value;
 
-      props.handleFormSubmit(title, author, description, price, published_at);
+      props.handleFormSubmit(title, author, description, price, published_at, file);
       e.target.reset();
     }}>
+
       <div>
         <input type="text" id="title" ref={(input) => formFields.title = input} placeholder="Enter the title" className='input-bio' />
       </div>
@@ -31,9 +34,11 @@ export const NewBook = (props) => {
       <div>
         <input type="date" id="published_at" ref={(input) => formFields.published_at = input} placeholder="Enter the Published_at" className='text-bio-with' />
       </div>
+      <div>
+        <input type="file" id='image' onChange={(e)=> setFile(e.target.files[0])} ref={(input) => formFields.image = input } placeholder='choose image'/>
+      </div>
       <button type="submit" className='submitButton'>Submit</button>
     </form>
   );
 };
-
 
