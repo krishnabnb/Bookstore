@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import './forgotepassword.css'; // Assuming you have a CSS file for styles
+import { BiShow, BiHide } from "react-icons/bi";
 
 const Forgotepassword = () => {
   const [isChecked, setIsChecked] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleCheckboxChange = () => {
     setIsChecked(!isChecked);
@@ -15,19 +17,35 @@ const Forgotepassword = () => {
 
         <div className="signup">
           <form>
-            <label htmlFor="chk" aria-hidden="true">Sign up</label>
-            <input type="email" name="email" placeholder="Email" required  className='input123098'/>
-            <input type="password" name="pswd" placeholder="Password" required className='input123098' />
-            <button className='buttongt'>Sign up</button>
+            <label htmlFor="chk" aria-hidden="true">Change Password</label>
+            <div className="password-input-container">
+              <input type={showPassword ? "text" : "password"} placeholder='Old Password' className='input123098'  />
+              <a href="#" className="toggle-password-icon" onClick={() => setShowPassword(!showPassword)}>
+                {showPassword ? <BiHide className='icon'></BiHide> : <BiShow className='icon'></BiShow>}
+              </a>
+            </div>
+            <div className="password-input-container">
+              <input type={showPassword ? "text" : "password"} placeholder='New Password' className='input123098'  />
+              <a href="#" className="toggle-password-icon" onClick={() => setShowPassword(!showPassword)}>
+                {showPassword ? <BiHide className='icon'></BiHide> : <BiShow className='icon'></BiShow>}
+              </a>
+            </div>
+            <div className="password-input-container">
+              <input type={showPassword ? "text" : "password"} placeholder='Confirm Password' className='input123098'  />
+              <a href="#" className="toggle-password-icon" onClick={() => setShowPassword(!showPassword)}>
+                {showPassword ? <BiHide className='icon'></BiHide> : <BiShow className='icon'></BiShow>}
+              </a>
+            </div>
+
+            <button className='buttongt'>Save</button>
           </form>
         </div>
 
         <div className="login">
           <form>
-            <label htmlFor="chk" aria-hidden="true">Login</label>
+            <label htmlFor="chk" aria-hidden="true">Forgot Password</label>
             <input type="email" name="email" placeholder="Email" required className='input123098' />
-            <input type="password" name="pswd" placeholder="Password" required className='input123098' />
-            <button className='buttongt'>Login</button>
+            <button className='buttongt'>Next</button>
           </form>
         </div>
       </div>

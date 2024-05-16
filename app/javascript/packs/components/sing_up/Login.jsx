@@ -34,7 +34,7 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://192.168.1.11:3000/login', {
+      const response = await fetch('http://192.168.1.3:3000/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -56,7 +56,7 @@ function Login() {
       sessionStorage.setItem('jsonwebtoken', token);
       toastr.success('Login successful');
 
-      const customerResponse = await fetch('http://192.168.1.11:3000/current_customer', {
+      const customerResponse = await fetch('http://192.168.1.3:3000/current_customer', {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -78,9 +78,10 @@ function Login() {
       sessionStorage.setItem('customerEmail', customerData.email);
 
       console.log('Login successful', token);
-      setTimeout(function () {
-        window.location.href = '/customer';
-      }, 1000);
+        setTimeout(function () {
+          window.location.href = '/customer';
+        }, 1000);
+
     } catch (error) {
       console.error('Login error:', error.message);
       toastr.error('Login failed: ' + error.message);
@@ -103,7 +104,7 @@ function Login() {
           password_confirmation
         }
       };
-      let response = await fetch('http://192.168.1.11:3000/signup', {
+      let response = await fetch('http://192.168.1.3:3000/signup', {
         method: 'POST',
         body: JSON.stringify(item),
         headers: {

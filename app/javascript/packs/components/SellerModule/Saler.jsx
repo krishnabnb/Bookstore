@@ -3,37 +3,25 @@ import './saler.css';
 import { Newsaler } from './Newsaler';
 
 export const Saler = () => {
-  const [salers, setSalers] = useState(() => {
-    const savedSalers = localStorage.getItem('salers');
-    return savedSalers ? JSON.parse(savedSalers) : [];
-  });
-
+  const [salers, setSalers] = useState([]);
   const [error, setError] = useState(null);
   const [editModes, setEditModes] = useState({});
   const [originalSalers, setOriginalSalers] = useState({});
+  const [image, setImage] = useState(null);
 
   useEffect(() => {
-    fetch('http://192.168.1.11:3000/api/v1/salers')
-      .then(response => response.json())
-      .then(data => {
-        setSalers(data);
-        setOriginalSalers(data.reduce((acc, saler) => {
-          acc[saler.id] = { ...saler };
-          return acc;
-        }, {}));
-      });
     fetchSalers();
   }, []);
 
   const fetchSalers = async () => {
     try {
-      const response = await fetch('http://192.168.1.11:3000/api/v1/salers');
-      if (response.ok) {
-        const data = await response.json();
-        setSalers(data);
-      } else {
+      const response = await fetch('http://192.168.1.3:3000/api/v1/salers');
+      if (!response.ok) {
         throw new Error('Failed to fetch data');
       }
+      const data = await response.json();
+      console.log('Fetched data:', data);
+      setSalers(data?.saler || []);
     } catch (error) {
       console.error('Error fetching data:', error);
       setError(error.message);
@@ -41,18 +29,22 @@ export const Saler = () => {
   };
 
   const handleFormSubmit = (name, email, book_title, price, image) => {
-    const body = JSON.stringify({ saler: { name, email, book_title, price, image } });
-    fetch('http://192.168.1.11:3000/api/v1/salers', {
+    console.log("image...",image)
+    const formdata = new FormData();
+    formdata.append("saler[name]", name);
+    formdata.append("saler[email]", email);
+    formdata.append("saler[book_title]", book_title);
+    formdata.append("saler[price]", price);
+    formdata.append("saler[image]", image);
+
+    fetch('http://192.168.1.3:3000/api/v1/salers', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: body,
+      body: formdata,
     })
     .then(response => response.json())
     .then(saler => {
       addNewSaler(saler);
-    });
+    })
   };
 
   const addNewSaler = saler => {
@@ -88,7 +80,7 @@ export const Saler = () => {
   const handleDelete = id => {
     const confirmed = window.confirm("Are you sure you want to delete this saler?");
     if (confirmed) {
-      fetch(`http://192.168.1.11:3000/api/v1/salers/${id}`, {
+      fetch(`http://192.168.1.3:3000/api/v1/salers/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json'
@@ -105,7 +97,7 @@ export const Saler = () => {
   };
 
   const handleUpdate = saler => {
-    fetch(`http://192.168.1.11:3000/api/v1/salers/${saler.id}`, {
+    fetch(`http://192.168.1.3:3000/api/v1/salers/${saler.id}`, {
       method: 'PUT',
       body: JSON.stringify({ saler: saler }),
       headers: {
@@ -131,6 +123,16 @@ export const Saler = () => {
       prevState.map(s => (s.id === saler.id ? updatedSaler : s))
     );
   };
+
+  const handleImageChange = (e, saler) => {
+    const file = e.target.files[0];
+    setImage(file);
+    const updatedSaler = { ...saler, image: file };
+    setSalers(prevState =>
+      prevState.map(s => (s.id === saler.id ? updatedSaler : s))
+    );
+  };
+
   return (
     <div>
       <div>
@@ -159,7 +161,7 @@ export const Saler = () => {
           </tr>
         </thead>
         <tbody>
-          {salers.slice().reverse().map((saler) => (
+          {Array.isArray(salers) && salers?.map((saler) => (
             <tr key={saler.id}>
               <td>
                 {editModes[saler.id] ? (
@@ -212,13 +214,12 @@ export const Saler = () => {
               <td>
                 {editModes[saler.id] ? (
                   <input
-                    name="image_path"
-                    value={saler.image}
-                    onChange={e => handleChange(e, saler)}
-                    placeholder="image_path"
+                    type="file"
+                    onChange={e => handleImageChange(e, saler)}
+                    name="image"
                   />
                 ) : (
-                  saler.image
+                  <img src={saler.image_path} alt="saler's image" style={{ width: '100px', height: '100px' }} />
                 )}
               </td>
               <td>

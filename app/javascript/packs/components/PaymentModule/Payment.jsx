@@ -24,7 +24,7 @@ export const Payment = () => {
 
   const fetchPayments = async () => {
     try {
-      const response = await fetch('http://192.168.1.11:3000/api/v1/payments');
+      const response = await fetch('http://192.168.1.3:3000/api/v1/payments');
       if (response.ok) {
         const data = await response.json();
         setPayments(data);
@@ -43,7 +43,7 @@ export const Payment = () => {
 
   const fetchCarts = async () => {
     try {
-      const response = await fetch('http://192.168.1.11:3000/api/v1/carts');
+      const response = await fetch('http://192.168.1.3:3000/api/v1/carts');
       if (response.ok) {
         const data = await response.json();
         setCarts(data);
@@ -58,7 +58,7 @@ export const Payment = () => {
 
   const handleFormSubmit = (mathod, cart_id) => {
     const body = JSON.stringify({ payment: {mathod, cart_id} })
-    fetch('http://192.168.1.11:3000/api/v1/payments', {
+    fetch('http://192.168.1.3:3000/api/v1/payments', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -91,7 +91,7 @@ export const Payment = () => {
   };
 
   const handleUpdate = payment => {
-    fetch(`http://192.168.1.11:3000/api/v1/payments/${payment.id}`, {
+    fetch(`http://192.168.1.3:3000/api/v1/payments/${payment.id}`, {
       method: 'PUT',
       body: JSON.stringify({payment: payment}),
       headers: {
@@ -125,7 +125,7 @@ export const Payment = () => {
     const confirmed = window.confirm("Are you sure you want to delete this contact?");
     if (confirmed) {
       try {
-        await fetch(`http://192.168.1.11:3000/api/v1/payments/${id}`, {
+        await fetch(`http://192.168.1.3:3000/api/v1/payments/${id}`, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json'
