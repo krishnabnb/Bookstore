@@ -1,33 +1,34 @@
 class Api::V1::SalersController < ApplicationController
-  before_action :set_saler , only:[:show, :update, :destroy]
+  before_action :set_saler, only: [:show, :update, :destroy]
   # before_action :authenticate_customer!
-  
-
-
   def index
     @salers = Saler.all
-    render json:  @salers
+    render json: { saler: SalerSerializer.new(@salers).serializable_hash[:data] }
   end
+
+  # def show
+  #   @salers = Saler.find(params[:id])
+  #   render json: { saler: SalerSerializer.new(@salers).serializable_hash[:data] }
+  # end
 
   def create
     @saler = Saler.new(saler_params)
     if @saler.save
-      render json: @saler, status: :created
+      render json: { saler: SalerSerializer.new(@saler).serializable_hash[:data] }, status: :ok
     else
-      render json: @saler.errors, status: :unprocessable_entity
+      render json: { errors: @saler.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
   def update
     if @saler.update(saler_params)
-      render json: @saler, status: :ok
+      render json: { saler: SalerSerializer.new(@saler).serializable_hash[:data] }, status: :ok
     else
-      render @saler.erroers, status: :unprocessable_entity
+      render json: { errors: @saler.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
   def destroy
-    @saler = Saler.find(params[:id])
     @saler.destroy
     render json: { message: "Saler deleted successfully" }, status: :ok
   end

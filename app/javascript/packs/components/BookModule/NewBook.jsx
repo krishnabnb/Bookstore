@@ -20,10 +20,9 @@ export const NewBook = ({ handleFormSubmit }) => {
     const price = formFields.price.value;
     const published_at = formFields.published_at.value;
 
-    // Pass the image to the parent component
     handleFormSubmit(title, author, description, price, published_at, image);
     e.target.reset();
-    fileInputRef.current.value = ''; // Clear file input
+    fileInputRef.current.value = ''; 
   };
 
 
