@@ -21,7 +21,7 @@ export const Book = () => {
 
   const fetchBooks = async () => {
     try {
-      const response = await fetch('http://192.168.1.:3000/api/v1/books');
+      const response = await fetch('http://192.168.1.11:3000/api/v1/books');
       if (!response.ok) {
         throw new Error('Failed to fetch data');
       }
@@ -33,14 +33,24 @@ export const Book = () => {
     }
   };
 
+  // const handleImageChange = (e, book) => {
+  //   const file = e.target.files[0];
+  //   setImage(file);
+  //   const updatedBook = { ...book, image: file };
+  //   setBooks(prevState =>
+  //     prevState.map(b => (b.id === book.id ? updatedBook : b))
+  //   );
+  // };
+
   const handleImageChange = (e, book) => {
     const file = e.target.files[0];
-    setImage(file);
-    const updatedBook = { ...book, image: file };
+    setImage(file); // Assuming `file` is the correct object to set in state
+    const updatedBook = { ...book, image: file }; // Assuming `file` is the correct object to assign to the book's image
     setBooks(prevState =>
       prevState.map(b => (b.id === book.id ? updatedBook : b))
     );
   };
+  
 
   const handleFormSubmit = async (title, author, description, price, published_at, image) => {
     console.log("image",image)
@@ -51,12 +61,12 @@ export const Book = () => {
     formdata.append("book[price]", price);
     formdata.append("book[published_at]", published_at);
     formdata.append("book[image]", image);
-    const response = await fetch('http://192.168.1.3:3000/api/v1/books', {
+    const response = await fetch('http://192.168.1.11:3000/api/v1/books', {
       method: 'POST',
       body: formdata,
     })
     .then(response => response.json())
-    .then(saler => {
+    .then(book => {
       addNewBook(book)
     })
   };
@@ -74,7 +84,7 @@ export const Book = () => {
 
   const handleSubmit = async book => {
     try {
-      const response = await fetch(`http://192.168.1.3:3000/api/v1/books/${book.id}`, {
+      const response = await fetch(`http://192.168.1.11:3000/api/v1/books/${book.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
@@ -118,7 +128,7 @@ export const Book = () => {
     const confirmed = window.confirm("Are you sure you want to delete this book?");
     if (confirmed) {
       try {
-        const response = await fetch(`http://192.168.1.3:3000/api/v1/books/${id}`, {
+        const response = await fetch(`http://192.168.1.11:3000/api/v1/books/${id}`, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json'
@@ -141,6 +151,15 @@ export const Book = () => {
     setBooks(prevBooks => prevBooks.filter(book => book.id !== id));
   };
 
+  // const handleChange = (e, book) => {
+  //   const { name, value } = e.target;
+  //   const updatedBook = { ...book, [name]: value };
+  //   setBooks(prevBooks =>
+  //     prevBooks.map(b => (b.id === book.id ? updatedBook : b))
+  //   );
+  // }
+
+
   const handleChange = (e, book) => {
     const { name, value } = e.target;
     const updatedBook = { ...book, [name]: value };
@@ -148,10 +167,10 @@ export const Book = () => {
       prevBooks.map(b => (b.id === book.id ? updatedBook : b))
     );
   };
-
+  
   const handleToggleStatus = async (id) => {
     try {
-      const response = await fetch(`http://192.168.1.3:3000/api/v1/books/${id}/update_status`, {
+      const response = await fetch(`http://192.168.1.11:3000/api/v1/books/${id}/update_status`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json'
@@ -176,7 +195,7 @@ export const Book = () => {
 
   const handleSearch = async () => {
     try {
-      const response = await fetch('http://192.168.1.3:3000/api/v1/books?title=' + searchQuery.title + '&description=' + searchQuery.description + '&published_at=' + searchQuery.published_at + '&published_status=' + searchQuery.published_status);
+      const response = await fetch('http://192.168.1.11:3000/api/v1/books?title=' + searchQuery.title + '&description=' + searchQuery.description + '&published_at=' + searchQuery.published_at + '&published_status=' + searchQuery.published_status);
       if (response.ok) {
         const data = await response.json();
         setBooks(data);
@@ -190,10 +209,9 @@ export const Book = () => {
   };
 
   const handleSearchInputChange = (e) => {
-    setSearchQuery({ ...searchQuery, [e.target.name]: e.target.value });
+    setSearchQuery(prevSearchQuery => ({ ...prevSearchQuery, [e.target.name]: e.target.value }));
   };
-
-  const handleCancelSearch = () => {
+    const handleCancelSearch = () => {
     setSearchQuery({
       title: '',
       description: '',
@@ -224,7 +242,7 @@ export const Book = () => {
         <input type="text" name="published_at" placeholder="Search by published_at" className='search-input' value={searchQuery.published_at} onChange={handleSearchInputChange} />
         <input type="text" name="published_status" placeholder="Search by published_status" className='search-input' value={searchQuery.published_status} onChange={handleSearchInputChange} />
         <button type="button" className='searchButton' onClick={handleSearch}>Search</button>
-        <button type="button" className='cancelButton' onClick={handleCancelSearch}>Cancel</button> {/* Add Cancel button */}
+        <button type="button" className='cancelButton' onClick={handleCancelSearch}>Cancel</button> {/ Add Cancel button /}
       </form>
       <table className="salers-table">
         <thead>
