@@ -1,15 +1,14 @@
 class Api::V1::SalersController < ApplicationController
   before_action :set_saler, only: [:show, :update, :destroy]
-  # before_action :authenticate_customer!
+
   def index
     @salers = Saler.all
     render json: { saler: SalerSerializer.new(@salers).serializable_hash[:data] }
   end
 
-  # def show
-  #   @salers = Saler.find(params[:id])
-  #   render json: { saler: SalerSerializer.new(@salers).serializable_hash[:data] }
-  # end
+  def image_update
+    
+  end
 
   def create
     @saler = Saler.new(saler_params)
@@ -34,7 +33,6 @@ class Api::V1::SalersController < ApplicationController
   end
 
   private
-
   def saler_params
     params.require(:saler).permit(:name, :email, :book_title, :price, :image)
   end
@@ -43,3 +41,5 @@ class Api::V1::SalersController < ApplicationController
     @saler = Saler.find(params[:id])
   end
 end
+
+

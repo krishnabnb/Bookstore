@@ -2,7 +2,7 @@ class Customers::RegistrationsController < Devise::RegistrationsController
   skip_before_action :verify_authenticity_token
   before_action :check_customer_logged_in, only: [:new]
   respond_to :json
-  
+
   def create
     customer = Customer.new(customer_params)
     if customer.save

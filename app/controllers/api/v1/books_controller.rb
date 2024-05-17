@@ -1,6 +1,7 @@
 class Api::V1::BooksController < ApplicationController
-  before_action :set_book, only: [:show, :update, :destroy]
   # before_action :authenticate_customer!
+  before_action :set_book, only: [:show, :update, :destroy]
+
   def index
     @books = Book.all
 
@@ -10,10 +11,7 @@ class Api::V1::BooksController < ApplicationController
     @books = @books.where(published_status: params[:published_status]) if params[:published_status].present?
     render json: {book: BookSerializer.new( @books).serializable_hash[:data]}   
   end
-  # def show
-  #   @book = Book.find(params[:id])
-  #   render json: { book: BookSerializer.new(@book).serializable_hash[:data] }
-  # end
+
   def update_status
     @book = Book.find(params[:id])
     if @book.published_status == "published"
@@ -26,22 +24,11 @@ class Api::V1::BooksController < ApplicationController
     render json: @book
   end
 
-  # def create
-  #   @book = Book.new(book_params)
-  #   if @book.save
-  #     render json: {book: BookSerializer.new( @books).serializable_hash[:data]}, status: :ok
-
-  #   else
-  #     render json: @book.errors, status: :unprocessable_entity
-  #   end
-  # end
-
   def create
     @book = Book.new(book_params)
     if @book.save
-            CheckPublishedBooksJob.perform_now
-
-      render json: { book: BookSerializer.new(@book).serializable_hash[:data] }, status: :ok
+    CheckPublishedBooksJob.perform_now
+    render json: { book: BookSerializer.new(@book).serializable_hash[:data] }, status: :ok
     else
       render json: @book.errors, status: :unprocessable_entity
     end

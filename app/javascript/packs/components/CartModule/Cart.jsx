@@ -187,7 +187,8 @@ export const Cart = () => {
           </tr>
         </thead>
         <tbody>
-          {carts.slice().reverse().map(cart => (
+          {Array.isArray(carts) && carts?.map((cart) => (
+
             <tr key={cart.id}>
               <td>
                 {editModes[cart.id] ? (

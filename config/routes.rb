@@ -33,8 +33,6 @@
 #   delete 'logout', to: 'sessions#destroy'
 # end
 
-
-
 Rails.application.routes.draw do
   root to: 'home#index'
 
@@ -59,13 +57,13 @@ Rails.application.routes.draw do
         end
       end
       resources :customers, only: [:index, :show, :create, :update, :destroy]
+
       resources :payments
       resources :carts
       resources :contacts
     end
   end
 
-  # Route only HTML requests to HomeController#index
   get '*path', to: 'home#index', constraints: lambda { |req|
     req.format.html?
   }
