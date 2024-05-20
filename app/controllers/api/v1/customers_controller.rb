@@ -1,6 +1,5 @@
 class Api::V1::CustomersController < ApplicationController
   # before_action :authenticate_customer!
-
   before_action :set_customer , only:[:show, :update, :destroy]
 
   def index

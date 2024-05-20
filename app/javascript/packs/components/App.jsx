@@ -4,6 +4,7 @@ import Header from './common/Header';
 import Footer from './common/Footer';
 import { Home } from './Home';
 import { Book } from './BookModule/Book';
+import ShowBook from './BookModule/ShowBook'; 
 import { Saler } from './SellerModule/Saler';
 import { Product } from "./ProductModule/Product";
 import { Payment } from "./PaymentModule/Payment";
@@ -22,6 +23,7 @@ import Historical from "./image/Historical";
 import Business from "./image/Business";
 import Login from './sing_up/Login';
 import Logout from './sing_up/Logout';
+
 import Forgotepassword from './Forgotepassword';
 
 const App = () => {
@@ -61,6 +63,7 @@ const App = () => {
             <Route path="/horror" element={<><Header/><Horror /><Footer/></>} />
             <Route path="/historical" element={<><Header/><Historical /><Footer/></>} />
             <Route path="/business" element={<><Header/><Business /><Footer/></>} />
+            <Route path="/showbook/:id" element={<><Header/><ShowBook/><Footer/></>} /> 
             <Route path="/logout" element={<><Header/><Logout /><Footer/></>} />
           </Routes>
         </div>

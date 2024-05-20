@@ -15,10 +15,18 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :salers
+      resources :salers do
+        member do
+          delete 'image_destroy'
+        end
+      end
       resources :books do
+        post 'update_image', to: 'book_show#update_image', on: :member
+        delete 'delete_image', to: 'book_show#delete_image'
+
         member do
           patch :update_status
+          delete 'image_destroy'
         end
       end
       resources :customers, only: [:index, :show, :create, :update, :destroy]
@@ -28,7 +36,11 @@ Rails.application.routes.draw do
     end
   end
 
-  get '*path', to: 'home#index'
+  get '*path', to: 'home#index', constraints: lambda { |req|
+    req.format.html?
+  }
+
+  #   get '*path', to: 'home#index'
 
   delete 'logout', to: 'sessions#destroy'
 end

@@ -28,9 +28,12 @@ const Header = () => {
           <li><Link to="/payment">Payment</Link></li>
           <li><Link to="/product">Product</Link></li>
           <li><Link to="/logout">Logout</Link></li>
-          <li><Link to="/customer">{customerEmail ? customerEmail : <FaUser />}</Link></li>
           <li><Link to="/"></Link></li>
           <li><Link to="/cart"><FaShoppingCart /></Link></li>
+<<<<<<< HEAD
+          <li><Link to="/customer">{customerEmail ? customerEmail : <FaUser />}</Link></li>
+=======
+>>>>>>> 65f5cc89f21a5099119a1641c0090e45e5b74af5
         </ul>
       </nav>
     </div>
