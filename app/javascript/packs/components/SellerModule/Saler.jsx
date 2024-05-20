@@ -36,18 +36,6 @@ export const Saler = () => {
     formdata.append("saler[email]", email);
     formdata.append("saler[book_title]", book_title);
     formdata.append("saler[price]", price);
-<<<<<<< HEAD
-    formdata.append("saler[image]", image);
-
-    fetch('http://192.168.1.11:3000/api/v1/salers', {
-      method: 'POST',
-      body: formdata,
-    })
-    .then(response => response.json())
-    .then(saler => {
-      addNewSaler(saler);
-    })
-=======
     if(image){
       formdata.append("saler[image]", image);
     }
@@ -67,7 +55,6 @@ export const Saler = () => {
       console.error('Error submitting form:', error);
       setError(error.message);
     }
->>>>>>> 65f5cc89f21a5099119a1641c0090e45e5b74af5
   };
 
   const addNewSaler = saler => {
