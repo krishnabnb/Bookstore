@@ -5,6 +5,7 @@ export const Newsaler = (props) => {
   let formFields = {};
   const [file, setFile] = useState(null);
   console.log(file);
+
   return (
     <form onSubmit={(e) => {
       e.preventDefault();
@@ -13,7 +14,6 @@ export const Newsaler = (props) => {
       const bookTitle = formFields.bookTitle.value;
       const price = formFields.price.value;
       console.log(formFields)
-      const image = formFields.image.files[0];
 
       props.handleFormSubmit(name, email, bookTitle, price, file);
       e.target.reset();

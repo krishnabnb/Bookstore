@@ -8,7 +8,6 @@ export const Cart = () => {
     return savedCarts ? JSON.parse(savedCarts) : [];
   });
 
-  const [customers, setCustomers] = useState([]);
   const [books, setBooks] = useState([]);
   const [error, setError] = useState(null);
   const [editModes, setEditModes] = useState({});
@@ -16,7 +15,6 @@ export const Cart = () => {
 
   useEffect(() => {
     fetchCarts();
-    fetchCustomers();
     fetchBooks();
   }, []);
 
@@ -35,21 +33,6 @@ export const Cart = () => {
       }
     } catch (error) {
       console.error('Error fetching data:', error);
-      setError(error.message);
-    }
-  };
-
-  const fetchCustomers = async () => {
-    try {
-      const response = await fetch('http://192.168.1.11:3000/api/v1/customers');
-      if (response.ok) {
-        const data = await response.json();
-        setCustomers(data);
-      } else {
-        throw new Error('Failed to fetch customers');
-      }
-    } catch (error) {
-      console.error('Error fetching customers:', error);
       setError(error.message);
     }
   };
@@ -192,18 +175,12 @@ export const Cart = () => {
             <tr key={cart.id}>
               <td>
                 {editModes[cart.id] ? (
-                  <select
+                  <input
                     name="customer_id"
                     value={cart.customer_id}
                     onChange={e => handleChange(e, cart)}
                     placeholder="Select Customer"
-                  >
-                    {customers.map(customer => (
-                      <option key={customer.id} value={customer.id}>
-                        {customer.firstname} {customer.lastname}
-                      </option>
-                    ))}
-                  </select>
+                  />
                 ) : (
                   cart.customer_id
                 )}

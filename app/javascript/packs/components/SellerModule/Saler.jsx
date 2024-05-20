@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './saler.css';
 import { Newsaler } from './Newsaler';
+import { RiDeleteBin5Line } from "react-icons/ri";
 
 export const Saler = () => {
   const [salers, setSalers] = useState([]);
@@ -22,19 +23,20 @@ export const Saler = () => {
       const data = await response.json();
       console.log('Fetched data:', data);
       setSalers(data?.saler || []);
+      setOriginalSalers(Object.fromEntries(data?.saler?.map(saler => [saler.id, saler])) || {});
     } catch (error) {
       console.error('Error fetching data:', error);
       setError(error.message);
     }
   };
 
-  const handleFormSubmit = (name, email, book_title, price, image) => {
-    console.log("image...",image)
+  const handleFormSubmit = async (name, email, book_title, price, image) => {
     const formdata = new FormData();
     formdata.append("saler[name]", name);
     formdata.append("saler[email]", email);
     formdata.append("saler[book_title]", book_title);
     formdata.append("saler[price]", price);
+<<<<<<< HEAD
     formdata.append("saler[image]", image);
 
     fetch('http://192.168.1.11:3000/api/v1/salers', {
@@ -45,10 +47,31 @@ export const Saler = () => {
     .then(saler => {
       addNewSaler(saler);
     })
+=======
+    if(image){
+      formdata.append("saler[image]", image);
+    }
+    try {
+      const response = await fetch('http://192.168.1.11:3000/api/v1/salers', {
+        method: 'POST',
+        body: formdata,
+      });
+      if (!response.ok) {
+        throw new Error('Failed to add saler');
+      }
+      const responseData = await response.json();
+      console.log('Response data:', responseData);
+      addNewSaler(responseData);
+      await fetchSalers(); // Update the list of salers after adding a new one
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      setError(error.message);
+    }
+>>>>>>> 65f5cc89f21a5099119a1641c0090e45e5b74af5
   };
 
   const addNewSaler = saler => {
-    setSalers(prevState => [...prevState, saler]);
+    setSalers(prevSalers => [...prevSalers, saler]);
   };
 
   const handleEdit = salerId => {
@@ -69,7 +92,7 @@ export const Saler = () => {
   const handleBackButtonClick = saler => {
     const originalSaler = originalSalers[saler.id];
     setSalers(prevState =>
-      prevState.map(s => (s.id === saler.id ? originalSaler : s))
+      prevState.map((s) => (s && s.id === saler.id ? originalSaler : s))
     );
     setEditModes(prevState => ({
       ...prevState,
@@ -124,13 +147,45 @@ export const Saler = () => {
     );
   };
 
-  const handleImageChange = (e, saler) => {
-    const file = e.target.files[0];
-    setImage(file);
-    const updatedSaler = { ...saler, image: file };
-    setSalers(prevState =>
-      prevState.map(s => (s.id === saler.id ? updatedSaler : s))
-    );
+  const handleImageChange = async(e, saler) => {
+    try{
+      const file = e.target.files[0];
+      console.log("Selected file:", file);
+      setImage(file);
+      const formdata = new FormData();
+      formdata.append("saler[image]", file);
+      const response = await fetch(`http://192.168.1.11:3000/api/v1/salers/${saler.id}`, {
+        method: 'PUT',
+        body: formdata,
+      });
+      const updatedSaler = await response.json();
+      console.log("Updated book:", updatedSaler);
+      updateSaler(updatedSaler);
+      await fetchSalers();
+    } catch (error) {
+      console.error('Error updating book image:', error);
+      setError(error.message);
+    }
+  };
+
+  const handleImageDelete = async (salerId) => {
+    try {
+      const response = await fetch(`http://192.168.1.11:3000/api/v1/salers/${salerId}/image_destroy`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      if (response.ok) {
+        console.log('Image deleted successfully!');
+        updateSalerImage(salerId, null);
+      } else {
+        throw new Error('Failed to delete image');
+      }
+    } catch (error) {
+      console.error('Error deleting image:', error);
+      setError(error.message);
+    }
   };
 
   return (
@@ -219,7 +274,12 @@ export const Saler = () => {
                     name="image"
                   />
                 ) : (
-                  <img src={saler.image_path} alt="saler's image" style={{ width: '100px', height: '100px' }} />
+                  <>
+                    <img src={saler.image_path} alt="saler's image" style={{ width: '100px', height: '100px' }} />
+                    <div>
+                      <RiDeleteBin5Line onClick={() => handleImageDelete(saler.id)} />
+                    </div>
+                  </>
                 )}
               </td>
               <td>

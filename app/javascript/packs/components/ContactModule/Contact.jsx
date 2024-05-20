@@ -15,7 +15,7 @@ export const Contact = () => {
     fetch('http://192.168.1.11:3000/api/v1/contacts')
       .then(response => response.json())
       .then(data => {
-        setContacts(data);
+        (data);
         setOriginalContacts(data.reduce((acc, contact) => {
           acc[contact.id] = { ...contact };
           return acc;
