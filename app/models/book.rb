@@ -6,7 +6,7 @@ class Book < ApplicationRecord
 
   def image_url
     if image.attached?
-      "http://192.168.1.3:3000#{rails_blob_path(image, only_path: true)}"
+      "http://192.168.1.11:3000#{rails_blob_path(image, only_path: true)}"
     end
   end
 end
