@@ -3,7 +3,7 @@ class CurrentCustomerController < ApplicationController
 
   def index
     if current_customer.present?
-      render json: { email: current_customer.email }, status: :ok
+      render json: { email: current_customer.email, firstname: current_customer.firstname }, status: :ok
       puts "-------------------#{current_customer.inspect}"
     else
       render_error("Current customer not found", 404)

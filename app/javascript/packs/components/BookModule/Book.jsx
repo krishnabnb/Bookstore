@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../SellerModule/saler.css';
+import { Link } from 'react-router-dom'; // Import Link from React Router
 import { NewBook } from './NewBook';
 
 export const Book = () => {
@@ -232,6 +233,7 @@ export const Book = () => {
             <th>Delete</th>
             <th>Edit</th>
             <th>Changed status</th>
+            <th>Show</th>
           </tr>
         </thead>
         <tbody>
@@ -293,7 +295,7 @@ export const Book = () => {
                     name="image"
                   />
                 ) : (
-                  <img src={book.image_url} alt="saler's image" style={{ width: '100px', height: '100px' }} />
+                    <img src={book.image_url} alt="saler's image" style={{ width: '100px', height: '100px' }} />
                 )}
               </td>
               <td>
@@ -338,6 +340,12 @@ export const Book = () => {
               <button onClick={() => handleToggleStatus(book.id)}>
                 Change Status
               </button>
+            </td>
+            <td>
+            <Link to={`/showbook/${book.id}`}>
+              <button> Show </button>
+            </Link>
+
             </td>
             </tr>
           ))}
