@@ -247,6 +247,20 @@ export const Book = () => {
     }
   };
 
+  const handleCartButtonClick = () => {
+    const quantity = window.prompt('Enter the quantity you want:', '1');
+    if (quantity !== null && !isNaN(quantity) && quantity !== '') {
+      const quantityInt = parseInt(quantity);
+      if (quantityInt > 0) {
+        window.alert(`You added ${quantityInt} item(s) to cart!`);
+      } else {
+        window.alert('Please enter a valid quantity!');
+      }
+    } else {
+      window.alert('Please enter a valid quantity!');
+    }
+  };
+
   return (
     <div>
       <div>
@@ -268,7 +282,7 @@ export const Book = () => {
         <input type="text" name="published_at" placeholder="Search by published_at" className='search-input' value={searchQuery.published_at} onChange={handleSearchInputChange} />
         <input type="text" name="published_status" placeholder="Search by published_status" className='search-input' value={searchQuery.published_status} onChange={handleSearchInputChange} />
         <button type="button" className='searchButton' onClick={handleSearch}>Search</button>
-        <button type="button" className='cancelButton' onClick={handleCancelSearch}>Cancel</button> {/* Add Cancel button */}
+        <button type="button" className='cancelButton' onClick={handleCancelSearch}>Cancel</button>
       </form>
       <table className="salers-table">
         <thead>
@@ -283,6 +297,7 @@ export const Book = () => {
             <th>Delete</th>
             <th>Edit</th>
             <th>Changed status</th>
+            <th>Add to Cart</th>
           </tr>
         </thead>
         <tbody>
@@ -394,6 +409,9 @@ export const Book = () => {
                   <button onClick={() => handleToggleStatus(book.id)}>
                     Change Status
                   </button>
+                </td>
+                <td>
+                  <button onClick={handleCartButtonClick}>Cart</button>
                 </td>
               </tr>
             )

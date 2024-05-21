@@ -8,6 +8,7 @@ export const Cart = () => {
     return savedCarts ? JSON.parse(savedCarts) : [];
   });
 
+  const [customers, setCustomers] = useState([]);
   const [books, setBooks] = useState([]);
   const [error, setError] = useState(null);
   const [editModes, setEditModes] = useState({});
@@ -15,7 +16,6 @@ export const Cart = () => {
 
   useEffect(() => {
     fetchCarts();
-    fetchBooks();
   }, []);
 
   const fetchCarts = async () => {
@@ -33,21 +33,6 @@ export const Cart = () => {
       }
     } catch (error) {
       console.error('Error fetching data:', error);
-      setError(error.message);
-    }
-  };
-
-  const fetchBooks = async () => {
-    try {
-      const response = await fetch('http://192.168.1.11:3000/api/v1/books');
-      if (response.ok) {
-        const data = await response.json();
-        setBooks(data);
-      } else {
-        throw new Error('Failed to fetch books');
-      }
-    } catch (error) {
-      console.error('Error fetching books:', error);
       setError(error.message);
     }
   };
@@ -186,18 +171,12 @@ export const Cart = () => {
               </td>
               <td>
                 {editModes[cart.id] ? (
-                  <select
+                  <input
                     name="book_id"
                     value={cart.book_id}
                     onChange={e => handleChange(e, cart)}
                     placeholder="Select Book"
-                  >
-                    {books.map(book => (
-                      <option key={book.id} value={book.id}>
-                        {book.title}
-                      </option>
-                    ))}
-                  </select>
+                  />
                 ) : (
                   cart.book_id
                 )}
