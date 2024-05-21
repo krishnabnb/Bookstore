@@ -1,6 +1,6 @@
 class Api::V1::BooksController < ApplicationController
   # before_action :authenticate_customer!
-  before_action :set_book, only: [:show, :update, :destroy, :image_destroy]
+  before_action :set_book, only: [:show, :update, :destroy, :image_destroy, :update_banner_image]
 
   def index
     @books = Book.all
@@ -13,7 +13,9 @@ class Api::V1::BooksController < ApplicationController
 
   def show
     @book = Book.find(params[:id])
-    render json: {book: BookSerializer.new(@book).serializable_hash[:data]}, status: :ok
+    book_data = BookSerializer.new(@book).serializable_hash[:data]
+    banner_image_url = @book.banner_image_url
+    render json: { banner_image_url: banner_image_url, book: book_data}, status: :ok
   end
 
   def image_destroy
@@ -58,6 +60,25 @@ class Api::V1::BooksController < ApplicationController
   def destroy
     @book.destroy
     render json: { message: "Book destroyed successfully" }, status: :ok
+  end
+
+  def update_banner_image
+    if params[:banner_image] && @book
+      @book.banner_image.attach(params[:banner_image])
+      render json: { message: 'Banner image updated successfully' }, status: :ok
+    else
+      render json: { error: 'No banner image provided or book not found' }, status: :unprocessable_entity
+    end
+  end
+
+  def remove_banner_image
+    @book = Book.find(params[:id])
+    if @book.banner_image.attached?
+      @book.banner_image.purge
+      render json: { message: 'Banner image removed successfully' }, status: :ok
+    else
+      render json: { error: 'No banner image attached to this book' }, status: :unprocessable_entity
+    end
   end
 
   private

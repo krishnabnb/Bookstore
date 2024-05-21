@@ -21,12 +21,16 @@ Rails.application.routes.draw do
         end
       end
       resources :books do
-        post 'update_image', to: 'book_show#update_image', on: :member
-        delete 'delete_image', to: 'book_show#delete_image'
+        # post 'update_image', to: 'book_show#update_image', on: :member
+        # delete 'delete_image', to: 'book_show#delete_image'
 
         member do
-          patch :update_status
+          patch  'update_status'
           delete 'image_destroy'
+          get 'default_banner_image' 
+          patch 'update_banner_image'
+          delete 'remove_banner_image'
+           
         end
       end
       resources :customers, only: [:index, :show, :create, :update, :destroy]
