@@ -57,7 +57,6 @@ export const Book = () => {
     }
   };
 
-
   const handleFormSubmit = async (title, author, description, price, published_at, image) => {
     console.log("image",image)
     const formdata = new FormData();
@@ -134,7 +133,6 @@ export const Book = () => {
     }));
   };
 
-  
   const handleDelete = id => {
     const confirmed = window.confirm("Are you sure you want to delete this saler?");
     if (confirmed) {
@@ -409,3 +407,4 @@ export const Book = () => {
     </div>
   );
 };
+

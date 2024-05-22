@@ -9,7 +9,6 @@ class Api::V1::ContactsController < ApplicationController
 
   def create
     @contact = Contact.new(contact_params)
-
     if @contact.save
       render json: @contact, status: :created
     else

@@ -156,10 +156,10 @@ h1{
 
 }
 .left-side h2{
-  margin-left: 20%;
   font-size: 40px;
   margin-top: 2%;
   width: 30%;
+  margin-left: 286px;
 }
 
 .left-side input{
@@ -168,7 +168,6 @@ h1{
   font-size: 30px;
   margin-bottom: 5%;
 }
-
 
 .subscribe-btn{
   background-color: #946659;

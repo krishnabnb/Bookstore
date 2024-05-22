@@ -14,7 +14,6 @@ class Api::V1::SalersController < ApplicationController
     end
   end
 
-  
   def create
     @saler = Saler.new(saler_params)
     if @saler.save
