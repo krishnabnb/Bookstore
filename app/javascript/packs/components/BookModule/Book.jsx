@@ -15,10 +15,44 @@ export const Book = () => {
     published_at: '',
     published_status: ''
   });
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modelData, setModelData] = useState(null);
+  const [banner, setBannerImageUrl] = useState('');
+
+  const fetchBookDetails = async (id) => {
+    try {
+      const response = await fetch(`http://192.168.1.11:3000/api/v1/books/${id}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch book details');
+      }
+      const bookData = await response.json();
+      console.log('Book Data:', bookData);
+
+      const { banner_image_url } = bookData;
+      setBannerImageUrl(banner_image_url);
+      setIsModalOpen(true);
+    } catch (error) {
+      console.error('Error fetching book details:', error);
+      setError(error.message);
+    }
+  };
+
+  const handleShowModal = (book) => {
+    setIsModalOpen(true);
+    setModelData(book)
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
   useEffect(() => {
     fetchBooks();
-  }, []);
+    if (modelData) {
+      console.log('Model Data:', modelData);
+    }
+  }, [modelData]);
+
 
   const fetchBooks = async () => {
     try {
@@ -42,11 +76,9 @@ export const Book = () => {
     formdata.append("book[description]", description);
     formdata.append("book[price]", price);
     formdata.append("book[published_at]", published_at);
-
     if (image) {
       formdata.append("book[image]", image);
     }
-
     try {
       const response = await fetch('http://192.168.1.11:3000/api/v1/books', {
         method: 'POST',
@@ -55,9 +87,7 @@ export const Book = () => {
 
       if (!response.ok) {
         throw new Error('Failed to add book');
-      }
-
-      const newBook = await response.json();
+      }const newBook = await response.json();
       addNewBook(newBook);
       await fetchBooks()
     } catch (error) {
@@ -217,7 +247,7 @@ export const Book = () => {
     setSearchQuery({ ...searchQuery, [e.target.name]: e.target.value });
   };
 
-  const handleCancelSearch = () => {
+  const handleCancelSearch = () => {handleShowDetails
     setSearchQuery({
       title: '',
       description: '',
@@ -232,7 +262,7 @@ export const Book = () => {
       const response = await fetch(`http://192.168.1.11:3000/api/v1/books/${bookId}/image_destroy`, {
         method: 'DELETE',
         headers: {
-          'Content-Type': 'application/json'
+        'Content-Type': 'application/json'
         }
       });
       if (response.ok) {
@@ -297,6 +327,7 @@ export const Book = () => {
             <th>Delete</th>
             <th>Edit</th>
             <th>Changed status</th>
+            <th>Show</th>
             <th>Add to Cart</th>
           </tr>
         </thead>
@@ -409,6 +440,31 @@ export const Book = () => {
                   <button onClick={() => handleToggleStatus(book.id)}>
                     Change Status
                   </button>
+                </td>
+                <td>
+                  <button onClick={() => { handleShowModal(book); fetchBookDetails(book.id); }} >Show Modal</button>
+                  {isModalOpen && (
+                    <div className="modal">
+                      <div className="modal-content">
+                        <span className="close" onClick={handleCloseModal}>&times;</span>
+                        <div>
+                          <img src={banner} alt="saler's image" style={{ width: '1750px', height: '500px' }} />
+                        </div>
+                        <input type='file'></input>
+                        <div>
+                          <img src={modelData.image_url} alt="saler's image" style={{ width: '300px', height: '300px', float:'right', marginRight: '500px', marginTop: '20px' }} />
+                        </div>
+                        <div style={{ marginLeft: '500px'}}>
+                          <h3>Title: {modelData.title}</h3>
+                          <h3>Author: {modelData.author}</h3>
+                          <h3>Description: {modelData.description}</h3>
+                          <h3>Price: {modelData.price}</h3>
+                          <h3>Published Status: {modelData.published_status}</h3>
+                          <h3>Published At: {modelData.published_at}</h3>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </td>
                 <td>
                   <button onClick={handleCartButtonClick}>Cart</button>

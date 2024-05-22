@@ -52,7 +52,7 @@ export const User = () => {
       addNewCustomer(customer);
     });
   };
-
+  
   const addNewCustomer = customer => {
     setCustomers(prevState => [...prevState, customer]);
   };
@@ -158,7 +158,8 @@ export const User = () => {
           </tr>
         </thead>
         <tbody>
-          {customers.slice().reverse().map(customer => (
+          {Array.isArray(customers) && customers?.map((customer) => (
+
             <tr key={customer.id}>
               <td>
                 {editModes[customer.id] ? (

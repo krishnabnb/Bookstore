@@ -22,6 +22,7 @@ import Historical from "./image/Historical";
 import Business from "./image/Business";
 import Login from './sing_up/Login';
 import Logout from './sing_up/Logout';
+
 import Forgotepassword from './Forgotepassword';
 
 const App = () => {
