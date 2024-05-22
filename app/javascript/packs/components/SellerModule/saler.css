@@ -62,3 +62,37 @@ input:hover{
   margin-left: 150px;
   margin-top: 10px;
 }
+
+.modal {
+  display: block;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+}
+
+.modal-content {
+  background-color: #fdfdfd;
+  height:850px;
+  width: 1750px;
+  border: 2px solid hsl(240, 5%, 4%);
+  position: relative;
+  margin-left: 50px;
+  margin-top: 50px;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: #16ad20;
+  text-decoration: none;
+  cursor: pointer;
+}

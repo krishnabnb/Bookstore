@@ -1,31 +1,63 @@
-import React, { useState, useEffect } from 'react';
+// import React, { useState, useEffect } from 'react';
+// import './cart.css';
+// import { useParams } from 'react-router-dom';
+
+// export const NewCart = (props) => {
+//   const { quntity } = useParams();
+
+//   const formFields = {};
+//   const handleFormSubmit = (e) => {
+//     e.preventDefault();
+
+//     const customer_id = formFields.customer_id.value;
+//     const book_id = formFields.book_id.value;
+//     const quntity = formFields.quntity.value;
+
+//     props.handleFormSubmit(customer_id, book_id, quntity);
+//     e.target.reset();
+//   };
+
+//   return (
+//     <form onSubmit={handleFormSubmit}>
+//       <input
+//         type="text"
+//         id="customer_id"
+//         ref={(input) => formFields.customer_id = input}
+//         placeholder="Enter the name"
+//         className='input-withcart'
+//         // value={sessionStorage.getItem('customername')}
+//       />
+//        <input
+//         type="text"
+//         id="book_id"
+//         ref={(input) => formFields.book_id = input}
+//         placeholder="Enter the quantity"
+//         className='input-withcart'
+//       />
+//       <input
+//         type="text"
+//         id="quantity"
+//         ref={(input) => formFields.quntity = input}
+//         placeholder="Enter the quantity"
+//         className='input-withcart'
+//       />
+//       <button type="submit" className='submit_Button'>Submit</button>
+//     </form>
+//   );
+// };
+
+
+import React from 'react';
 import './cart.css';
+import { useParams } from 'react-router-dom';
 
 export const NewCart = (props) => {
-  const [books, setBooks] = useState([]);
-
-  useEffect(() => {
-    fetchBooks();
-  }, []);
+  const { quantity } = useParams(); // Use a unique name for the parameter
 
   const formFields = {};
-
-  const fetchBooks = async () => {
-    try {
-      const response = await fetch('http://192.168.1.11:3000/api/v1/books');
-      if (response.ok) {
-        const data = await response.json();
-        setBooks(data);
-      } else {
-        throw new Error('Failed to fetch books');
-      }
-    } catch (error) {
-      console.error('Error fetching books:', error);
-    }
-  };
-
   const handleFormSubmit = (e) => {
     e.preventDefault();
+
     const customer_id = formFields.customer_id.value;
     const book_id = formFields.book_id.value;
     const quantity = formFields.quantity.value;
@@ -42,7 +74,14 @@ export const NewCart = (props) => {
         ref={(input) => formFields.customer_id = input}
         placeholder="Enter the name"
         className='input-withcart'
-        value={sessionStorage.getItem('customername')} // Set initial value to customer name from session storage
+        // value={sessionStorage.getItem('customername')}
+      />
+      <input
+        type="text"
+        id="book_id"
+        ref={(input) => formFields.book_id = input}
+        placeholder="Enter the book ID"
+        className='input-withcart'
       />
       <input
         type="text"
@@ -50,6 +89,7 @@ export const NewCart = (props) => {
         ref={(input) => formFields.quantity = input}
         placeholder="Enter the quantity"
         className='input-withcart'
+        defaultValue={quantity} // Use defaultValue to set the quantity
       />
       <button type="submit" className='submit_Button'>Submit</button>
     </form>

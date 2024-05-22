@@ -50,7 +50,7 @@ export const Saler = () => {
       const responseData = await response.json();
       console.log('Response data:', responseData);
       addNewSaler(responseData);
-      await fetchSalers(); // Update the list of salers after adding a new one
+      await fetchSalers();
     } catch (error) {
       console.error('Error submitting form:', error);
       setError(error.message);

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import '../SellerModule/saler.css';
-import { Link } from 'react-router-dom'; 
 import { NewBook } from './NewBook';
 import { RiDeleteBin5Line } from "react-icons/ri";
 
@@ -16,10 +15,44 @@ export const Book = () => {
     published_at: '',
     published_status: ''
   });
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modelData, setModelData] = useState(null);
+  const [banner, setBannerImageUrl] = useState('');
+
+  const fetchBookDetails = async (id) => {
+    try {
+      const response = await fetch(`http://192.168.1.11:3000/api/v1/books/${id}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch book details');
+      }
+      const bookData = await response.json();
+      console.log('Book Data:', bookData);
+
+      const { banner_image_url } = bookData;
+      setBannerImageUrl(banner_image_url);
+      setIsModalOpen(true);
+    } catch (error) {
+      console.error('Error fetching book details:', error);
+      setError(error.message);
+    }
+  };
+
+  const handleShowModal = (book) => {
+    setIsModalOpen(true);
+    setModelData(book)
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
   useEffect(() => {
     fetchBooks();
-  }, []);
+    if (modelData) {
+      console.log('Model Data:', modelData);
+    }
+  }, [modelData]);
+
 
   const fetchBooks = async () => {
     try {
@@ -34,6 +67,111 @@ export const Book = () => {
       console.error('Error fetching data:', error);
       setError(error.message);
     }
+  };
+
+  const handleFormSubmit = async (title, author, description, price, published_at, image) => {
+    const formdata = new FormData();
+    formdata.append("book[title]", title);
+    formdata.append("book[author]", author);
+    formdata.append("book[description]", description);
+    formdata.append("book[price]", price);
+    formdata.append("book[published_at]", published_at);
+    if (image) {
+      formdata.append("book[image]", image);
+    }
+    try {
+      const response = await fetch('http://192.168.1.11:3000/api/v1/books', {
+        method: 'POST',
+        body: formdata,
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to add book');
+      }const newBook = await response.json();
+      addNewBook(newBook);
+      await fetchBooks()
+    } catch (error) {
+      console.error('Error adding book:', error);
+      setError(error.message);
+    }
+  };
+
+  const addNewBook = book => {
+    setBooks(prevBooks => [...prevBooks, book]);
+  };
+
+  const handleEdit = bookId => {
+    setEditModes(prevState => ({
+      ...prevState,
+      [bookId]: true
+    }));
+  };
+
+  const handleSubmit = (book) => {
+    setEditModes(prevState => ({
+      ...prevState,
+      [book.id]: false
+    }));
+    handleUpdate(book);
+  };
+
+  const handleBackButtonClick = (book) => {
+    const originalBook = originalBooks[book.id];
+    console.log(originalBook);
+    setBooks((prevBooks) =>
+      prevBooks.map((b) => (b && b.id === book.id ? originalBook : b))
+    );
+    setEditModes((prevModes) => ({
+      ...prevModes,
+      [book.id]: false,
+    }));
+  };
+
+  const handleDelete = async id => {
+    const confirmed = window.confirm("Are you sure you want to delete this book?");
+    if (confirmed) {
+      try {
+        const response = await fetch(`http://192.168.1.11:3000/api/v1/books/${id}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        if (response.ok) {
+          deleteBook(id);
+          console.log('Item was deleted!');
+        } else {
+          throw new Error('Failed to delete book');
+        }
+      } catch (error) {
+        console.error('Error deleting book:', error);
+        setError(error.message);
+      }
+    }
+  };
+
+  const deleteBook = id => {
+    setBooks(prevBooks => prevBooks.filter(book => book.id !== id));
+  };
+
+  const handleUpdate = async book => {
+    fetch(`http://192.168.1.11:3000/api/v1/books/${book.id}`, {
+      method: 'PUT',
+      body: JSON.stringify({ book: book }),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    })
+    .then(response => response.json())
+    .then(updatedBook => {
+      updateBook(updatedBook);
+    });
+  };
+
+  const updateBook = updatedBook => {
+    setBooks(prevBooks =>
+      prevBooks.map(book => (book.id === updatedBook.id ? updatedBook : book))
+    );
   };
 
   const handleImageChange = async (e, book) => {
@@ -57,106 +195,11 @@ export const Book = () => {
     }
   };
 
-  const handleFormSubmit = async (title, author, description, price, published_at, image) => {
-    console.log("image",image)
-    const formdata = new FormData();
-    formdata.append("book[title]", title);
-    formdata.append("book[author]", author);
-    formdata.append("book[description]", description);
-    formdata.append("book[price]", price);
-    formdata.append("book[published_at]", published_at);
-    if(image){
-     formdata.append("book[image]", image);
-    }
-    const response = await fetch('http://192.168.1.11:3000/api/v1/books', {
-      method: 'POST',
-      body: formdata,
-    })
-    .then(response => response.json())
-    .then(book => {
-      addNewBook(book)
-    })
-    await fetchBooks()
-
-  };
-
-  const addNewBook = book => {
-    setBooks(prevBooks => [...prevBooks, book]);
-  };
-
-  const handleEdit = bookId => {
-    setEditModes(prevModes => ({
-      ...prevModes,
-      [bookId]: true
-    }));
-  };
-
-  const handleSubmit = async book => {
-    try {
-      const response = await fetch(`http://192.168.1.11:3000/api/v1/books/${book.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ book })
-      });
-      if (response.ok) {
-        const updatedBook = await response.json();
-        updateBook(updatedBook);
-      } else {
-        throw new Error('Failed to update book');
-      }
-    } catch (error) {
-      console.error('Error updating book:', error);
-      setError(error.message);
-    }
-  };
-
-  const updateBook = updatedBook => {
-    setBooks(prevBooks =>
-      prevBooks.map(book => (book.id === updatedBook.id ? updatedBook : book))
-    );
-    setEditModes(prevModes => ({
-      ...prevModes,
-      [updatedBook.id]: false
-    }));
-  };
-
-  const handleBackButtonClick = (book) => {
-    const originalBook = originalBooks[book.id];
-    setBooks ((prevBooks) =>
-      prevBooks.map((b) => (b && b.id === book.id ? originalBook : b))
-    );
-    setEditModes(prevModes => ({
-      ...prevModes,
-      [book.id]: false
-    }));
-  };
-
-  const handleDelete = id => {
-    const confirmed = window.confirm("Are you sure you want to delete this saler?");
-    if (confirmed) {
-      fetch(`http://192.168.1.11:3000/api/v1/books/ `, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }).then(() => {
-        console.log('Item was deleted!');
-        deleteBook(id)
-      });
-    }
-  };
-
-  const deleteBook = id => {
-    setBooks(prevBooks => prevBooks.filter(book => book.id !== id));
-  };
-
   const handleChange = (e, book) => {
     const { name, value } = e.target;
     const updatedBook = { ...book, [name]: value };
-    setBooks(prevBooks =>
-      prevBooks.map(b => (b.id === book.id ? updatedBook : b))
+    setBooks(prevState =>
+      prevState.map(b => (b.id === book.id ? updatedBook : b))
     );
   };
 
@@ -204,7 +247,7 @@ export const Book = () => {
     setSearchQuery({ ...searchQuery, [e.target.name]: e.target.value });
   };
 
-  const handleCancelSearch = () => {
+  const handleCancelSearch = () => {handleShowDetails
     setSearchQuery({
       title: '',
       description: '',
@@ -213,14 +256,13 @@ export const Book = () => {
     });
     fetchBooks();
   };
-  
-  
+
   const handleImageDelete = async (bookId) => {
     try {
       const response = await fetch(`http://192.168.1.11:3000/api/v1/books/${bookId}/image_destroy`, {
         method: 'DELETE',
         headers: {
-          'Content-Type': 'application/json'
+        'Content-Type': 'application/json'
         }
       });
       if (response.ok) {
@@ -234,6 +276,21 @@ export const Book = () => {
       setError(error.message);
     }
   };
+
+  const handleCartButtonClick = () => {
+    const quantity = window.prompt('Enter the quantity you want:', '1');
+    if (quantity !== null && !isNaN(quantity) && quantity !== '') {
+      const quantityInt = parseInt(quantity);
+      if (quantityInt > 0) {
+        window.alert(`You added ${quantityInt} item(s) to cart!`);
+      } else {
+        window.alert('Please enter a valid quantity!');
+      }
+    } else {
+      window.alert('Please enter a valid quantity!');
+    }
+  };
+
   return (
     <div>
       <div>
@@ -255,7 +312,7 @@ export const Book = () => {
         <input type="text" name="published_at" placeholder="Search by published_at" className='search-input' value={searchQuery.published_at} onChange={handleSearchInputChange} />
         <input type="text" name="published_status" placeholder="Search by published_status" className='search-input' value={searchQuery.published_status} onChange={handleSearchInputChange} />
         <button type="button" className='searchButton' onClick={handleSearch}>Search</button>
-        <button type="button" className='cancelButton' onClick={handleCancelSearch}>Cancel</button> {/* Add Cancel button */}
+        <button type="button" className='cancelButton' onClick={handleCancelSearch}>Cancel</button>
       </form>
       <table className="salers-table">
         <thead>
@@ -271,62 +328,64 @@ export const Book = () => {
             <th>Edit</th>
             <th>Changed status</th>
             <th>Show</th>
+            <th>Add to Cart</th>
           </tr>
         </thead>
         <tbody>
-          {Array.isArray(books) && books?.map((book) => (
-            <tr key={book.id}>
-              <td>
-                {editModes[book.id] ? (
-                  <input
-                    name="title"
-                    value={book.title}
-                    onChange={e => handleChange(e, book)}
-                    placeholder="Title"
-                  />
-                ) : (
-                  book.title
-                )}
-              </td>
-              <td>
-                {editModes[book.id] ? (
-                  <input
-                    name="author"
-                    value={book.author}
-                    onChange={e => handleChange(e, book)}
-                    placeholder="Author"
-                  />
-                ) : (
-                  book.author
-                )}
-              </td>
-              <td>
-                {editModes[book.id] ? (
-                  <input
-                    name="description"
-                    value={book.description}
-                    onChange={e => handleChange(e, book)}
-                    placeholder="Description"
-                  />
-                ) : (
-                  book.description
-                )}
-              </td>
-              <td>
-                {editModes[book.id] ? (
-                  <input
-                    name="price"
-                    value={book.price}
-                    onChange={e => handleChange(e, book)}
-                    placeholder="Price"
-                  />
-                ) : (
-                  book.price
-                )}
-              </td>
-              <td>
-                {editModes[book.id] ? (
-                  <input
+          {Array.isArray(books) && books.map((book) => (
+            book && (
+              <tr key={book.id}>
+                <td>
+                  {editModes[book.id] ? (
+                    <input
+                      name="title"
+                      value={book.title}
+                      onChange={e => handleChange(e, book)}
+                      placeholder="Title"
+                    />
+                  ) : (
+                    book.title
+                  )}
+                </td>
+                <td>
+                  {editModes[book.id] ? (
+                    <input
+                      name="author"
+                      value={book.author}
+                      onChange={e => handleChange(e, book)}
+                      placeholder="Author"
+                    />
+                  ) : (
+                    book.author
+                  )}
+                </td>
+                <td>
+                  {editModes[book.id] ? (
+                    <input
+                      name="description"
+                      value={book.description}
+                      onChange={e => handleChange(e, book)}
+                      placeholder="Description"
+                    />
+                  ) : (
+                    book.description
+                  )}
+                </td>
+                <td>
+                  {editModes[book.id] ? (
+                    <input
+                      name="price"
+                      value={book.price}
+                      onChange={e => handleChange(e, book)}
+                      placeholder="Price"
+                    />
+                  ) : (
+                    book.price
+                  )}
+                </td>
+                <td>
+                  {editModes[book.id] ? (
+                    <input
                       type="file"
                       onChange={e => handleImageChange(e, book)}
                       name="image"
@@ -340,57 +399,78 @@ export const Book = () => {
                     </>
                   )}
                 </td>
-              <td>
-                {editModes[book.id] ? (
-                  <input
-                    name="published_status"
-                    value={book.published_status}
-                    onChange={e => handleChange(e, book)}
-                    placeholder="Published_Status"
-                  />
-                ) : (
-                  book.published_status
-                )}
-              </td>
-              <td>
-                {editModes[book.id] ? (
-                  <input
-                    name="published_at"
-                    value={book.published_at}
-                    onChange={e => handleChange(e, book)}
-                    placeholder="Published_at"
-                  />
-                ) : (
-                  book.published_at
-                )}
-              </td>
-              <td>
-                <button onClick={() => handleDelete(book.id)}>Delete</button>
-              </td>
-              <td>
-                {editModes[book.id] ? (
-                  <div>
-                    <button onClick={() => handleSubmit(book)}>Submit</button>
-                    <button onClick={() => handleBackButtonClick(book)}>Back</button>
-                  </div>
-                ) : (
-                  <button onClick={() => handleEdit(book.id)}>Edit</button>
-                )}
-              </td>
-
-              <td>
-              <button onClick={() => handleToggleStatus(book.id)}>
-                Change Status
-              </button>
-            </td>
-            <td>
-            <Link to={`/showbook/${book.id}`}>
-              <button>
-                Show 
-              </button>
-            </Link>
-            </td>
-            </tr>
+                <td>
+                  {editModes[book.id] ? (
+                    <input
+                      name="published_status"
+                      value={book.published_status}
+                      onChange={e => handleChange(e, book)}
+                      placeholder="Published_Status"
+                    />
+                  ) : (
+                    book.published_status
+                  )}
+                </td>
+                <td>
+                  {editModes[book.id] ? (
+                    <input
+                      name="published_at"
+                      value={book.published_at}
+                      onChange={e => handleChange(e, book)}
+                      placeholder="Published_at"
+                    />
+                  ) : (
+                    book.published_at
+                  )}
+                </td>
+                <td>
+                  <button onClick={() => handleDelete(book.id)}>Delete</button>
+                </td>
+                <td>
+                  {editModes[book.id] ? (
+                    <div>
+                      <button onClick={() => handleSubmit(book)}>Submit</button>
+                      <button onClick={() => handleBackButtonClick(book)}>Back</button>
+                    </div>
+                  ) : (
+                    <button onClick={() => handleEdit(book.id)}>Edit</button>
+                  )}
+                </td>
+                <td>
+                  <button onClick={() => handleToggleStatus(book.id)}>
+                    Change Status
+                  </button>
+                </td>
+                <td>
+                  <button onClick={() => { handleShowModal(book); fetchBookDetails(book.id); }} >Show Modal</button>
+                  {isModalOpen && (
+                    <div className="modal">
+                      <div className="modal-content">
+                        <span className="close" onClick={handleCloseModal}>&times;</span>
+                        <div>
+                          <img src={banner} alt="saler's image" style={{ width: '1750px', height: '500px' }} />
+                        </div>
+                        <input type='file'></input>
+                        <div>
+                          <img src={modelData.image_url} alt="saler's image" style={{ width: '300px', height: '300px', float:'right', marginRight: '500px', marginTop: '20px' }} />
+                        </div>
+                        <div style={{ marginLeft: '500px'}}>
+                          <h3>Title: {modelData.title}</h3>
+                          <h3>Author: {modelData.author}</h3>
+                          <h3>Description: {modelData.description}</h3>
+                          <h3>Price: {modelData.price}</h3>
+                          <h3>Published Status: {modelData.published_status}</h3>
+                          <h3>Published At: {modelData.published_at}</h3>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </td>
+                <td>
+                  <button onClick={handleCartButtonClick}>Cart</button>
+                </td>
+              </tr>
+            )
           ))}
         </tbody>
       </table>
@@ -407,4 +487,3 @@ export const Book = () => {
     </div>
   );
 };
-
