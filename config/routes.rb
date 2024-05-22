@@ -21,11 +21,8 @@ Rails.application.routes.draw do
         end
       end
       resources :books do
-        post 'update_image', to: 'book_show#update_image', on: :member
-        delete 'delete_image', to: 'book_show#delete_image'
-
         member do
-          patch :update_status
+          patch  'update_status'
           delete 'image_destroy'
         end
       end
