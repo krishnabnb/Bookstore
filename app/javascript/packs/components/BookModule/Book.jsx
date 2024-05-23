@@ -9,12 +9,7 @@ export const Book = () => {
   const [editModes, setEditModes] = useState({});
   const [originalBooks, setOriginalBooks] = useState({});
   const [image, setImage] = useState(null);
-  const [searchQuery, setSearchQuery] = useState({
-    title: '',
-    description: '',
-    published_at: '',
-    published_status: ''
-  });
+  const [searchQuery, setSearchQuery] = useState({title: '', description: '', published_at: '', published_status: ''});
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modelData, setModelData] = useState(null);
   const [banner, setBannerImageUrl] = useState('');
@@ -29,7 +24,7 @@ export const Book = () => {
       console.log('Book Data:', bookData);
 
       const { banner_image_url } = bookData;
-      setBannerImageUrl(banner_image_url);
+      setBannerImageUrl(banner_image_url || '/image/defalt.jpg');
       setIsModalOpen(true);
     } catch (error) {
       console.error('Error fetching book details:', error);
@@ -52,7 +47,6 @@ export const Book = () => {
       console.log('Model Data:', modelData);
     }
   }, [modelData]);
-
 
   const fetchBooks = async () => {
     try {
@@ -195,6 +189,27 @@ export const Book = () => {
     }
   };
 
+  const handleBImageChange = async (e, book) => {
+    try {
+      const file = e.target.files[0];
+      console.log("Selected file:", file);
+      setImage(file);
+      const formdata = new FormData();
+      formdata.append("banner_image", file);
+      const response = await fetch(`http://192.168.1.11:3000/api/v1/books/${book.id}`, {
+        method: 'PATCH',
+        body: formdata,
+      });
+      const updatedBook = await response.json();
+      console.log("Updated book:", updatedBook);
+      updateBook(updatedBook);
+      await fetchBooks();
+    } catch (error) {
+      console.error('Error updating book image:', error);
+      setError(error.message);
+    }
+  };
+
   const handleChange = (e, book) => {
     const { name, value } = e.target;
     const updatedBook = { ...book, [name]: value };
@@ -211,6 +226,7 @@ export const Book = () => {
           'Content-Type': 'application/json'
         }
       });
+      <button onClick={() => handleEdit(book.id)}>Edit</button>
       if (response.ok) {
         const updatedBook = await response.json();
         const updatedBooks = books.map(book => {
@@ -247,24 +263,21 @@ export const Book = () => {
     setSearchQuery({ ...searchQuery, [e.target.name]: e.target.value });
   };
 
-  const handleCancelSearch = () => {handleShowDetails
-    setSearchQuery({
-      title: '',
-      description: '',
-      published_at: '',
-      published_status: ''
-    });
+  const handleCancelSearch = () => {
+    setSearchQuery({ title: '', description: '', published_at: '', published_status: ''});
     fetchBooks();
   };
 
-  const handleImageDelete = async (bookId) => {
+  const handleImageDelete = async (bookId, type) => {
     try {
       const response = await fetch(`http://192.168.1.11:3000/api/v1/books/${bookId}/image_destroy`, {
         method: 'DELETE',
         headers: {
-        'Content-Type': 'application/json'
-        }
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ type })
       });
+
       if (response.ok) {
         console.log('Image deleted successfully!');
         updateBookImage(bookId, null);
@@ -273,7 +286,6 @@ export const Book = () => {
       }
     } catch (error) {
       console.error('Error deleting image:', error);
-      setError(error.message);
     }
   };
 
@@ -317,18 +329,7 @@ export const Book = () => {
       <table className="salers-table">
         <thead>
           <tr>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Description</th>
-            <th>Price</th>
-            <th>Image</th>
-            <th>Published_Stattus</th>
-            <th>Published_at</th>
-            <th>Delete</th>
-            <th>Edit</th>
-            <th>Changed status</th>
-            <th>Show</th>
-            <th>Add to Cart</th>
+            <th>Title</th><th>Author</th><th>Description</th><th>Price</th><th>Image</th><th>Published_Stattus</th><th>Published_at</th><th>Delete</th><th>Edit</th><th>Changed status</th><th>Show</th><th>Add to Cart</th>
           </tr>
         </thead>
         <tbody>
@@ -337,95 +338,57 @@ export const Book = () => {
               <tr key={book.id}>
                 <td>
                   {editModes[book.id] ? (
-                    <input
-                      name="title"
-                      value={book.title}
-                      onChange={e => handleChange(e, book)}
-                      placeholder="Title"
-                    />
+                    <input name="title" value={book.title} onChange={e => handleChange(e, book)} placeholder="Title"/>
                   ) : (
                     book.title
                   )}
                 </td>
                 <td>
                   {editModes[book.id] ? (
-                    <input
-                      name="author"
-                      value={book.author}
-                      onChange={e => handleChange(e, book)}
-                      placeholder="Author"
-                    />
+                    <input name="author" value={book.author} onChange={e => handleChange(e, book)} placeholder="Author"/>
                   ) : (
                     book.author
                   )}
                 </td>
                 <td>
                   {editModes[book.id] ? (
-                    <input
-                      name="description"
-                      value={book.description}
-                      onChange={e => handleChange(e, book)}
-                      placeholder="Description"
-                    />
+                    <input name="description" value={book.description} onChange={e => handleChange(e, book)} placeholder="Description"/>
                   ) : (
                     book.description
                   )}
                 </td>
                 <td>
                   {editModes[book.id] ? (
-                    <input
-                      name="price"
-                      value={book.price}
-                      onChange={e => handleChange(e, book)}
-                      placeholder="Price"
-                    />
+                    <input name="price" value={book.price} onChange={e => handleChange(e, book)} placeholder="Price"/>
                   ) : (
                     book.price
                   )}
                 </td>
                 <td>
                   {editModes[book.id] ? (
-                    <input
-                      type="file"
-                      onChange={e => handleImageChange(e, book)}
-                      name="image"
-                    />
+                    <input type="file" onChange={e => handleImageChange(e, book)} name="image" />
                   ) : (
                     <>
                       <img src={book.image_url} alt="saler's image" style={{ width: '100px', height: '100px' }} />
-                      <div>
-                        <RiDeleteBin5Line onClick={() => handleImageDelete(book.id)} />
-                      </div>
+                      <div><RiDeleteBin5Line onClick={() => handleImageDelete(book.id, 'image')} /></div>
                     </>
                   )}
                 </td>
                 <td>
                   {editModes[book.id] ? (
-                    <input
-                      name="published_status"
-                      value={book.published_status}
-                      onChange={e => handleChange(e, book)}
-                      placeholder="Published_Status"
-                    />
+                    <input name="published_status" value={book.published_status} onChange={e => handleChange(e, book)} placeholder="Published_Status"/>
                   ) : (
                     book.published_status
                   )}
                 </td>
                 <td>
                   {editModes[book.id] ? (
-                    <input
-                      name="published_at"
-                      value={book.published_at}
-                      onChange={e => handleChange(e, book)}
-                      placeholder="Published_at"
-                    />
+                    <input name="published_at" value={book.published_at} onChange={e => handleChange(e, book)} placeholder="Published_at"/>
                   ) : (
                     book.published_at
                   )}
                 </td>
-                <td>
-                  <button onClick={() => handleDelete(book.id)}>Delete</button>
-                </td>
+                <td><button onClick={() => handleDelete(book.id)}>Delete</button></td>
                 <td>
                   {editModes[book.id] ? (
                     <div>
@@ -436,24 +399,17 @@ export const Book = () => {
                     <button onClick={() => handleEdit(book.id)}>Edit</button>
                   )}
                 </td>
-                <td>
-                  <button onClick={() => handleToggleStatus(book.id)}>
-                    Change Status
-                  </button>
-                </td>
+                <td><button onClick={() => handleToggleStatus(book.id)}>Change Status</button></td>
                 <td>
                   <button onClick={() => { handleShowModal(book); fetchBookDetails(book.id); }} >Show Modal</button>
                   {isModalOpen && (
                     <div className="modal">
                       <div className="modal-content">
                         <span className="close" onClick={handleCloseModal}>&times;</span>
-                        <div>
-                          <img src={banner} alt="saler's image" style={{ width: '1750px', height: '500px' }} />
-                        </div>
-                        <input type='file'></input>
-                        <div>
-                          <img src={modelData.image_url} alt="saler's image" style={{ width: '300px', height: '300px', float:'right', marginRight: '500px', marginTop: '20px' }} />
-                        </div>
+                        <div><img src={banner} alt="saler's image" style={{ width: '1750px', height: '500px' }} /></div>
+                        <input type="file" onChange={e => handleBImageChange(e, book)} name="image" />
+                        <div><RiDeleteBin5Line onClick={() => handleImageDelete(book.id, 'banner_image')} /></div>
+                        <div><img src={modelData.image_url} alt="saler's image" style={{ width: '300px', height: '300px', float:'right', marginRight: '500px', marginTop: '20px' }} /></div>
                         <div style={{ marginLeft: '500px'}}>
                           <h3>Title: {modelData.title}</h3>
                           <h3>Author: {modelData.author}</h3>
@@ -466,9 +422,7 @@ export const Book = () => {
                     </div>
                   )}
                 </td>
-                <td>
-                  <button onClick={handleCartButtonClick}>Cart</button>
-                </td>
+                <td><button onClick={handleCartButtonClick}>Cart</button></td>
               </tr>
             )
           ))}

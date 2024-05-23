@@ -9,7 +9,7 @@ class Book < ApplicationRecord
     if image.attached?
       "http://192.168.1.11:3000#{rails_blob_path(image, only_path: true)}"
     else
-      "http://192.168.1.11:3000/image/default.jpeg"
+      "http://192.168.1.11:3000/image/default12.jpeg"
     end
   end
 
@@ -17,7 +17,7 @@ class Book < ApplicationRecord
     if banner_image.attached?
       "http://192.168.1.11:3000#{rails_blob_path(banner_image, only_path: true)}"
     else
-      "http://192.168.1.11:3000/image/deflt.jpeg"
+      nil
     end
   end
 end
