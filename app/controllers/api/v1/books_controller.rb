@@ -74,6 +74,7 @@ class Api::V1::BooksController < ApplicationController
     end
   end
 
+
   private
 
   def set_book
