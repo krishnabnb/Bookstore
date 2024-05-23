@@ -22,21 +22,9 @@ import Historical from "./image/Historical";
 import Business from "./image/Business";
 import Login from './sing_up/Login';
 import Logout from './sing_up/Logout';
-
 import Forgotepassword from './Forgotepassword';
 
 const App = () => {
-  // const [loggedIn, setLoggedIn] = useState(false);
-
-  // const handleLogin = () => {
-  //   setLoggedIn(true);
-  // };
-
-  // // Function to handle logout
-  // const handleLogout = () => {
-  //   setLoggedIn(false);
-  // };
-
   return (
     <div>
       <BrowserRouter>

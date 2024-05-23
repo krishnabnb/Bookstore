@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { NewCart } from './NewCart';
 import { Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 export const Cart = () => {
   const [carts, setCarts] = useState(() => {
     const savedCarts = localStorage.getItem('carts');
     return savedCarts ? JSON.parse(savedCarts) : [];
   });
+  const { cartId } = useParams();
 
-  const [customers, setCustomers] = useState([]);
-  const [books, setBooks] = useState([]);
   const [error, setError] = useState(null);
   const [editModes, setEditModes] = useState({});
   const [originalCarts, setOriginalCarts] = useState({});
