@@ -40,7 +40,7 @@ class Api::V1::SalersController < ApplicationController
   def saler_params
     params.require(:saler).permit(:name, :email, :book_title, :price, :image)
   end
-  
+
   def set_saler
     @saler = Saler.find(params[:id])
   end

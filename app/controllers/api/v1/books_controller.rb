@@ -14,12 +14,8 @@ class Api::V1::BooksController < ApplicationController
   def show
     @book = Book.find(params[:id])
     book_data = BookSerializer.new(@book).serializable_hash[:data]
-    banner_image_url = @book.banner_image_url
-    render json: { banner_image_url: banner_image_url, book: book_data}, status: :ok
-    # @book = Book.find(params[:id])
-    # book_data = BookSerializer.new(@book).serializable_hash[:data]
-    # book_data[:banner_image_url] = @book.banner_image_url
-    # render json: { book: book_data }, status: :ok
+    book_data[:banner_image_url] = @book.banner_image_url
+    render json: { book: book_data }, status: :ok
   end
 
   def update_status
@@ -48,7 +44,7 @@ class Api::V1::BooksController < ApplicationController
     if @book.update(book_params)
       if params[:banner_image].present?
         @book.banner_image.attach(params[:banner_image])
-        render json: { message: ' banner image updated successfully' }, status: :ok
+        render json: { message: ' banner image updated successfully' , book: BookSerializer.new(@book).serializable_hash[:data]}, status: :ok
       else
         render json: { book: BookSerializer.new(@book).serializable_hash[:data], message: 'Book details updated successfully' }, status: :ok
       end
@@ -73,8 +69,6 @@ class Api::V1::BooksController < ApplicationController
       render json: { errors: "No image attached to this book or invalid type specified" }, status: :unprocessable_entity
     end
   end
-
-
   private
 
   def set_book
@@ -82,19 +76,6 @@ class Api::V1::BooksController < ApplicationController
   end
 
   def book_params
-    if params[:book].present?
-      params.require(:book).permit(:title, :author, :description, :release_date, :price, :published_status, :published_at, :image)
-    else
-      ActionController::Parameters.new{}.permit!
-    end
+    params.require(:book).permit(:title, :author, :description, :release_date, :price, :published_status, :published_at, :image,:banner_image)
   end
-
 end
-
-
-
-
-
-
-
-

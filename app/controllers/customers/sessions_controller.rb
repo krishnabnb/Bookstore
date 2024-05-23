@@ -4,7 +4,7 @@ class Customers::SessionsController < Devise::SessionsController
   respond_to :json
 
   def create
-    customer_params = params[:customer] || {} 
+    customer_params = params[:customer]
     email = customer_params[:email]
     password = customer_params[:password]
     customer = Customer.find_by(email: email)

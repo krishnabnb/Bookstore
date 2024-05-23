@@ -1,6 +1,6 @@
 class BookSerializer
   include JSONAPI::Serializer
-  attributes :id, :title, :author, :description,:published_at, :published_status, :price, :image_url
+  attributes :id, :title, :author, :description,:published_at, :published_status, :price, :image_url, :banner_image_url
 
   def serializable_hash(*)
     begin
