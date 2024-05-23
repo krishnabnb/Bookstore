@@ -195,14 +195,15 @@ export const Book = () => {
       console.log("Selected file:", file);
       setImage(file);
       const formdata = new FormData();
-      formdata.append("banner_image", file);
+      formdata.append("book[banner_image]", file);
       const response = await fetch(`http://192.168.1.11:3000/api/v1/books/${book.id}`, {
         method: 'PATCH',
         body: formdata,
       });
       const updatedBook = await response.json();
       console.log("Updated book:", updatedBook);
-      updateBook(updatedBook);
+      updateBook(updatedBook.book);
+      setBannerImageUrl(updatedBook.book.banner_image_url)
       await fetchBooks();
     } catch (error) {
       console.error('Error updating book image:', error);
