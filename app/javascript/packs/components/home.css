@@ -16,21 +16,21 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 100px;
+  /* margin-top: 10px; */
 }
 
 .header h2 {
-  margin-bottom: 10px;
+  /* margin-bottom: 10px; */
 }
 
 .header .images {
   display: flex;
   justify-content: center;
-  margin-top: 20px;
+  /* margin-top: 20px; */
 }
 
 .header .images div {
-  margin: 0 5px;
+  /* margin: 0 5px; */
 }
 
 
@@ -52,14 +52,14 @@
   width: 40%;
 }
 
-.story-container {
+.storyqaq-container {
   display: flex;
   justify-content: space-between;
 }
 
-.text-container {
+.texvert-container {
   width: 50%;
-  margin-top: 220px;
+  margin-top: 10px                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            20px;
   margin-left: 30px;
 }
 
@@ -75,11 +75,13 @@
 
 .abcd{
   margin-left: 60px;
+  margin-top: -150px;
 }
 
 .xbcd{
   margin-right: 250px;
   font-size: 14px;
+  margin-top: -150px;
 }
 
 .xyz{
@@ -119,4 +121,73 @@
 
 .text-header12{
   margin-bottom: 500px;
+}
+
+.Persol{
+  margin: 15%;
+  margin-top: 130px;
+}
+
+.newbook{
+  text-align: center;
+  margin-top: 150px;
+}
+
+.bookimage{
+  width: 300px;
+  height: 300px;
+}
+
+.booktext{
+  margin-left: 150px;
+  margin-top: 5px;
+}
+
+.bookstar {
+  font-size: 30px;
+  margin-left: 120px;
+  margin-top: -10px;
+}
+
+.star-container {
+  display: inline-block;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.star-container:hover .star {
+  color: yellow;
+}
+
+.star {
+  color: rgb(7, 7, 7)
+}
+
+/* .horizontal-counters {
+  display: flex;
+}
+
+.green-container {
+  background-color: green;
+  margin-right: 10px;
+  height: 200px;
+} */
+
+
+.horizontal-counters {
+  display: flex;
+}
+
+.green-container {
+  background-color:#946659;
+  height: 300px;
+  margin-top: 150px;
+}
+
+.horizontal-counters > div {
+  margin-left: 250px;
+  padding: 10px;
+  margin-top: 60px;
+  color: aliceblue;
+
 }

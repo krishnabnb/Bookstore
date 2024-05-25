@@ -90,7 +90,6 @@ function Login() {
     }
   };
 
-
   const register = async (e) => {
     e.preventDefault();
     try {
@@ -136,8 +135,8 @@ function Login() {
 
   return (
     <div>
-      <div className={`container ${isSignUpMode ? 'sign-up-mode' : ''}`}>
-        <div className="forms-container">
+      <div className={`container123 ${isSignUpMode ? 'sign-up-mode' : ''}`}>
+        <div className="forms-container123">
           <div className="signin-signup">
             <form onSubmit={handleSubmit} className="sign-in-form">
               <h2 className="title123">Sign in</h2>
@@ -151,7 +150,7 @@ function Login() {
                 <a href="#" className="iconicon">
                   <FaUnlock className='icon'></FaUnlock>
                 </a>
-                <div className="password-input-container">
+                <div className="password-input-container123">
                   <input type={showPassword ? "text" : "password"} placeholder='password' value={password} onChange={(e) => setPassword(e.target.value)}/>
                   <a href="#" className="toggle-password-icon" onClick={() => setShowPassword(!showPassword)}>
                     {showPassword ? <BiHide className='icon'></BiHide> : <BiShow className='icon'></BiShow>}
@@ -220,7 +219,7 @@ function Login() {
                 <a href="#" className="iconicon">
                   <FaUnlock className='icon'></FaUnlock>
                 </a>
-                <div className="password-input-container">
+                <div className="password-input-container123">
                   <input type={showPassword ? "text" : "password"} placeholder='password' value={password} onChange={(e) => setPassword(e.target.value)}/>
                   <a href="#" className="toggle-password-icon" onClick={() => setShowPassword(!showPassword)}>
                     {showPassword ? <BiHide className='icon'></BiHide> : <BiShow className='icon'></BiShow>}
@@ -231,7 +230,7 @@ function Login() {
                 <a href="#" className="iconicon">
                   <FaUnlock className='icon'></FaUnlock>
                 </a>
-                <div className="password-input-container">
+                <div className="password-input-container123">
                   <input type={showPassword ? "text" : "password"} placeholder='password_confirmation' value={password_confirmation} onChange={(e) => setPassword_confirmation(e.target.value)}/>
                   <a href="#" className="toggle-password-icon" onClick={() => setShowPassword(!showPassword)}>
                     {showPassword ? <BiHide className='icon'></BiHide> : <BiShow className='icon'></BiShow>}
@@ -259,7 +258,7 @@ function Login() {
           </div>
         </div>
 
-        <div className="panels-container">
+        <div className="panels-container123">
           <div className="panel left-panel">
             <div className="content">
               <h3>New to our community ?</h3>

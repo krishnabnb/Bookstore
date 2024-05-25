@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import '../SellerModule/saler.css';
 import { NewBook } from './NewBook';
 import { RiDeleteBin5Line } from "react-icons/ri";
+import toastr from 'toastr';
+import 'toastr/build/toastr.css';
 
 export const Book = () => {
   const [books, setBooks] = useState([]);
@@ -18,7 +20,8 @@ export const Book = () => {
     try {
       const response = await fetch(`http://192.168.1.8:3000/api/v1/books/${id}`);
       if (!response.ok) {
-        throw new Error('Failed to fetch book details');
+        const errorData = await response.json();
+        throw new Error(errorData.status.message);
       }
       const bookData = await response.json();
       console.log('Book Data:', bookData);
@@ -29,6 +32,7 @@ export const Book = () => {
     } catch (error) {
       console.error('Error fetching book details:', error);
       setError(error.message);
+      toastr.error('Login failed: ' + error.message);
     }
   };
 
@@ -80,13 +84,16 @@ export const Book = () => {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to add book');
-      }const newBook = await response.json();
+        const errorData = await response.json();
+        throw new Error(errorData.status.message);
+      }
+      const newBook = await response.json();
       addNewBook(newBook);
       await fetchBooks()
     } catch (error) {
       console.error('Error adding book:', error);
       setError(error.message);
+      toastr.error(error.message);
     }
   };
 
@@ -208,6 +215,8 @@ export const Book = () => {
     } catch (error) {
       console.error('Error updating book image:', error);
       setError(error.message);
+      toastr.error('Login failed: ' + error.message);
+
     }
   };
 
@@ -227,7 +236,6 @@ export const Book = () => {
           'Content-Type': 'application/json'
         }
       });
-      <button onClick={() => handleEdit(book.id)}>Edit</button>
       if (response.ok) {
         const updatedBook = await response.json();
         const updatedBooks = books.map(book => {
@@ -236,7 +244,9 @@ export const Book = () => {
           }
           return book;
         });
-        setBooks(updatedBooks);
+        setBooks(updatedBook);
+        await fetchBooks();
+
       } else {
         throw new Error('Failed to update status');
       }
@@ -250,11 +260,11 @@ export const Book = () => {
       const response = await fetch('http://192.168.1.8:3000/api/v1/books?title=' + searchQuery.title + '&description=' + searchQuery.description + '&published_at=' + searchQuery.published_at + '&published_status=' + searchQuery.published_status);
       if (response.ok) {
         const data = await response.json();
-        setBooks(data);
-      } else {
+        setBooks(data?.book || []);
+      }else {
         throw new Error('Failed to fetch data');
       }
-    } catch (error) {
+    }catch (error) {
       console.error('Error searching data:', error);
       setError(error.message);
     }
@@ -401,7 +411,7 @@ export const Book = () => {
                 </td>
                 <td><button onClick={() => handleToggleStatus(book.id)}>Change Status</button></td>
                 <td>
-                  <button onClick={() => { handleShowModal(book); fetchBookDetails(book.id); }} >Show Modal</button>
+                  <button onClick={() => { handleShowModal(book); fetchBookDetails(book.id); }} >Show</button>
                   {isModalOpen && (
                     <div className="modal">
                       <div className="modal-content">
