@@ -38,11 +38,12 @@ const Footer = () => {
 
 const styles = {
   footer: {
-    backgroundColor: '#333',
+    backgroundColor: '#000435',
     color: '#fff',
     padding: '20px 0',
     marginTop: '-17px',
     textAlign: 'center',
+    height: '150px'
   },
   container: {
     maxWidth: '1600px',
@@ -82,7 +83,7 @@ const styles = {
   },
   copyright: {
     color: 'white',
-    marginTop: '140px',
+    marginTop: '5px',
     marginBottom: '30px',
     fontSize: '14px',
   },

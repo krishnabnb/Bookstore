@@ -8,7 +8,7 @@ const Logout = () => {
   const handleLogout = async () => {
     try {
       const token = sessionStorage.getItem('jsonwebtoken');
-      const response = await fetch('http://192.168.1.11:3000/logout', {
+      const response = await fetch('http://192.168.1.6:3000/logout', {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
