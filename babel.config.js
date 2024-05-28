@@ -35,7 +35,8 @@ module.exports = function(api) {
           exclude: ['transform-typeof-symbol']
         }
       ],
-      '@babel/preset-react' // Add @babel/preset-react here
+      // Add @babel/preset-react for JSX transformation
+      (isProductionEnv || isDevelopmentEnv) && '@babel/preset-react'
     ].filter(Boolean),
     plugins: [
       'babel-plugin-macros',
