@@ -47,10 +47,7 @@ export const Book = () => {
 
   useEffect(() => {
     fetchBooks();
-    if (modelData) {
-      console.log('Model Data:', modelData);
-    }
-  }, [modelData]);
+  }, []);
 
   const fetchBooks = async () => {
     try {
@@ -215,10 +212,9 @@ export const Book = () => {
     } catch (error) {
       console.error('Error updating book image:', error);
       setError(error.message);
-      toastr.error('Login failed: ' + error.message);
-
     }
   };
+
 
   const handleChange = (e, book) => {
     const { name, value } = e.target;
@@ -257,7 +253,13 @@ export const Book = () => {
 
   const handleSearch = async () => {
     try {
-      const response = await fetch('http://192.168.1.8:3000/api/v1/books?title=' + searchQuery.title + '&description=' + searchQuery.description + '&published_at=' + searchQuery.published_at + '&published_status=' + searchQuery.published_status);
+      const queryParams = new URLSearchParams();
+      if (searchQuery.title) queryParams.append('title', searchQuery.title);
+      if (searchQuery.description) queryParams.append('description', searchQuery.description);
+      if (searchQuery.published_at) queryParams.append('published_at', searchQuery.published_at);
+      if (searchQuery.published_status) queryParams.append('published_status', searchQuery.published_status);
+      const url = `http://192.168.1.8:3000/api/v1/books?${queryParams.toString()}`;
+      const response = await fetch(url);
       if (response.ok) {
         const data = await response.json();
         setBooks(data?.book || []);
@@ -416,7 +418,7 @@ export const Book = () => {
                     <div className="modal">
                       <div className="modal-content">
                         <span className="close" onClick={handleCloseModal}>&times;</span>
-                        <div><img src={banner} alt="book's banner image" style={{ width: '1750px', height: '500px' }} /></div>
+                        <div><img src={banner} alt="saler's image" style={{ width: '1750px', height: '500px' }} /></div>
                         <input type="file" onChange={e => handleBImageChange(e, book)} name="image" />
                         <div><RiDeleteBin5Line onClick={() => handleImageDelete(book.id, 'banner_image')} /></div>
                         <div><img src={modelData.image_url} alt="saler's image" style={{ width: '300px', height: '300px', float:'right', marginRight: '500px', marginTop: '20px' }} /></div>

@@ -57,7 +57,7 @@ export const Contact = () => {
   };
 
   const handleupdate = contact => {
-    fetch(`http://192.168.1.8:3000/api/v1/salers/${saler.id}`, {
+    fetch(`http://192.168.1.8:3000/api/v1/contacts/${contact.id}`, {
       method: 'PUT',
       body: JSON.stringify({contact: contact}),
       headers: {
@@ -114,8 +114,8 @@ export const Contact = () => {
     );
   };
 
-  const handleFormSubmit = (name, email, subject, massage) => {
-    const body = JSON.stringify({ contact: { name, email, subject, massage } })
+  const handleFormSubmit = (name, email,phone_number, subject, massage) => {
+    const body = JSON.stringify({ contact: { name, email, phone_number, subject, massage } })
     fetch('http://192.168.1.8:3000/api/v1/contacts', {
       method: 'POST',
       headers: {
@@ -151,6 +151,7 @@ export const Contact = () => {
               <tr>
                 <th>Name</th>
                 <th>Email</th>
+                <th>Phoneno</th>
                 <th>Subject</th>
                 <th>Massage</th>
                 <th>Delete</th>
@@ -182,6 +183,18 @@ export const Contact = () => {
                       />
                     ) : (
                       contact.email
+                    )}
+                  </td>
+                  <td>
+                    {editModes[contact.id] ? (
+                      <input
+                        name="phone"
+                        value={contact.phone_number}
+                        onChange={e => handleChange(e, contact)}
+                        placeholder="phoneno"
+                      />
+                    ) : (
+                      contact.phone_number
                     )}
                   </td>
                   <td>
