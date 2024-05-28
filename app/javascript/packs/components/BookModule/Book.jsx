@@ -16,7 +16,7 @@ export const Book = () => {
 
   const fetchBookDetails = async (id) => {
     try {
-      const response = await fetch(`http://192.168.1.11:3000/api/v1/books/${id}`);
+      const response = await fetch(`http://192.168.1.8:3000/api/v1/books/${id}`);
       if (!response.ok) {
         throw new Error('Failed to fetch book details');
       }
@@ -50,7 +50,7 @@ export const Book = () => {
 
   const fetchBooks = async () => {
     try {
-      const response = await fetch('http://192.168.1.11:3000/api/v1/books');
+      const response = await fetch('http://192.168.1.8:3000/api/v1/books');
       if (!response.ok) {
         throw new Error('Failed to fetch data');
       }
@@ -74,7 +74,7 @@ export const Book = () => {
       formdata.append("book[image]", image);
     }
     try {
-      const response = await fetch('http://192.168.1.11:3000/api/v1/books', {
+      const response = await fetch('http://192.168.1.8:3000/api/v1/books', {
         method: 'POST',
         body: formdata,
       });
@@ -125,7 +125,7 @@ export const Book = () => {
     const confirmed = window.confirm("Are you sure you want to delete this book?");
     if (confirmed) {
       try {
-        const response = await fetch(`http://192.168.1.11:3000/api/v1/books/${id}`, {
+        const response = await fetch(`http://192.168.1.8:3000/api/v1/books/${id}`, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json'
@@ -149,7 +149,7 @@ export const Book = () => {
   };
 
   const handleUpdate = async book => {
-    fetch(`http://192.168.1.11:3000/api/v1/books/${book.id}`, {
+    fetch(`http://192.168.1.8:3000/api/v1/books/${book.id}`, {
       method: 'PUT',
       body: JSON.stringify({ book: book }),
       headers: {
@@ -175,7 +175,7 @@ export const Book = () => {
       setImage(file);
       const formdata = new FormData();
       formdata.append("book[image]", file);
-      const response = await fetch(`http://192.168.1.11:3000/api/v1/books/${book.id}`, {
+      const response = await fetch(`http://192.168.1.8:3000/api/v1/books/${book.id}`, {
         method: 'PUT',
         body: formdata,
       });
@@ -196,7 +196,7 @@ export const Book = () => {
       setImage(file);
       const formdata = new FormData();
       formdata.append("book[banner_image]", file);
-      const response = await fetch(`http://192.168.1.11:3000/api/v1/books/${book.id}`, {
+      const response = await fetch(`http://192.168.1.8:3000/api/v1/books/${book.id}`, {
         method: 'PATCH',
         body: formdata,
       });
@@ -221,7 +221,7 @@ export const Book = () => {
 
   const handleToggleStatus = async (id) => {
     try {
-      const response = await fetch(`http://192.168.1.11:3000/api/v1/books/${id}/update_status`, {
+      const response = await fetch(`http://192.168.1.8:3000/api/v1/books/${id}/update_status`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json'
@@ -247,7 +247,7 @@ export const Book = () => {
 
   const handleSearch = async () => {
     try {
-      const response = await fetch('http://192.168.1.11:3000/api/v1/books?title=' + searchQuery.title + '&description=' + searchQuery.description + '&published_at=' + searchQuery.published_at + '&published_status=' + searchQuery.published_status);
+      const response = await fetch('http://192.168.1.8:3000/api/v1/books?title=' + searchQuery.title + '&description=' + searchQuery.description + '&published_at=' + searchQuery.published_at + '&published_status=' + searchQuery.published_status);
       if (response.ok) {
         const data = await response.json();
         setBooks(data);
@@ -271,7 +271,7 @@ export const Book = () => {
 
   const handleImageDelete = async (bookId, type) => {
     try {
-      const response = await fetch(`http://192.168.1.11:3000/api/v1/books/${bookId}/image_destroy`, {
+      const response = await fetch(`http://192.168.1.8:3000/api/v1/books/${bookId}/image_destroy`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -303,7 +303,6 @@ export const Book = () => {
       window.alert('Please enter a valid quantity!');
     }
   };
-
   return (
     <div>
       <div>
@@ -407,7 +406,7 @@ export const Book = () => {
                     <div className="modal">
                       <div className="modal-content">
                         <span className="close" onClick={handleCloseModal}>&times;</span>
-                        <div><img src={banner} alt="saler's image" style={{ width: '1750px', height: '500px' }} /></div>
+                        <div><img src={banner} alt="book's banner image" style={{ width: '1750px', height: '500px' }} /></div>
                         <input type="file" onChange={e => handleBImageChange(e, book)} name="image" />
                         <div><RiDeleteBin5Line onClick={() => handleImageDelete(book.id, 'banner_image')} /></div>
                         <div><img src={modelData.image_url} alt="saler's image" style={{ width: '300px', height: '300px', float:'right', marginRight: '500px', marginTop: '20px' }} /></div>

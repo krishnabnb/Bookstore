@@ -24,3 +24,5 @@ console.log('Hello World from Webpacker');
 // Import toastr library
 import toastr from 'toastr';
 window.toastr = toastr;
+
+

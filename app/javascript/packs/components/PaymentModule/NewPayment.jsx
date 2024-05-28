@@ -21,7 +21,7 @@ export const NewPayment = (props) => {
 
   const fetchCarts = async () => {
     try {
-      const response = await fetch('http://192.168.1.11:3000/api/v1/carts');
+      const response = await fetch('http://192.168.1.8:3000/api/v1/carts');
       if (response.ok) {
         const data = await response.json();
         setCarts(data);
