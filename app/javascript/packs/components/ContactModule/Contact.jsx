@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './contact.css';
 import { Newcontact } from './Newcontact';
+import { FaSquareInstagram, FaTwitter, FaFacebook } from "react-icons/fa6";
+import { IoLogoWhatsapp } from "react-icons/io";
 
 export const Contact = () => {
   const [contacts, setContacts] = useState(() => {
@@ -55,7 +57,7 @@ export const Contact = () => {
   };
 
   const handleupdate = contact => {
-    fetch(`http://192.168.1.8:3000/api/v1/salers/${saler.id}`, {
+    fetch(`http://192.168.1.8:3000/api/v1/contacts/${contact.id}`, {
       method: 'PUT',
       body: JSON.stringify({contact: contact}),
       headers: {
@@ -112,8 +114,8 @@ export const Contact = () => {
     );
   };
 
-  const handleFormSubmit = (name, email, subject, massage) => {
-    const body = JSON.stringify({ contact: { name, email, subject, massage } })
+  const handleFormSubmit = (name, email,phone_number, subject, massage) => {
+    const body = JSON.stringify({ contact: { name, email, phone_number, subject, massage } })
     fetch('http://192.168.1.8:3000/api/v1/contacts', {
       method: 'POST',
       headers: {
@@ -131,40 +133,25 @@ export const Contact = () => {
     setContacts(prevState => [...prevState, contact]);
   };
 
-
   return (
     <div>
-      <div className='bio'>
-        <div className='title-2'>
-          <h1>Contact</h1>
-          <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit</p>
+      <div>
+        <div className='bio-container'>
+          <div className='title-2'>
+            <h1>Contacts</h1>
+            <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit</p>
+          </div>
         </div>
       </div>
       <div className="main">
-        <div className=''>
-          <h1 className='heding'>Get In Touch</h1>
-        </div>
-        <div className='line-1'>
-          <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit</p>
-        </div>
-        <div className='mail'>
-          <p>mail@example.com</p>
-        </div>
-        <div style={styles.line_to}></div>
-
-        <div>
-          <p className='msg'>Send Me a Message</p>
-        </div>
         <Newcontact handleFormSubmit={handleFormSubmit}/>
-        <div className='follow'>
-          <p>Follow Me</p>
-        </div>
         <div>
           <table className="salers-table">
             <thead>
               <tr>
                 <th>Name</th>
                 <th>Email</th>
+                <th>Phoneno</th>
                 <th>Subject</th>
                 <th>Massage</th>
                 <th>Delete</th>
@@ -196,6 +183,18 @@ export const Contact = () => {
                       />
                     ) : (
                       contact.email
+                    )}
+                  </td>
+                  <td>
+                    {editModes[contact.id] ? (
+                      <input
+                        name="phone"
+                        value={contact.phone_number}
+                        onChange={e => handleChange(e, contact)}
+                        placeholder="phoneno"
+                      />
+                    ) : (
+                      contact.phone_number
                     )}
                   </td>
                   <td>

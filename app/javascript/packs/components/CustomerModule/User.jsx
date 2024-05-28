@@ -52,7 +52,7 @@ export const User = () => {
       addNewCustomer(customer);
     });
   };
-  
+
   const addNewCustomer = customer => {
     setCustomers(prevState => [...prevState, customer]);
   };
