@@ -16,21 +16,21 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 100px;
+  /* margin-top: 10px; */
 }
 
 .header h2 {
-  margin-bottom: 10px;
+  /* margin-bottom: 10px; */
 }
 
 .header .images {
   display: flex;
   justify-content: center;
-  margin-top: 20px;
+  /* margin-top: 20px; */
 }
 
 .header .images div {
-  margin: 0 5px;
+  /* margin: 0 5px; */
 }
 
 
@@ -41,7 +41,12 @@
   border: none;
   border-radius: 3px;
   height: 40px;
+  transition: background-color 0.3s ease;
   cursor: pointer;
+}
+.btn:hover{
+  background-color: #e95930;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 .bio-image  img{
   margin-top: -100px;
@@ -52,14 +57,14 @@
   width: 40%;
 }
 
-.story-container {
+.storyqaq-container {
   display: flex;
   justify-content: space-between;
 }
 
-.text-container {
+.texvert-container {
   width: 50%;
-  margin-top: 220px;
+  margin-top: 10px 20px;
   margin-left: 30px;
 }
 
@@ -75,11 +80,13 @@
 
 .abcd{
   margin-left: 60px;
+  margin-top: -150px;
 }
 
 .xbcd{
   margin-right: 250px;
   font-size: 14px;
+  margin-top: -150px;
 }
 
 .xyz{
@@ -96,6 +103,13 @@
   cursor: pointer;
   margin-left: 280px;
   margin-top: 30px;
+  transition: background-color 0.3s ease;
+
+}
+
+.btn123:hover{
+  background-color: #e95930;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 .box{
@@ -119,4 +133,154 @@
 
 .text-header12{
   margin-bottom: 500px;
+}
+
+.Persol{
+  margin: 15%;
+  margin-top: 130px;
+}
+
+.newbook{
+  text-align: center;
+  margin-top: 150px;
+}
+
+.bookimage{
+  width: 300px;
+  height: 300px;
+}
+
+.booktext{
+  margin-left: 150px;
+  margin-top: 5px;
+}
+
+.bookstar {
+  font-size: 30px;
+  margin-left: 120px;
+  margin-top: -10px;
+}
+
+.star-container {
+  display: inline-block;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.star-container:hover .star {
+  color: yellow;
+}
+
+.star {
+  color: rgb(7, 7, 7)
+}
+
+.horizontal-counters {
+  display: flex;
+}
+
+.green-container {
+  background-color:#946659;
+  height: 300px;
+  margin-top: 150px;
+}
+
+.horizontal-counters > div {
+  margin-left: 250px;
+  padding: 10px;
+  margin-top: 60px;
+  color: aliceblue;
+
+}
+
+.BookImg img{
+  width: 300px;
+  height: 200px;
+  border-radius: 10px;
+  margin-right: 50px;
+  margin-top: 80px;
+}
+
+.BookImage img{
+  width: 600px;
+  height: 400px;
+  border-radius: 10px;
+  margin-right: 50px;
+}
+
+.pp{
+  margin-left: 450px;
+  font-size: 20px;
+}
+
+.pr{
+  margin-left: 250px;
+}
+
+.rr{
+  margin-left: 650px;
+  font-size: 20px;
+}
+
+.rp{
+  margin-left: 150px;
+}
+
+.read{
+  width: 180px;
+  background-color: #946659;
+  height: 60px;
+  border-radius: 25px;
+  margin-left: 850px;
+  border: none;
+  margin-top: 40px;
+  cursor: pointer;
+  color: white;
+  transition: background-color 0.3s ease;
+
+}
+.read:hover {
+  background-color: #e95930;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 18px;
+}
+
+.ebook img{
+  height: 300px;
+  width: 550px;
+}
+.downlodbook{
+ margin-top: 60px;
+}
+.icon-downlod{
+  color: #071230;
+  font-size: 40px;
+}
+.button{
+  width: 180px;
+  background-color: #946659;
+  height: 60px;
+  border-radius: 25px;
+  border: none;
+  cursor: pointer;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+.button:hover {
+  background-color: #e95930;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.box{
+  height: 550px;
+  width: 950px;
+  border-radius: 20px;
+  background-color: #946659;
+  margin-top: 190px;
+  color: white;
+}
+.abcdP{
+  margin-top: -520px;
+  margin-left: 335px;
+  color: white;
+  font-size: 30px;
 }

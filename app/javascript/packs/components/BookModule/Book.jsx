@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import '../SellerModule/saler.css';
 import { NewBook } from './NewBook';
 import { RiDeleteBin5Line } from "react-icons/ri";
+import toastr from 'toastr';
+import 'toastr/build/toastr.css';
 
 export const Book = () => {
   const [books, setBooks] = useState([]);
@@ -16,9 +18,10 @@ export const Book = () => {
 
   const fetchBookDetails = async (id) => {
     try {
-      const response = await fetch(`http://192.168.1.11:3000/api/v1/books/${id}`);
+      const response = await fetch(`http://192.168.1.8:3000/api/v1/books/${id}`);
       if (!response.ok) {
-        throw new Error('Failed to fetch book details');
+        const errorData = await response.json();
+        throw new Error(errorData.status.message);
       }
       const bookData = await response.json();
       console.log('Book Data:', bookData);
@@ -29,6 +32,7 @@ export const Book = () => {
     } catch (error) {
       console.error('Error fetching book details:', error);
       setError(error.message);
+      toastr.error('Login failed: ' + error.message);
     }
   };
 
@@ -43,14 +47,11 @@ export const Book = () => {
 
   useEffect(() => {
     fetchBooks();
-    if (modelData) {
-      console.log('Model Data:', modelData);
-    }
-  }, [modelData]);
+  }, []);
 
   const fetchBooks = async () => {
     try {
-      const response = await fetch('http://192.168.1.11:3000/api/v1/books');
+      const response = await fetch('http://192.168.1.8:3000/api/v1/books');
       if (!response.ok) {
         throw new Error('Failed to fetch data');
       }
@@ -74,19 +75,22 @@ export const Book = () => {
       formdata.append("book[image]", image);
     }
     try {
-      const response = await fetch('http://192.168.1.11:3000/api/v1/books', {
+      const response = await fetch('http://192.168.1.8:3000/api/v1/books', {
         method: 'POST',
         body: formdata,
       });
 
       if (!response.ok) {
-        throw new Error('Failed to add book');
-      }const newBook = await response.json();
+        const errorData = await response.json();
+        throw new Error(errorData.status.message);
+      }
+      const newBook = await response.json();
       addNewBook(newBook);
       await fetchBooks()
     } catch (error) {
       console.error('Error adding book:', error);
       setError(error.message);
+      toastr.error(error.message);
     }
   };
 
@@ -125,7 +129,7 @@ export const Book = () => {
     const confirmed = window.confirm("Are you sure you want to delete this book?");
     if (confirmed) {
       try {
-        const response = await fetch(`http://192.168.1.11:3000/api/v1/books/${id}`, {
+        const response = await fetch(`http://192.168.1.8:3000/api/v1/books/${id}`, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json'
@@ -149,7 +153,7 @@ export const Book = () => {
   };
 
   const handleUpdate = async book => {
-    fetch(`http://192.168.1.11:3000/api/v1/books/${book.id}`, {
+    fetch(`http://192.168.1.8:3000/api/v1/books/${book.id}`, {
       method: 'PUT',
       body: JSON.stringify({ book: book }),
       headers: {
@@ -175,7 +179,7 @@ export const Book = () => {
       setImage(file);
       const formdata = new FormData();
       formdata.append("book[image]", file);
-      const response = await fetch(`http://192.168.1.11:3000/api/v1/books/${book.id}`, {
+      const response = await fetch(`http://192.168.1.8:3000/api/v1/books/${book.id}`, {
         method: 'PUT',
         body: formdata,
       });
@@ -196,7 +200,7 @@ export const Book = () => {
       setImage(file);
       const formdata = new FormData();
       formdata.append("book[banner_image]", file);
-      const response = await fetch(`http://192.168.1.11:3000/api/v1/books/${book.id}`, {
+      const response = await fetch(`http://192.168.1.8:3000/api/v1/books/${book.id}`, {
         method: 'PATCH',
         body: formdata,
       });
@@ -211,6 +215,7 @@ export const Book = () => {
     }
   };
 
+
   const handleChange = (e, book) => {
     const { name, value } = e.target;
     const updatedBook = { ...book, [name]: value };
@@ -221,13 +226,12 @@ export const Book = () => {
 
   const handleToggleStatus = async (id) => {
     try {
-      const response = await fetch(`http://192.168.1.11:3000/api/v1/books/${id}/update_status`, {
+      const response = await fetch(`http://192.168.1.8:3000/api/v1/books/${id}/update_status`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json'
         }
       });
-      <button onClick={() => handleEdit(book.id)}>Edit</button>
       if (response.ok) {
         const updatedBook = await response.json();
         const updatedBooks = books.map(book => {
@@ -236,7 +240,9 @@ export const Book = () => {
           }
           return book;
         });
-        setBooks(updatedBooks);
+        setBooks(updatedBook);
+        await fetchBooks();
+
       } else {
         throw new Error('Failed to update status');
       }
@@ -247,14 +253,20 @@ export const Book = () => {
 
   const handleSearch = async () => {
     try {
-      const response = await fetch('http://192.168.1.11:3000/api/v1/books?title=' + searchQuery.title + '&description=' + searchQuery.description + '&published_at=' + searchQuery.published_at + '&published_status=' + searchQuery.published_status);
+      const queryParams = new URLSearchParams();
+      if (searchQuery.title) queryParams.append('title', searchQuery.title);
+      if (searchQuery.description) queryParams.append('description', searchQuery.description);
+      if (searchQuery.published_at) queryParams.append('published_at', searchQuery.published_at);
+      if (searchQuery.published_status) queryParams.append('published_status', searchQuery.published_status);
+      const url = `http://192.168.1.8:3000/api/v1/books?${queryParams.toString()}`;
+      const response = await fetch(url);
       if (response.ok) {
         const data = await response.json();
-        setBooks(data);
-      } else {
+        setBooks(data?.book || []);
+      }else {
         throw new Error('Failed to fetch data');
       }
-    } catch (error) {
+    }catch (error) {
       console.error('Error searching data:', error);
       setError(error.message);
     }
@@ -271,7 +283,7 @@ export const Book = () => {
 
   const handleImageDelete = async (bookId, type) => {
     try {
-      const response = await fetch(`http://192.168.1.11:3000/api/v1/books/${bookId}/image_destroy`, {
+      const response = await fetch(`http://192.168.1.8:3000/api/v1/books/${bookId}/image_destroy`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -402,7 +414,7 @@ export const Book = () => {
                 </td>
                 <td><button onClick={() => handleToggleStatus(book.id)}>Change Status</button></td>
                 <td>
-                  <button onClick={() => { handleShowModal(book); fetchBookDetails(book.id); }} >Show Modal</button>
+                  <button onClick={() => { handleShowModal(book); fetchBookDetails(book.id); }} >Show</button>
                   {isModalOpen && (
                     <div className="modal">
                       <div className="modal-content">
