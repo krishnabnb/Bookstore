@@ -44,20 +44,20 @@ class Api::V1::BooksController < ApplicationController
     if @book.update(book_params)
       if params[:banner_image].present?
         @book.banner_image.attach(params[:banner_image])
-        render json: { message: ' banner image updated successfully' , book: BookSerializer.new(@book).serializable_hash[:data]}, status: :ok
+        render json: { message: 'Banner image updated successfully', book: BookSerializer.new(@book).serializable_hash[:data] }, status: :ok
       else
         render json: { book: BookSerializer.new(@book).serializable_hash[:data], message: 'Book details updated successfully' }, status: :ok
       end
     else
       render json: { error: @book.errors.full_messages }, status: :unprocessable_entity
     end
-  end
+  end  
 
   def destroy
     @book.destroy
     render json: { message: "Book destroyed successfully" }, status: :ok
   end
-
+ 
   def image_destroy
     if @book.image.attached? && params[:type] == "image"
       @book.image.purge
@@ -69,6 +69,8 @@ class Api::V1::BooksController < ApplicationController
       render json: { errors: "No image attached to this book or invalid type specified" }, status: :unprocessable_entity
     end
   end
+  
+  
   private
 
   def set_book
