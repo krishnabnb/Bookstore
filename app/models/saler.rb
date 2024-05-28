@@ -7,7 +7,7 @@ class Saler < ApplicationRecord
     if image.attached?
       "http://192.168.1.6:3000#{rails_blob_path(image, only_path: true)}"
     else
-      "http://192.168.1.6:3000/image/default.jpeg"
+      "http://192.168.1.8:3000/image/default.jpeg"
     end
   end
 end

@@ -11,11 +11,11 @@ export const Newcontact = (props) => {
     e.preventDefault();
     const name = formFields.name.value;
     const email = formFields.email.value;
-    const phoneno = formFields.phoneno.value
+    const phone_number = formFields.phone_number.value
     const subject = formFields.subject.value;
     const massage = formFields.massage.value;
 
-    props.handleFormSubmit(name, email, phoneno, subject, massage);
+    props.handleFormSubmit(name, email, phone_number, subject, massage);
     e.target.reset();
   };
 
@@ -81,7 +81,7 @@ export const Newcontact = (props) => {
                   </div>
                   <div style={{display: 'flex' }}>
                     <div className="single-input-field">
-                      <input type="text" id="phoneno" ref={(input) => formFields.phoneno = input} placeholder="Enter the phoneno" />
+                      <input type="text" id="phone_number" ref={(input) => formFields.phone_number = input} placeholder="Enter the phoneno" />
                     </div>
                     <div className="single-input-field" style={{ marginLeft: '70px' }}>
                       <input type="text" id="subject" ref={(input) => formFields.subject = input} placeholder="Enter the subject" />

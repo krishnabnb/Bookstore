@@ -14,7 +14,7 @@ export const Contact = () => {
   const [originalContacts, setOriginalContacts] = useState({});
 
   useEffect(() => {
-    fetch('http://192.168.1.6:3000/api/v1/contacts')
+    fetch('http://192.168.1.8:3000/api/v1/contacts')
       .then(response => response.json())
       .then(data => {
         (data);
@@ -28,7 +28,7 @@ export const Contact = () => {
 
   const fetchContacts = async () => {
     try {
-      const response = await fetch('http://192.168.1.6:3000/api/v1/contacts');
+      const response = await fetch('http://192.168.1.8:3000/api/v1/contacts');
       if (response.ok) {
         const data = await response.json();
         setContacts(data);
@@ -57,7 +57,7 @@ export const Contact = () => {
   };
 
   const handleupdate = contact => {
-    fetch(`http://192.168.1.6:3000/api/v1/salers/${saler.id}`, {
+    fetch(`http://192.168.1.8:3000/api/v1/contacts/${contact.id}`, {
       method: 'PUT',
       body: JSON.stringify({contact: contact}),
       headers: {
@@ -90,7 +90,7 @@ export const Contact = () => {
   const handleDelete = async id => {
     const confirmed = window.confirm("Are you sure you want to delete this contact?");
     if (confirmed) {
-      const response = await fetch(`http://192.168.1.6:3000/api/v1/contacts/${id}`, {
+      const response = await fetch(`http://192.168.1.8:3000/api/v1/contacts/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json'
@@ -114,9 +114,9 @@ export const Contact = () => {
     );
   };
 
-  const handleFormSubmit = (name, email, subject, massage) => {
-    const body = JSON.stringify({ contact: { name, email, subject, massage } })
-    fetch('http://192.168.1.6:3000/api/v1/contacts', {
+  const handleFormSubmit = (name, email,phone_number, subject, massage) => {
+    const body = JSON.stringify({ contact: { name, email, phone_number, subject, massage } })
+    fetch('http://192.168.1.8:3000/api/v1/contacts', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -151,6 +151,7 @@ export const Contact = () => {
               <tr>
                 <th>Name</th>
                 <th>Email</th>
+                <th>Phoneno</th>
                 <th>Subject</th>
                 <th>Massage</th>
                 <th>Delete</th>
@@ -182,6 +183,18 @@ export const Contact = () => {
                       />
                     ) : (
                       contact.email
+                    )}
+                  </td>
+                  <td>
+                    {editModes[contact.id] ? (
+                      <input
+                        name="phone"
+                        value={contact.phone_number}
+                        onChange={e => handleChange(e, contact)}
+                        placeholder="phoneno"
+                      />
+                    ) : (
+                      contact.phone_number
                     )}
                   </td>
                   <td>

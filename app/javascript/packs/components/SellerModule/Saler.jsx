@@ -16,7 +16,7 @@ export const Saler = () => {
 
   const fetchSalers = async () => {
     try {
-      const response = await fetch('http://192.168.1.6:3000/api/v1/salers');
+      const response = await fetch('http://192.168.1.8:3000/api/v1/salers');
       if (!response.ok) {
         throw new Error('Failed to fetch data');
       }
@@ -40,7 +40,7 @@ export const Saler = () => {
       formdata.append("saler[image]", image);
     }
     try {
-      const response = await fetch('http://192.168.1.6:3000/api/v1/salers', {
+      const response = await fetch('http://192.168.1.8:3000/api/v1/salers', {
         method: 'POST',
         body: formdata,
       });
@@ -90,7 +90,7 @@ export const Saler = () => {
   const handleDelete = id => {
     const confirmed = window.confirm("Are you sure you want to delete this saler?");
     if (confirmed) {
-      fetch(`http://192.168.1.6:3000/api/v1/salers/${id}`, {
+      fetch(`http://192.168.1.8:3000/api/v1/salers/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json'
@@ -107,7 +107,7 @@ export const Saler = () => {
   };
 
   const handleUpdate = saler => {
-    fetch(`http://192.168.1.6:3000/api/v1/salers/${saler.id}`, {
+    fetch(`http://192.168.1.8:3000/api/v1/salers/${saler.id}`, {
       method: 'PUT',
       body: JSON.stringify({ saler: saler }),
       headers: {
@@ -141,7 +141,7 @@ export const Saler = () => {
       setImage(file);
       const formdata = new FormData();
       formdata.append("saler[image]", file);
-      const response = await fetch(`http://192.168.1.6:3000/api/v1/salers/${saler.id}`, {
+      const response = await fetch(`http://192.168.1.8:3000/api/v1/salers/${saler.id}`, {
         method: 'PUT',
         body: formdata,
       });
@@ -157,7 +157,7 @@ export const Saler = () => {
 
   const handleImageDelete = async (salerId) => {
     try {
-      const response = await fetch(`http://192.168.1.6:3000/api/v1/salers/${salerId}/image_destroy`, {
+      const response = await fetch(`http://192.168.1.8:3000/api/v1/salers/${salerId}/image_destroy`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json'

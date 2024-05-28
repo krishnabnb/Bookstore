@@ -20,7 +20,7 @@ export const Cart = () => {
 
   const fetchCarts = async () => {
     try {
-      const response = await fetch('http://192.168.1.6:3000/api/v1/carts?include=customer');
+      const response = await fetch('http://192.168.1.8:3000/api/v1/carts?include=customer');
       if (response.ok) {
         const data = await response.json();
         setCarts(data);
@@ -39,7 +39,7 @@ export const Cart = () => {
 
   const handleFormSubmit = (customer_id, book_id, quntity) => {
     const body = JSON.stringify({ cart: { customer_id, book_id, quntity} })
-    fetch('http://192.168.1.6:3000/api/v1/carts', {
+    fetch('http://192.168.1.8:3000/api/v1/carts', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -72,7 +72,7 @@ export const Cart = () => {
   };
 
   const handleupdate = cart => {
-    fetch(`http://192.168.1.6:3000/api/v1/carts/${cart.id}`, {
+    fetch(`http://192.168.1.8:3000/api/v1/carts/${cart.id}`, {
       method: 'PUT',
       body: JSON.stringify({cart: cart}),
       headers: {
@@ -105,7 +105,7 @@ export const Cart = () => {
   const handleDelete = async id => {
     const confirmed = window.confirm("Are you sure you want to delete this contact?");
     if (confirmed) {
-      const response = await fetch(`http://192.168.1.6:3000/api/v1/carts/${id}`, {
+      const response = await fetch(`http://192.168.1.8:3000/api/v1/carts/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json'
