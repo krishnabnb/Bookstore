@@ -4,11 +4,3 @@
 //= require action_cable
 //= require_self
 //= require_tree ./channels
-
-(function() {
-  this.App || (this.App = {});
-
-  App.cable = ActionCable.createConsumer();
-  App.cable.url = "http://192.168.1.8:3000/cable"
-  console.log(App.cable)
-}).call(this);
