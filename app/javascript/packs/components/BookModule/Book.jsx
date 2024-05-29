@@ -47,7 +47,7 @@ export const Book = () => {
 
   useEffect(() => {
     fetchBooks();
-  }, []);
+  }, [modelData]);
 
   const fetchBooks = async () => {
     try {
@@ -315,6 +315,7 @@ export const Book = () => {
       window.alert('Please enter a valid quantity!');
     }
   };
+
   return (
     <div>
       <div>
@@ -418,7 +419,7 @@ export const Book = () => {
                     <div className="modal">
                       <div className="modal-content">
                         <span className="close" onClick={handleCloseModal}>&times;</span>
-                        <div><img src={banner} alt="book's banner image" style={{ width: '1750px', height: '500px' }} /></div>
+                        <div><img src={banner} alt="saler's image" style={{ width: '1750px', height: '500px' }} /></div>
                         <input type="file" onChange={e => handleBImageChange(e, book)} name="image" />
                         <div><RiDeleteBin5Line onClick={() => handleImageDelete(book.id, 'banner_image')} /></div>
                         <div><img src={modelData.image_url} alt="saler's image" style={{ width: '300px', height: '300px', float:'right', marginRight: '500px', marginTop: '20px' }} /></div>
