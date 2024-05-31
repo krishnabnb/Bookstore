@@ -4,7 +4,6 @@ class Api::V1::CartItemsController < ApplicationController
 
   def index
     @cart_items = current_customer.cart.cart_items.includes(:book) if current_customer
-
     if @cart_items
       cart_items_json= @cart_items.map do |cart_item|
         {
@@ -20,7 +19,6 @@ class Api::V1::CartItemsController < ApplicationController
       render json: { error: 'Cart items not found for current customer' }, status: :not_found
     end
   end
-  
 
   def create
     book_id = params[:book_id]

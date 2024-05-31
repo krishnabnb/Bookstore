@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   devise_for :salers, path: '', path_names: {
     registration: 'salers/signup',
     sign_in: 'salers/login',
-    sign_out: 'salers/logout'
+    sign_out: 'logout'
   }, controllers: {
     registrations: 'salers/registrations',
     sessions: 'salers/sessions'
@@ -28,7 +28,6 @@ Rails.application.routes.draw do
         member do
           delete 'image_destroy'
         end
-        # post 'signup', to: 'registrations#create'
       end
   
       resources :books do

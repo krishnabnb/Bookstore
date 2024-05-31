@@ -271,3 +271,4 @@ export const Payment = () => {
   );
 };
 
+app/javascript/packs/components/SellerModule/Saler.jsx
