@@ -18,10 +18,8 @@
 // Import the CSS file
 import '../../assets/stylesheets/application.css';
 
-// Your other JavaScript code goes here
 console.log('Hello World from Webpacker');
 
-// Import toastr library
 import toastr from 'toastr';
 import 'bootstrap/dist/js/bootstrap'
 import "bootstrap/dist/css/bootstrap";
