@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FaUser, FaShoppingCart } from 'react-icons/fa';
+import { FaUser, FaShoppingCart, FaLockOpen} from 'react-icons/fa';
 import './header.css';
 import { BrowserRouter as Router, Link } from 'react-router-dom';
 
@@ -28,7 +28,10 @@ const Header = () => {
           <li><Link to="/payment">Payment</Link></li>
           <li><Link to="/product">Product</Link></li>
           <li><Link to="/logout">Logout</Link></li>
-          <li><Link to="/"></Link></li>
+          <li style={{ display: 'flex', float:'right' }}>
+            <Link to='/login'>Log In</Link>
+            <FaLockOpen style={{ marginLeft: '5px' }}/>
+          </li>
           <li><Link to="/cart"><FaShoppingCart /></Link></li>
           <li><Link to="/customer">{customerEmail ? customerEmail : <FaUser />}</Link></li>
         </ul>

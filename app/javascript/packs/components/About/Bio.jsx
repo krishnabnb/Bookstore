@@ -6,7 +6,7 @@ import {  FaInstagram } from 'react-icons/fa';
 const Bio = () => {
   return (
     <div>
-      <div className='bio-container'>
+       <div className='bio-container'>
         <div className='title-2'>
           <h1>About Kathryn</h1>
           <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit</p>
@@ -60,11 +60,11 @@ const Bio = () => {
         </div>
       </div>
 
-      <div className="logo"><FaInstagram /></div>
-      <div className='instagram'>
-        <h1>Follow @kathryn</h1>
-        <p>Leo nulla cras augue eros, diam vivamus et lectus volutpat at facilisi tortor porta.</p>
-        <button className="visit-instagram-btn">Visit Instagram</button>
+        <div className="logo"><FaInstagram /></div>
+        <div className='instagram'>
+          <h1>Follow @kathryn</h1>
+          <p>Leo nulla cras augue eros, diam vivamus et lectus volutpat at facilisi tortor porta.</p>
+          <button className="visit-instagram-btn">Visit Instagram</button>
       </div>
 
       <div className="full-image">

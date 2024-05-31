@@ -77,7 +77,10 @@ function Login() {
 
       sessionStorage.setItem('customerEmail', customerData.email);
       sessionStorage.setItem('customername', customerData.firstname);
-
+      sessionStorage.setItem('customerLastName', customerData.lastname);
+      sessionStorage.setItem('customerAddress', customerData.address);
+      sessionStorage.setItem('customerCity', customerData.city);
+      sessionStorage.setItem('ContactNo', customerData.contactno);
 
       console.log('Login successful', token);
         setTimeout(function () {
@@ -292,6 +295,3 @@ function Login() {
 };
 
 export default Login;
-
-
-
