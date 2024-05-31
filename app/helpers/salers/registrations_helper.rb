@@ -1,0 +1,2 @@
+module Salers::RegistrationsHelper
+end

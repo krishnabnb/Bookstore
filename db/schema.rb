@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_05_28_094157) do
+ActiveRecord::Schema.define(version: 2024_05_30_114652) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -46,13 +46,20 @@ ActiveRecord::Schema.define(version: 2024_05_28_094157) do
     t.string "image"
   end
 
-  create_table "carts", force: :cascade do |t|
-    t.integer "customer_id"
+  create_table "cart_items", force: :cascade do |t|
     t.integer "book_id"
-    t.integer "quntity"
+    t.integer "cart_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["book_id"], name: "index_carts_on_book_id"
+    t.integer "quantity"
+    t.index ["book_id"], name: "index_cart_items_on_book_id"
+    t.index ["cart_id"], name: "index_cart_items_on_cart_id"
+  end
+
+  create_table "carts", force: :cascade do |t|
+    t.integer "customer_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["customer_id"], name: "index_carts_on_customer_id"
   end
 
@@ -97,12 +104,21 @@ ActiveRecord::Schema.define(version: 2024_05_28_094157) do
 
   create_table "salers", force: :cascade do |t|
     t.string "name"
-    t.string "email"
-    t.string "book_title"
-    t.decimal "price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "image"
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.string "adress"
+    t.string "phoneno"
+    t.string "city"
+    t.string "jti"
+    t.index ["email"], name: "index_salers_on_email", unique: true
+    t.index ["jti"], name: "index_salers_on_jti"
+    t.index ["reset_password_token"], name: "index_salers_on_reset_password_token", unique: true
   end
 
 end
