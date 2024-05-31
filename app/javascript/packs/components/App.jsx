@@ -9,6 +9,7 @@ import { Product } from "./ProductModule/Product";
 import { Payment } from "./PaymentModule/Payment";
 import { Contact } from "./ContactModule/Contact";
 import { Cart } from "./CartModule/Cart";
+import CartItem from './CartModule/CartItem';
 import { User } from "./CustomerModule/User";
 import Bio from "./About/Bio";
 import Adventure from "./image/Adventure";
@@ -22,17 +23,17 @@ import Historical from "./image/Historical";
 import Business from "./image/Business";
 import Login from './sing_up/Login';
 import Logout from './sing_up/Logout';
-import Forgotepassword from './Forgotepassword';
+import Forgotepassword from './Forgotepassword'
 
 const App = () => {
-  
+
   return (
     <div>
       <BrowserRouter>
         <div>
           <Routes>
-            <Route path="/" element={<Login                                                                                                                                                                                                                                                                                                                           />}/>
-            <Route path="/forgotepassword" element={<Forgotepassword />}/>
+            <Route path="/login" element={<><Header/><Login/></>}/>
+            <Route path="/" element={<Forgotepassword />}/>
             <Route path="/customer" element={<><Header/><User/><Footer/></> } />
             <Route path="/bio" element={<><Header/><Bio /><Footer/></>} />
             <Route path="/home" element={<><Header/><Home /><Footer/></>}/>
@@ -42,6 +43,7 @@ const App = () => {
             <Route path="/product" element={<><Header/><Product /><Footer/></>} />
             <Route path="/payment/:cartId" element={<><Header/><Payment /><Footer/></>} />
             <Route path="/cart" element={<><Header/><Cart /><Footer/></>} />
+            <Route path="/CartItem" element={<><Header/><CartItem /><Footer/></>} />
             <Route path="/classics" element={<><Header/><Classics /><Footer/></>} />
             <Route path="/crime" element={<><Header/><Crime /><Footer/></>} />
             <Route path="/adventure" element={<><Header/><Adventure /><Footer/></>} />

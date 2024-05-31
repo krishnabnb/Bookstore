@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { NewCart } from './NewCart';
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
+import CartItem from './CartItem';
 
-export const Cart = () => {
+export const Cart = (cartItems) => {
   const [carts, setCarts] = useState(() => {
     const savedCarts = localStorage.getItem('carts');
     return savedCarts ? JSON.parse(savedCarts) : [];
@@ -147,57 +148,25 @@ export const Cart = () => {
       <table className="salers-table">
         <thead>
           <tr>
-            <th>Customer</th>
-            <th>Book</th>
-            <th>Quntity</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Quantity</th>
             <th>Delete</th>
             <th>Edit</th>
+            <th>Payment</th>
           </tr>
         </thead>
         <tbody>
-          {Array.isArray(carts) && carts?.map((cart) => (
-
+          {CartItem.map((cart) => (
             <tr key={cart.id}>
-              <td>
-                {editModes[cart.id] ? (
-                  <input
-                    name="customer_id"
-                    value={cart.customer_id}
-                    onChange={e => handleChange(e, cart)}
-                    placeholder="Select Customer"
-                  />
-                ) : (
-                  cart.customer_id
-                )}
-              </td>
-              <td>
-                {editModes[cart.id] ? (
-                  <input
-                    name="book_id"
-                    value={cart.book_id}
-                    onChange={e => handleChange(e, cart)}
-                    placeholder="Select Book"
-                  />
-                ) : (
-                  cart.book_id
-                )}
-              </td>
-              <td>
-                {editModes[cart.id] ? (
-                  <input
-                    name="quntity"
-                    value={cart.quntity}
-                    onChange={e => handleChange(e, cart)}
-                    placeholder="Quntity"
-                  />
-                ) : (
-                  cart.quntity
-                )}
-              </td>
-
-              <td>
-                <button onClick={() => handleDelete(cart.id)}>Delete</button>
-              </td>
+              <td>{cart.book.title}</td>
+              <td>{cart.book.author}</td>
+              <td>{cart.book.description}</td>
+              <td>{cart.book.price}</td>
+              <td>{cart.quantity}</td>
+              <td><button onClick={() => handleDelete(cart.id)}>Delete</button></td>
               <td>
                 {editModes[cart.id] ? (
                   <div>
@@ -215,6 +184,7 @@ export const Cart = () => {
           ))}
         </tbody>
       </table>
+
       <div className='email'>
         <div className="left-side">
           <h2>Subscribe Now to Get Regular Updates</h2>
