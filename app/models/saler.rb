@@ -1,5 +1,9 @@
 class Saler < ApplicationRecord
   include Rails.application.routes.url_helpers
+  include Devise::JWT::RevocationStrategies::JTIMatcher
+
+  devise :database_authenticatable, :registerable, :validatable,
+  :jwt_authenticatable, jwt_revocation_strategy: self
 
   has_one_attached :image
   validates :image_path, allow_blank: true, format: {

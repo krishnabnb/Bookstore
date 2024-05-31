@@ -1,58 +1,142 @@
 import React, { useState } from 'react';
-import './forgotepassword.css'; // Assuming you have a CSS file for styles
+import './forgotepassword.css'; 
 import { BiShow, BiHide } from "react-icons/bi";
+import { Link } from 'react-router-dom';
+import toastr from 'toastr';
+import 'toastr/build/toastr.css';
 
-const Forgotepassword = () => {
-  const [isChecked, setIsChecked] = useState(false);
+const ForgotPasswordForm = () => {
+  const [name, setName] = useState("");
+  const [file, setFile] = useState("");
+  const [adress, setAdress] = useState("");
+  const [city, setCity] = useState("");
+  const [phoneno, setPhoneno] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [password_confirmation, setPassword_confirmation] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [isSignIn, setIsSignIn] = useState(true);
 
-  const handleCheckboxChange = () => {
-    setIsChecked(!isChecked);
+  const toggleForm = () => {
+    setIsSignIn(!isSignIn);
   };
 
+  const handleSignInSubmit = async (e) => {
+    e.preventDefault();
+    console.log('Sign In form submitted');
+  };
+
+  const handleSignUpSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      let item = {
+        saler: { 
+          name,
+          file,
+          adress,
+          city,
+          phoneno,
+          email,
+          password,
+          password_confirmation
+        }
+      };
+      let response = await fetch('http://192.168.1.8:3000/salers/signup', { 
+        method: 'POST',
+        body: JSON.stringify(item),
+        headers: {
+          "Content-Type": 'application/json',
+          "Accept": 'application/json',
+        }
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.status.message);
+      }
+
+      const data = await response.json();
+      const token = data.token;
+      sessionStorage.setItem('jsontoken', token);
+      toastr.success('Registration successful');
+
+      setTimeout(function() {
+        window.location.href = '/saler';
+      }, 2000);
+    } catch (error) {
+      console.error('Registration error:', error.message);
+      toastr.error(error.message);
+    }
+  };
+  
   return (
-    <div className="reset">
-      <div className="forgoteclass">
-        <input type="checkbox" id="chk" aria-hidden="true" checked={isChecked} onChange={handleCheckboxChange} />
-
-        <div className="signup">
-          <form>
-            <label htmlFor="chk" aria-hidden="true">Change Password</label>
-            <div className="password-input-container">
-              <input type={showPassword ? "text" : "password"} placeholder='Old Password' className='input123098'  />
-              <a href="#" className="toggle-password-icon" onClick={() => setShowPassword(!showPassword)}>
-                {showPassword ? <BiHide className='icon'></BiHide> : <BiShow className='icon'></BiShow>}
-              </a>
+    <div className="container mt-5">
+      <div className="row justify-content-center mt-5">
+        <div className="col-md-6 mt-5">
+          <div className="card mt-5">
+            <div className="card-body mt-5">
+              {isSignIn ? (
+                <>
+                  <h2 className="card-title">Sign In</h2>
+                  <form onSubmit={handleSignInSubmit}>
+                    <div className="mb-3">
+                      <input type="email" name="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} required className='form-control' />
+                    </div>
+                    <div className="mb-3 password-input-container123">
+                      <input type={showPassword ? "text" : "password"} placeholder='Password' className='form-control' onChange={(e) => setPassword(e.target.value)} />
+                      <a href="#" className="toggle-password-icon" onClick={() => setShowPassword(!showPassword)}>
+                        {showPassword ? <BiHide className='icon123'></BiHide> : <BiShow className='icon123'></BiShow>}
+                      </a>
+                    </div>
+                    <button className='btn btn-primary'>Sign In</button>
+                  </form>
+                  <p className="mt-3 text-primary" onClick={toggleForm}>Don't have an account? Sign Up</p>
+                </>
+              ) : (
+                <>
+                  <h2 className="card-title">Sign Up</h2>
+                  <form onSubmit={handleSignUpSubmit}>
+                    <div className="mb-3">
+                      <input type="text" name="name" placeholder="Name" onChange={(e) => setName(e.target.value)} required className='form-control' />
+                    </div>
+                    <div className="mb-3">
+                      <input type="file" name="file" placeholder="File" onChange={(e) => setFile(e.target.value)} required className='form-control' />
+                    </div>
+                    <div className="mb-3">
+                      <input type="text" name="address" placeholder="Address" onChange={(e) => setAddress(e.target.value)} required className='form-control' />
+                    </div>
+                    <div className="mb-3">
+                      <input type="text" name="phoneNo" placeholder="Phone Number" onChange={(e) => setPhoneno(e.target.value)} required className='form-control' />
+                    </div>
+                    <div className="mb-3">
+                      <input type="text" name="city" placeholder="City" onChange={(e) => setCity(e.target.value)} required className='form-control' />
+                    </div>
+                    <div className="mb-3">
+                      <input type="email" name="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} required className='form-control' />
+                    </div>
+                    <div className="mb-3 password-input-container123">
+                      <input type={showPassword ? "text" : "password"} placeholder='Password' className='form-control' onChange={(e) => setPassword(e.target.value)} />
+                      <a href="#" className="toggle-password-icon" onClick={() => setShowPassword(!showPassword)}>
+                        {showPassword ? <BiHide className='icon123'></BiHide> : <BiShow className='icon123'></BiShow>}
+                      </a>
+                    </div>
+                    <div className="mb-3 password-input-container123">
+                      <input type={showPassword ? "text" : "password"} placeholder='Confirm Password' className='form-control' onChange={(e) => setPassword_confirmation(e.target.value)} />
+                      <a href="#" className="toggle-password-icon" onClick={() => setShowPassword(!showPassword)}>
+                        {showPassword ? <BiHide className='icon123'></BiHide> : <BiShow className='icon123'></BiShow>}
+                      </a>
+                    </div>
+                    <button className='btn btn-primary'>Sign Up</button>
+                  </form>
+                  <p className="mt-3 text-primary" onClick={toggleForm}>Already have an account? Sign In</p>
+                </>
+              )}
             </div>
-            <div className="password-input-container">
-              <input type={showPassword ? "text" : "password"} placeholder='New Password' className='input123098'  />
-              <a href="#" className="toggle-password-icon" onClick={() => setShowPassword(!showPassword)}>
-                {showPassword ? <BiHide className='icon'></BiHide> : <BiShow className='icon'></BiShow>}
-              </a>
-            </div>
-            <div className="password-input-container">
-              <input type={showPassword ? "text" : "password"} placeholder='Confirm Password' className='input123098'  />
-              <a href="#" className="toggle-password-icon" onClick={() => setShowPassword(!showPassword)}>
-                {showPassword ? <BiHide className='icon'></BiHide> : <BiShow className='icon'></BiShow>}
-              </a>
-            </div>
-
-            <button className='buttongt'>Save</button>
-          </form>
-        </div>
-
-        <div className="login">
-          <form>
-            <label htmlFor="chk" aria-hidden="true">Forgot Password</label>
-            <input type="email" name="email" placeholder="Email" required className='input123098' />
-            <button className='buttongt'>Next</button>
-          </form>
+          </div>
         </div>
       </div>
     </div>
-
-
   );
 };
 
-export default Forgotepassword;
+export default ForgotPasswordForm;
