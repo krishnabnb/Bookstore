@@ -27,3 +27,5 @@ window.toastr = toastr;
 import 'bootstrap/dist/js/bootstrap'
 import "bootstrap/dist/css/bootstrap";
 import "../stylesheets/application"
+
+console.log('hello')
