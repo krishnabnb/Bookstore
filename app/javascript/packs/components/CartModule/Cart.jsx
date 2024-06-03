@@ -5,12 +5,12 @@ import { useParams } from 'react-router-dom';
 import CartItem from './CartItem';
 
 export const Cart = (cartItems) => {
+
   const [carts, setCarts] = useState(() => {
     const savedCarts = localStorage.getItem('carts');
     return savedCarts ? JSON.parse(savedCarts) : [];
   });
   const { cartId } = useParams();
-
   const [error, setError] = useState(null);
   const [editModes, setEditModes] = useState({});
   const [originalCarts, setOriginalCarts] = useState({});
@@ -19,24 +19,35 @@ export const Cart = (cartItems) => {
     fetchCarts();
   }, []);
 
+  // const fetchCarts = async () => {
+  //   try {
+  //     const response = await fetch('http://192.168.1.8:3000/api/v1/carts?include=customer');
+  //     if (response.ok) {
+  //       const data = await response.json();
+  //       setCarts(data);
+  //     } else {
+  //       throw new Error('Failed to fetch data');
+  //     }
+  //   } catch (error) {
+  //     console.error('Error fetching data:', error);
+  //     setError(error.message);
+  //   }
+  // };
+
   const fetchCarts = async () => {
     try {
-      const response = await fetch('http://192.168.1.8:3000/api/v1/carts?include=customer');
-      if (response.ok) {
-        const data = await response.json();
-        setCarts(data);
-        setOriginalCarts(data.reduce((acc, cart) => {
-          acc[cart.id] = { ...cart };
-          return acc;
-        }, {}));
-      } else {
+      const response = await fetch('http://192.168.1.8:3000/api/v1/carts');
+      if (!response.ok) {
         throw new Error('Failed to fetch data');
       }
+      const data = await response.json();
+      setCarts(data);
     } catch (error) {
       console.error('Error fetching data:', error);
       setError(error.message);
     }
   };
+
 
   const handleFormSubmit = (customer_id, book_id, quntity) => {
     const body = JSON.stringify({ cart: { customer_id, book_id, quntity} })
@@ -159,7 +170,7 @@ export const Cart = (cartItems) => {
           </tr>
         </thead>
         <tbody>
-          {CartItem.map((cart) => (
+          {carts.map((cart) => (
             <tr key={cart.id}>
               <td>{cart.book.title}</td>
               <td>{cart.book.author}</td>
@@ -183,8 +194,8 @@ export const Cart = (cartItems) => {
             </tr>
           ))}
         </tbody>
-      </table>
 
+      </table>
       <div className='email'>
         <div className="left-side">
           <h2>Subscribe Now to Get Regular Updates</h2>

@@ -5,6 +5,7 @@ import { RiDeleteBin5Line } from "react-icons/ri";
 import toastr from 'toastr';
 import 'toastr/build/toastr.css';
 import { Cart } from "../CartModule/Cart";
+// import CartItem from './CartItem';
 
 export const Book = () => {
   const [books, setBooks] = useState([]);
@@ -307,7 +308,6 @@ export const Book = () => {
   const handleAddToCart = (book) => {
     const existingItem = cartItems.find((item) => item.book.id === book.id);
     if (existingItem) {
-      // Increment quantity if item already exists in cart
       setCartItems((prevItems) =>
         prevItems.map((item) =>
           item.book.id === book.id
@@ -316,11 +316,9 @@ export const Book = () => {
         )
       );
     } else {
-      // Add new item to cart
       setCartItems((prevItems) => [...prevItems, { book, quantity: 1 }]);
     }
   };
-
 
   return (
     <div>
@@ -346,39 +344,37 @@ export const Book = () => {
         <button type="button" className='cancelButton' onClick={handleCancelSearch}>Cancel</button>
       </form>
       <div className="card-container">
-        {Array.isArray(books) && books.map((book) => (
-          <div key={book.id} className="card">
-            <img src={book.image_url} alt="Book Cover"  onClick={() => { handleShowModal(book); fetchBookDetails(book.id); }}/>
-            {isModalOpen && (
-              <div className="modal">
-                <div className="modal-content">
-                  <span className="close" onClick={handleCloseModal}>&times;</span>
-                  <div><img src={banner} alt="saler's image" style={{ width: '1750px', height: '500px' }} /></div>
-                  <input type="file" onChange={e => handleBImageChange(e, book)} name="image" />
-                  <div><RiDeleteBin5Line onClick={() => handleImageDelete(book.id, 'banner_image')} /></div>
-                  <div><img src={modelData.image_url} alt="saler's image" style={{ width: '300px', height: '300px', float:'right', marginRight: '500px', marginTop: '20px' }} /></div>
-                  <div style={{ marginLeft: '500px'}}>
-                    <h3>Title: {modelData.title}</h3>
-                    <h3>Author: {modelData.author}</h3>
-                    <h3>Description: {modelData.description}</h3>
-                    <h3>Price: {modelData.price}</h3>
-                    <h3>Published Status: {modelData.published_status}</h3>
-                    <h3>Published At: {modelData.published_at}</h3>
+      {Array.isArray(books) && books.map((book) => (
+        <div key={book.id} className="card">
+          <img src={book.image_url} alt="Book Cover" onClick={() => { handleShowModal(book); fetchBookDetails(book.id); }} />
+          {isModalOpen && (
+            <div className="modal">
+              <div className="modal-content">
+                <span className="close" onClick={handleCloseModal}>&times;</span>
+                <div><img src={banner} alt="saler's image" style={{ width: '1750px', height: '500px' }} /></div>
+                <input type="file" onChange={e => handleBImageChange(e, book)} name="image" />
+                <div><RiDeleteBin5Line onClick={() => handleImageDelete(book.id, 'banner_image')} /></div>
+                <div><img src={modelData.image_url} alt="saler's image" style={{ width: '300px', height: '300px', float: 'right', marginRight: '500px', marginTop: '20px' }} /></div>
+                <div style={{ marginLeft: '500px' }}>
+                  <h3>Title: {modelData.title}</h3>
+                  <h3>Author: {modelData.author}</h3>
+                  <h3>Description: {modelData.description}</h3>
+                  <h3>Price: {modelData.price}</h3>
+                  <h3>Published Status: {modelData.published_status}</h3>
+                  <h3>Published At: {modelData.published_at}</h3>
                     {/* <div><button onClick={() => handleToggleStatus(book.id)}>Change Status</button></div> */}
-                  </div>
                 </div>
               </div>
-            )}
-            {/* <div><button onClick={() => handleCartButtonClick(book)}>Add to Cart</button></div><br></br> */}
-            <div>
-      {/* Your Book component content */}
-      <button onClick={() => handleAddToCart(book)}>Add to Cart</button>
-      <Cart cartItems={cartItems} />
-    </div>
-
+            </div>
+          )}
+          <div>
+            {/* Your Book component content */}
+            <button onClick={() => handleAddToCart(book)}>Add to Cart</button>
+            <Cart cartItems={cartItems} />
           </div>
-        ))}
-      </div>
+        </div>
+      ))}
+    </div>
       <div className='email'>
         <div className="left-side">
           <h2>Subscribe Now to Get Regular Updates</h2>
