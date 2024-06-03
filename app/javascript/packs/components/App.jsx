@@ -9,7 +9,7 @@ import { Product } from "./ProductModule/Product";
 import { Payment } from "./PaymentModule/Payment";
 import { Contact } from "./ContactModule/Contact";
 import { Cart } from "./CartModule/Cart";
-import CartItem from './CartModule/CartItem';
+// import CartItem from './CartModule/CartItem';
 import { User } from "./CustomerModule/User";
 import Bio from "./About/Bio";
 import Adventure from "./image/Adventure";

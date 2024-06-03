@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './forgotepassword.css'; 
+import './forgotepassword.css';
 import { BiShow, BiHide } from "react-icons/bi";
 import { Link } from 'react-router-dom';
 import toastr from 'toastr';
@@ -22,43 +22,48 @@ const ForgotPasswordForm = () => {
     setIsSignIn(!isSignIn);
   };
 
-  
-const handleSignUpSubmit = async (e) => {
-  e.preventDefault();
-  try {
-    const formData = new FormData();
-    formData.append('saler[name]', name);
-    formData.append('saler[adress]', adress);
-    formData.append('saler[city]', city);
-    formData.append('saler[phoneno]', phoneno);
-    formData.append('saler[email]', email);
-    formData.append('saler[password]', password);
-    formData.append('saler[password_confirmation]', password_confirmation);
-    formData.append('saler[image]', file);
-    
-    let response = await fetch('http://192.168.1.8:3000/salers/signup', { 
-      method: 'POST',
-      body: formData,
-    });
+  const handleSignUpSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      let item = {
+        saler: {
+          name,
+          file,
+          adress,
+          city,
+          phoneno,
+          email,
+          password,
+          password_confirmation
+        }
+      };
+      let response = await fetch('http://192.168.1.8:3000/salers/signup', {
+        method: 'POST',
+        body: JSON.stringify(item),
+        headers: {
+          "Content-Type": 'application/json',
+          "Accept": 'application/json',
+        }
+      });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.status.message);
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.status.message);
+      }
+
+      const data = await response.json();
+      const token = data.token;
+      sessionStorage.setItem('jsontoken', token);
+      toastr.success('Registration successful');
+
+      setTimeout(function() {
+        window.location.href = '/saler';
+      }, 2000);
+    } catch (error) {
+      console.error('Registration error:', error.message);
+      toastr.error(error.message);
     }
-
-    const data = await response.json();
-    const token = data.token;
-    sessionStorage.setItem('jsontoken', token);
-    toastr.success('Registration successful');
-
-    setTimeout(function() {
-      window.location.href = '/saler';
-    }, 2000);
-  } catch (error) {
-    console.error('Registration error:', error.message);
-    toastr.error(error.message);
-  }
-};
+  };
 
   const handleSignInSubmit = async (e) => {
     e.preventDefault();
@@ -69,7 +74,7 @@ const handleSignUpSubmit = async (e) => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ saler: { email, password } }),
-        credentials: 'include', 
+        credentials: 'include',
 
       });
 
@@ -85,35 +90,16 @@ const handleSignUpSubmit = async (e) => {
       const data = await response.json();
       const token = data.token;
       sessionStorage.setItem('jsontoken', token);
-      toastr.success('Login successful');   
-
-      console.log('Login successful', token);
-        setTimeout(function () {
-          window.location.href = '/saler';
-        }, 1000);
-
+      toastr.success('Login successful');
+      setTimeout(function () {
+        window.location.href = '/saler';
+      }, 1000);
     } catch (error) {
       console.error('Login error:', error.message);
       toastr.error('Login failed: ' + error.message);
     }
 
   };
-  const handleImageChange = (e) => {
-    const selectedFile = e.target.files[0];
-    setFile(selectedFile);
-    
-    if (selectedFile) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        setImagePreview(event.target.result);
-      };
-      reader.readAsDataURL(selectedFile);
-    } else {
-      setImagePreview(null);
-    }
-  };
-
-  
   return (
     <div className="container mt-5">
       <div className="row justify-content-center mt-5">
