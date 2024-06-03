@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './forgotepassword.css'; 
+import './forgotepassword.css';
 import { BiShow, BiHide } from "react-icons/bi";
 import { Link } from 'react-router-dom';
 import toastr from 'toastr';
@@ -21,13 +21,11 @@ const ForgotPasswordForm = () => {
     setIsSignIn(!isSignIn);
   };
 
-  
-
   const handleSignUpSubmit = async (e) => {
     e.preventDefault();
     try {
       let item = {
-        saler: { 
+        saler: {
           name,
           file,
           adress,
@@ -38,7 +36,7 @@ const ForgotPasswordForm = () => {
           password_confirmation
         }
       };
-      let response = await fetch('http://192.168.1.8:3000/salers/signup', { 
+      let response = await fetch('http://192.168.1.8:3000/salers/signup', {
         method: 'POST',
         body: JSON.stringify(item),
         headers: {
@@ -66,46 +64,6 @@ const ForgotPasswordForm = () => {
     }
   };
 
-  // const handleSignInSubmit = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     const response = await fetch('http://192.168.1.8:3000/salers/login', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify({ saler: { email, password } }),
-  //     });
-
-  //     if (!response.ok) {
-  //       const errorData = await response.json();
-  //       throw new Error(errorData.error || 'Login failed');
-  //     }
-
-  //     const contentType = response.headers.get('content-type');
-  //     if (!contentType || !contentType.includes('application/json')) {
-  //       throw new Error('Response is not in JSON format');
-  //     }
-  //     const data = await response.json();
-  //     const token = data.token;
-  //     sessionStorage.setItem('jsontoken', token);
-  //     toastr.success('Login successful');
-
-  //     // if (customerResponse.status === 401) {
-  //     //   throw new Error('Unauthorized: Invalid token');
-  //     // }
-    
-
-  //     console.log('Login successful', token);
-  //       setTimeout(function () {
-  //         window.location.href = '/saler';
-  //       }, 1000);
-
-  //   } catch (error) {
-  //     console.error('Login error:', error.message);
-  //     toastr.error('Login failed: ' + error.message);
-  //   }
-  // };
   const handleSignInSubmit = async (e) => {
     e.preventDefault();
        try {
@@ -115,7 +73,7 @@ const ForgotPasswordForm = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ saler: { email, password } }),
-        credentials: 'include', 
+        credentials: 'include',
 
       });
 
@@ -143,7 +101,7 @@ const ForgotPasswordForm = () => {
       toastr.error('Login failed: ' + error.message);
     }
   };
-  
+
   return (
     <div className="container mt-5">
       <div className="row justify-content-center mt-5">
@@ -163,8 +121,8 @@ const ForgotPasswordForm = () => {
                         {showPassword ? <BiHide className='icon123'></BiHide> : <BiShow className='icon123'></BiShow>}
                       </a>
                     </div>
-                    <button className='btn btn-primary' style={{fontSize: '13px'}}>Sign In</button>
                   </form>
+                    <button className='btn btn-primary'>Sign In</button>
                   <p className="mt-3 text-primary" onClick={toggleForm}>Don't have an account? Sign Up</p>
                 </>
               ) : (
@@ -187,22 +145,22 @@ const ForgotPasswordForm = () => {
                       <input type="text" name="city" placeholder="City" onChange={(e) => setCity(e.target.value)} required className='form-control'  style={{fontSize: '13px'}} />
                     </div>
                     <div className="mb-3">
-                      <input type="email" name="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} required className='form-control'   style={{fontSize: '13px'}}/>
+                      <input type="email" name="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} required className='form-control' />
                     </div>
                     <div className="mb-3 password-input-container123">
-                      <input type={showPassword ? "text" : "password"} placeholder='Password' className='form-control' onChange={(e) => setPassword(e.target.value)}  style={{fontSize: '13px'}} />
+                      <input type={showPassword ? "text" : "password"} placeholder='Password' className='form-control' onChange={(e) => setPassword(e.target.value)} />
                       <a href="#" className="toggle-password-icon" onClick={() => setShowPassword(!showPassword)}>
                         {showPassword ? <BiHide className='icon123'></BiHide> : <BiShow className='icon123'></BiShow>}
                       </a>
                     </div>
                     <div className="mb-3 password-input-container123">
-                      <input type={showPassword ? "text" : "password"} placeholder='Confirm Password' className='form-control' onChange={(e) => setPassword_confirmation(e.target.value)}  style={{fontSize: '13px'}}/>
+                      <input type={showPassword ? "text" : "password"} placeholder='Confirm Password' className='form-control' onChange={(e) => setPassword_confirmation(e.target.value)}  />
                       <a href="#" className="toggle-password-icon" onClick={() => setShowPassword(!showPassword)}>
                         {showPassword ? <BiHide className='icon123'></BiHide> : <BiShow className='icon123'></BiShow>}
                       </a>
-                    <button className='btn btn-primary'  style={{fontSize: '13px'}}>Sign Up</button>
                     </div>
                   </form>
+                  <button className='btn btn-primary' >Sign Up</button>
                   <p className="mt-3 text-primary" onClick={toggleForm} >Already have an account? Sign In</p>
                 </>
               )}

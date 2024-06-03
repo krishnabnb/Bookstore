@@ -8,8 +8,8 @@ import { Saler } from './SellerModule/Saler';
 import { Product } from "./ProductModule/Product";
 import { Payment } from "./PaymentModule/Payment";
 import { Contact } from "./ContactModule/Contact";
-import { Cart } from "./CartModule/Cart";
-import CartItem from './CartModule/CartItem';
+// import { Cart } from "./CartModule/Cart";
+// import CartItem from './CartModule/CartItem';
 import { User } from "./CustomerModule/User";
 import Bio from "./About/Bio";
 import Adventure from "./image/Adventure";
@@ -45,8 +45,8 @@ const App = () => {
             <Route path="/saler" element={<><Header/><Saler /><Footer/></>} />
             <Route path="/product" element={<><Header/><Product /><Footer/></>} />
             <Route path="/payment/:cartId" element={<><Header/><Payment /><Footer/></>} />
-            <Route path="/cart" element={<><Header/><Cart /><Footer/></>} />
-            <Route path="/CartItem" element={<><Header/><CartItem /><Footer/></>} />
+            {/* <Route path="/cart" element={<><Header/><Cart /><Footer/></>} /> */}
+            {/* <Route path="/CartItem" element={<><Header/><CartItem /><Footer/></>} /> */}
             <Route path="/classics" element={<><Header/><Classics /><Footer/></>} />
             <Route path="/crime" element={<><Header/><Crime /><Footer/></>} />
             <Route path="/adventure" element={<><Header/><Adventure /><Footer/></>} />

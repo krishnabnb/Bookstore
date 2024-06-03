@@ -1,14 +1,16 @@
 import React from 'react';
 
-const CartItem = ({ book }) => {
+const CartItem = ({ item, onRemove }) => {
   return (
-    <tr>
-      <td>{book.title}</td>
-      <td>{book.author}</td>
-      <td>{book.description}</td>
-      <td>{book.price}</td>
-      <td>{book.quantity}</td>
-    </tr>
+    <li>
+      <img src={item.image_url} alt="Book Cover" />
+      <div>
+        <h3>Title: {item.title}</h3>
+        <p>Author: {item.author}</p>
+        <p>Price: {item.price}</p>
+        <button onClick={() => onRemove(item.id)}>Remove</button>
+      </div>
+    </li>
   );
 };
 
