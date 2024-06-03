@@ -87,7 +87,7 @@ export const Newcontact = (props) => {
                       <input type="text" id="subject" ref={(input) => formFields.subject = input} placeholder="Enter the subject" />
                     </div>
                   </div>
-                  <div className="col-md-12 message-input">
+                  <div className="col-md-6 message-input">
                     <div className="single-input-field">
                       <input type="text" id="massage" ref={(input) => formFields.massage = input} placeholder="Enter the massage" />
                     </div>

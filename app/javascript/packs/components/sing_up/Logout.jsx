@@ -8,20 +8,18 @@ const Logout = () => {
   const handleLogout = async () => {
     try {
       const token = sessionStorage.getItem('jsonwebtoken');
-      const webtoken = sessionStorage.getItem('jsontoken');
 
       const response = await fetch('http://192.168.1.8:3000/logout', {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ token, webtoken })
+        body: JSON.stringify({ token })
       });
 
       if (response.ok) {
         console.log('Logged out successfully');
         sessionStorage.removeItem('jsonwebtoken');
-        sessionStorage.removeItem('jsontoken');
 
         sessionStorage.removeItem('customerEmail');
       } else {

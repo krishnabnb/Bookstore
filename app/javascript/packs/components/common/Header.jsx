@@ -5,11 +5,16 @@ import { BrowserRouter as Router, Link } from 'react-router-dom';
 
 const Header = () => {
   const [customerEmail, setCustomerEmail] = useState('');
+  const [salerEmail, setSalerEmail] = useState('');
 
   useEffect(() => {
-    const email = sessionStorage.getItem('customerEmail');
-    if (email) {
-      setCustomerEmail(email);
+    const customerEmail = sessionStorage.getItem('customerEmail');
+    const salerEmail = sessionStorage.getItem('salerEmail');
+    if (customerEmail) {
+      setCustomerEmail(customerEmail);
+    }
+    if (salerEmail) {
+      setSalerEmail(salerEmail);
     }
   }, []);
 
@@ -26,23 +31,18 @@ const Header = () => {
           <li><Link to="/bio">Bio</Link></li>
           <li><Link to="/contact">ContactUs</Link></li>
           <li><Link to="/book">Books</Link></li>
-          <li><Link to="/saler">Salers</Link></li>
-          <li><Link to="/payment">Payment</Link></li>
-          <li><Link to="/product">Product</Link></li>
           <li><Link to="/logout">Logout</Link></li>
-          <li style={{ display: 'flex', float:'right' }}>
-            <Link to='/login'>Log In</Link>
-            <FaLockOpen style={{ marginLeft: '5px' }}/>
-          </li>
-          <li><Link to="/cart"><FaShoppingCart /></Link></li>
-          <li><Link to="/customer">{customerEmail ? customerEmail : <FaUser />}</Link></li>
+          {customerEmail && <li><Link to="/payment">Payment</Link></li>}
+          {salerEmail && <li><Link to="/product">Product</Link></li>}
+          {customerEmail && <li><Link to="/cart"><FaShoppingCart /></Link></li>}
+          {customerEmail && <li><Link to="/customer">{customerEmail}</Link></li>}
+          {salerEmail && <li><Link to="/saler">{salerEmail}</Link></li>}
         </ul>
         </div>
-
-
       </nav>
     </div>
   );
 };
 
 export default Header;
+

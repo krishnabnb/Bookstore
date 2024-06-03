@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_05_30_114652) do
+ActiveRecord::Schema.define(version: 2024_06_03_085043) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -44,6 +44,8 @@ ActiveRecord::Schema.define(version: 2024_05_30_114652) do
     t.string "published_status"
     t.string "published_at"
     t.string "image"
+    t.integer "saler_id"
+    t.index ["saler_id"], name: "index_books_on_saler_id"
   end
 
   create_table "cart_items", force: :cascade do |t|
@@ -81,11 +83,13 @@ ActiveRecord::Schema.define(version: 2024_05_30_114652) do
     t.string "contactno"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "jti"
+    t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.string "jti"
+    t.index ["email"], name: "index_customers_on_email", unique: true
     t.index ["jti"], name: "index_customers_on_jti"
     t.index ["reset_password_token"], name: "index_customers_on_reset_password_token", unique: true
   end

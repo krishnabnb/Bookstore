@@ -7,7 +7,7 @@ import 'toastr/build/toastr.css';
 
 const ForgotPasswordForm = () => {
   const [name, setName] = useState("");
-  const [file, setFile] = useState("");
+  const [file, setFile] = useState(null); 
   const [adress, setAdress] = useState("");
   const [city, setCity] = useState("");
   const [phoneno, setPhoneno] = useState("");
@@ -16,6 +16,7 @@ const ForgotPasswordForm = () => {
   const [password_confirmation, setPassword_confirmation] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isSignIn, setIsSignIn] = useState(true);
+  const [imagePreview, setImagePreview] = useState(null); 
 
   const toggleForm = () => {
     setIsSignIn(!isSignIn);
@@ -97,8 +98,8 @@ const ForgotPasswordForm = () => {
       console.error('Login error:', error.message);
       toastr.error('Login failed: ' + error.message);
     }
-  };
 
+  };
   return (
     <div className="container mt-5">
       <div className="row justify-content-center mt-5">
@@ -130,8 +131,13 @@ const ForgotPasswordForm = () => {
                       <input type="text" name="name" placeholder="Name" onChange={(e) => setName(e.target.value)} required className='form-control'  style={{fontSize: '13px'}}/>
                     </div>
                     <div className="mb-3">
-                      <input type="file" name="file" placeholder="File" onChange={(e) => setFile(e.target.value)} required className='form-control' />
+                      <input type="file" name="file" onChange={handleImageChange} required className='form-control' />
                     </div>
+                    {imagePreview && (
+                      <div className="mb-3">
+                        <img src={imagePreview} alt="Selected" style={{ maxWidth: '100%', maxHeight: '200px' }} />
+                      </div>
+                    )}
                     <div className="mb-3">
                       <input type="text" name="address" placeholder="Address" onChange={(e) => setAdress(e.target.value)} required className='form-control' style={{fontSize: '13px'}} />
                     </div>
