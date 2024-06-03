@@ -90,12 +90,9 @@ const ForgotPasswordForm = () => {
       const token = data.token;
       sessionStorage.setItem('jsontoken', token);
       toastr.success('Login successful');
-
-      console.log('Login successful', token);
-        setTimeout(function () {
-          window.location.href = '/saler';
-        }, 1000);
-
+      setTimeout(function () {
+        window.location.href = '/saler';
+      }, 1000);
     } catch (error) {
       console.error('Login error:', error.message);
       toastr.error('Login failed: ' + error.message);
@@ -121,8 +118,8 @@ const ForgotPasswordForm = () => {
                         {showPassword ? <BiHide className='icon123'></BiHide> : <BiShow className='icon123'></BiShow>}
                       </a>
                     </div>
+                    <button className='btn btn-primary' style={{fontSize: '13px'}}>Sign In</button>
                   </form>
-                    <button className='btn btn-primary'>Sign In</button>
                   <p className="mt-3 text-primary" onClick={toggleForm}>Don't have an account? Sign Up</p>
                 </>
               ) : (
@@ -136,7 +133,7 @@ const ForgotPasswordForm = () => {
                       <input type="file" name="file" placeholder="File" onChange={(e) => setFile(e.target.value)} required className='form-control' />
                     </div>
                     <div className="mb-3">
-                      <input type="text" name="address" placeholder="Address" onChange={(e) => setAddress(e.target.value)} required className='form-control' style={{fontSize: '13px'}} />
+                      <input type="text" name="address" placeholder="Address" onChange={(e) => setAdress(e.target.value)} required className='form-control' style={{fontSize: '13px'}} />
                     </div>
                     <div className="mb-3">
                       <input type="text" name="phoneNo" placeholder="Phone Number" onChange={(e) => setPhoneno(e.target.value)} required className='form-control'  style={{fontSize: '13px'}}/>
@@ -145,22 +142,22 @@ const ForgotPasswordForm = () => {
                       <input type="text" name="city" placeholder="City" onChange={(e) => setCity(e.target.value)} required className='form-control'  style={{fontSize: '13px'}} />
                     </div>
                     <div className="mb-3">
-                      <input type="email" name="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} required className='form-control' />
+                      <input type="email" name="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} required className='form-control'   style={{fontSize: '13px'}}/>
                     </div>
                     <div className="mb-3 password-input-container123">
-                      <input type={showPassword ? "text" : "password"} placeholder='Password' className='form-control' onChange={(e) => setPassword(e.target.value)} />
+                      <input type={showPassword ? "text" : "password"} placeholder='Password' className='form-control' onChange={(e) => setPassword(e.target.value)}  style={{fontSize: '13px'}} />
                       <a href="#" className="toggle-password-icon" onClick={() => setShowPassword(!showPassword)}>
                         {showPassword ? <BiHide className='icon123'></BiHide> : <BiShow className='icon123'></BiShow>}
                       </a>
                     </div>
                     <div className="mb-3 password-input-container123">
-                      <input type={showPassword ? "text" : "password"} placeholder='Confirm Password' className='form-control' onChange={(e) => setPassword_confirmation(e.target.value)}  />
+                      <input type={showPassword ? "text" : "password"} placeholder='Confirm Password' className='form-control' onChange={(e) => setPassword_confirmation(e.target.value)}  style={{fontSize: '13px'}}/>
                       <a href="#" className="toggle-password-icon" onClick={() => setShowPassword(!showPassword)}>
                         {showPassword ? <BiHide className='icon123'></BiHide> : <BiShow className='icon123'></BiShow>}
                       </a>
                     </div>
+                    <button className='btn btn-primary'  style={{fontSize: '13px'}}>Sign Up</button>
                   </form>
-                  <button className='btn btn-primary' >Sign Up</button>
                   <p className="mt-3 text-primary" onClick={toggleForm} >Already have an account? Sign In</p>
                 </>
               )}

@@ -1,24 +1,47 @@
+
 import React, { useState, useEffect } from 'react';
 import '../SellerModule/saler.css';
 import { NewBook } from './NewBook';
 import { RiDeleteBin5Line } from "react-icons/ri";
 import toastr from 'toastr';
 import 'toastr/build/toastr.css';
-import { Cart } from "../CartModule/Cart";
-// import CartItem from './CartItem';
 
 export const Book = () => {
-  const [books, setBooks] = useState([]);
+  const [books, setBooks] = useState(() => {
+    const savedBooks = localStorage.getItem('books');
+    return savedBooks ? JSON.parse(savedBooks) : [];
+  });
+
   const [error, setError] = useState(null);
-  const [editModes, setEditModes] = useState({});
   const [originalBooks, setOriginalBooks] = useState({});
+  const [searchQuery, setSearchQuery] = useState({ title: '', description: '', published_at: '', published_status: ''});
   const [image, setImage] = useState(null);
-  const [searchQuery, setSearchQuery] = useState({title: '', description: '', published_at: '', published_status: ''});
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modelData, setModelData] = useState(null);
   const [banner, setBannerImageUrl] = useState('');
-  const [cartItems, setCartItems] = useState([]);
+  const [selectedBooks, setSelectedBooks] = useState([]);
+  const [totalPrice, setTotalPrice] = useState('');
 
+  const handleAddToCart = (book) => {
+    setSelectedBooks((prevSelectedBooks) => [...prevSelectedBooks, book]);
+    setIsModalOpen(true);
+    setTotalPrice((prevTotal) => prevTotal + book.price);
+  };
+
+  // const handleCartButtonClick = (mathod) => {
+  //   const body = JSON.stringify({ payment: {mathod} })
+  //   fetch('http://192.168.1.8:3000/api/v1/payments', {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     },
+  //     body: body,
+  //   })
+  //   .then(response => response.json())
+  //   .then(payment => {
+  //     addNewPayment(payment);
+  //   });
+  // };
   const fetchBookDetails = async (id) => {
     try {
       const response = await fetch(`http://192.168.1.8:3000/api/v1/books/${id}`);
@@ -27,8 +50,6 @@ export const Book = () => {
         throw new Error(errorData.status.message);
       }
       const bookData = await response.json();
-      console.log('Book Data:', bookData);
-
       const { banner_image_url } = bookData;
       setBannerImageUrl(banner_image_url);
       setIsModalOpen(true);
@@ -51,6 +72,26 @@ export const Book = () => {
   useEffect(() => {
     fetchBooks();
   }, [modelData]);
+
+  const handleUpdate = async book => {
+    fetch(`http://192.168.1.8:3000/api/v1/books/${book.id}`, {
+      method: 'PUT',
+      body: JSON.stringify({ book: book }),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    })
+    .then(response => response.json())
+    .then(updatedBook => {
+      updateBook(updatedBook);
+    });
+  };
+
+  const updateBook = updatedBook => {
+    setBooks(prevBooks =>
+      prevBooks.map(book => (book.id === updatedBook.id ? updatedBook : book))
+    );
+  };
 
   const fetchBooks = async () => {
     try {
@@ -82,7 +123,6 @@ export const Book = () => {
         method: 'POST',
         body: formdata,
       });
-
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.status.message);
@@ -101,105 +141,30 @@ export const Book = () => {
     setBooks(prevBooks => [...prevBooks, book]);
   };
 
-  const handleEdit = bookId => {
-    setEditModes(prevState => ({
-      ...prevState,
-      [bookId]: true
-    }));
-  };
-
-  const handleSubmit = (book) => {
-    setEditModes(prevState => ({
-      ...prevState,
-      [book.id]: false
-    }));
-    handleUpdate(book);
-  };
-
-  const handleBackButtonClick = (book) => {
-    const originalBook = originalBooks[book.id];
-    console.log(originalBook);
-    setBooks((prevBooks) =>
-      prevBooks.map((b) => (b && b.id === book.id ? originalBook : b))
-    );
-    setEditModes((prevModes) => ({
-      ...prevModes,
-      [book.id]: false,
-    }));
-  };
-
-  const handleDelete = async id => {
-    const confirmed = window.confirm("Are you sure you want to delete this book?");
-    if (confirmed) {
-      try {
-        const response = await fetch(`http://192.168.1.8:3000/api/v1/books/${id}`, {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
-        if (response.ok) {
-          deleteBook(id);
-          console.log('Item was deleted!');
-        } else {
-          throw new Error('Failed to delete book');
-        }
-      } catch (error) {
-        console.error('Error deleting book:', error);
-        setError(error.message);
-      }
-    }
-  };
-
-  const deleteBook = id => {
-    setBooks(prevBooks => prevBooks.filter(book => book.id !== id));
-  };
-
-  const handleUpdate = async book => {
-    fetch(`http://192.168.1.8:3000/api/v1/books/${book.id}`, {
-      method: 'PUT',
-      body: JSON.stringify({ book: book }),
-      headers: {
-        'Content-Type': 'application/json'
-      },
-    })
-    .then(response => response.json())
-    .then(updatedBook => {
-      updateBook(updatedBook);
-    });
-  };
-
-  const updateBook = updatedBook => {
-    setBooks(prevBooks =>
-      prevBooks.map(book => (book.id === updatedBook.id ? updatedBook : book))
-    );
-  };
-
-  const handleImageChange = async (e, book) => {
-    try {
-      const file = e.target.files[0];
-      console.log("Selected file:", file);
-      setImage(file);
-      const formdata = new FormData();
-      formdata.append("book[image]", file);
-      const response = await fetch(`http://192.168.1.8:3000/api/v1/books/${book.id}`, {
-        method: 'PUT',
-        body: formdata,
-      });
-      const updatedBook = await response.json();
-      console.log("Updated book:", updatedBook);
-      updateBook(updatedBook);
-      await fetchBooks();
-    } catch (error) {
-      console.error('Error updating book image:', error);
-      setError(error.message);
-    }
-  };
+  // const handleImageChange = async (e, book) => {
+  //   try {
+  //     const file = e.target.files[0];
+  //     console.log("Selected file:", file);
+  //     setImage(file);
+  //     const formdata = new FormData();
+  //     formdata.append("book[image]", file);
+  //     const response = await fetch(`http://192.168.1.8:3000/api/v1/books/${book.id}`, {
+  //       method: 'PUT',
+  //       body: formdata,
+  //     });
+  //     const updatedBook = await response.json();
+  //     console.log("Updated book:", updatedBook);
+  //     updateBook(updatedBook);
+  //     await fetchBooks();
+  //   } catch (error) {
+  //     console.error('Error updating book image:', error);
+  //     setError(error.message);
+  //   }
+  // };
 
   const handleBImageChange = async (e, book) => {
     try {
       const file = e.target.files[0];
-      console.log("Selected file:", file);
       setImage(file);
       const formdata = new FormData();
       formdata.append("book[banner_image]", file);
@@ -208,7 +173,6 @@ export const Book = () => {
         body: formdata,
       });
       const updatedBook = await response.json();
-      console.log("Updated book:", updatedBook);
       updateBook(updatedBook.book);
       setBannerImageUrl(updatedBook.book.banner_image_url)
       await fetchBooks();
@@ -218,40 +182,19 @@ export const Book = () => {
     }
   };
 
-
-  const handleChange = (e, book) => {
-    const { name, value } = e.target;
-    const updatedBook = { ...book, [name]: value };
-    setBooks(prevState =>
-      prevState.map(b => (b.id === book.id ? updatedBook : b))
-    );
-  };
-
-  const handleToggleStatus = async (id) => {
-    try {
-      const response = await fetch(`http://192.168.1.8:3000/api/v1/books/${id}/update_status`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-      if (response.ok) {
-        const updatedBook = await response.json();
-        const updatedBooks = books.map(book => {
-          if (book.id === id) {
-            return updatedBook;
-          }
-          return book;
-        });
-        setBooks(updatedBook);
-        await fetchBooks();
-
-      } else {
-        throw new Error('Failed to update status');
-      }
-    } catch (error) {
-      console.error('Error updating status:', error);
-    }
+  const handleCartButtonClick = (method) => {
+    const body = JSON.stringify({ payment: { method } });
+    fetch('http://192.168.1.8:3000/api/v1/payments', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: body,
+    })
+    .then(response => response.json())
+    .then(payment => {
+      addNewPayment(payment);
+    });
   };
 
   const handleSearch = async () => {
@@ -293,30 +236,13 @@ export const Book = () => {
         },
         body: JSON.stringify({ type })
       });
-
       if (response.ok) {
-        console.log('Image deleted successfully!');
         updateBookImage(bookId, null);
       } else {
         throw new Error('Failed to delete image');
       }
     } catch (error) {
       console.error('Error deleting image:', error);
-    }
-  };
-
-  const handleAddToCart = (book) => {
-    const existingItem = cartItems.find((item) => item.book.id === book.id);
-    if (existingItem) {
-      setCartItems((prevItems) =>
-        prevItems.map((item) =>
-          item.book.id === book.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        )
-      );
-    } else {
-      setCartItems((prevItems) => [...prevItems, { book, quantity: 1 }]);
     }
   };
 
@@ -341,40 +267,59 @@ export const Book = () => {
         <input type="text" name="published_at" placeholder="Search by published_at" className='search-input' value={searchQuery.published_at} onChange={handleSearchInputChange} />
         <input type="text" name="published_status" placeholder="Search by published_status" className='search-input' value={searchQuery.published_status} onChange={handleSearchInputChange} />
         <button type="button" className='searchButton' onClick={handleSearch}>Search</button>
-        <button type="button" className='cancelButton' onClick={handleCancelSearch}>Cancel</button>
+        <button type="button" className='cancelButton' onClick={handleCancelSearch}>Cancel</button> {/* Add Cancel button */}
       </form>
       <div className="card-container">
-      {Array.isArray(books) && books.map((book) => (
-        <div key={book.id} className="card">
-          <img src={book.image_url} alt="Book Cover" onClick={() => { handleShowModal(book); fetchBookDetails(book.id); }} />
-          {isModalOpen && (
-            <div className="modal">
-              <div className="modal-content">
-                <span className="close" onClick={handleCloseModal}>&times;</span>
-                <div><img src={banner} alt="saler's image" style={{ width: '1750px', height: '500px' }} /></div>
-                <input type="file" onChange={e => handleBImageChange(e, book)} name="image" />
-                <div><RiDeleteBin5Line onClick={() => handleImageDelete(book.id, 'banner_image')} /></div>
-                <div><img src={modelData.image_url} alt="saler's image" style={{ width: '300px', height: '300px', float: 'right', marginRight: '500px', marginTop: '20px' }} /></div>
-                <div style={{ marginLeft: '500px' }}>
-                  <h3>Title: {modelData.title}</h3>
-                  <h3>Author: {modelData.author}</h3>
-                  <h3>Description: {modelData.description}</h3>
-                  <h3>Price: {modelData.price}</h3>
-                  <h3>Published Status: {modelData.published_status}</h3>
-                  <h3>Published At: {modelData.published_at}</h3>
-                    {/* <div><button onClick={() => handleToggleStatus(book.id)}>Change Status</button></div> */}
+        {Array.isArray(books) && books.map((book) => (
+          <div key={book.id} className="card">
+            <img src={book.image_url} alt="Book Cover" onClick={() => { handleShowModal(book); fetchBookDetails(book.id); }} />
+            {isModalOpen && modelData && (
+              <div className="modal">
+                <div className="modal-content">
+                  <span className="close" onClick={handleCloseModal}>&times;</span>
+                  <div>
+                    <img src={banner} alt="saler's image" style={{ width: '1750px', height: '500px' }} />
+                    <input type="file" onChange={e => handleBImageChange(e, book)} name="image" />
+                    <div><RiDeleteBin5Line onClick={() => handleImageDelete(book.id, 'banner_image')} /></div>
+                    <div><img src={modelData.image_url} alt="saler's image" style={{ width: '300px', height: '300px', float: 'right', marginRight: '500px', marginTop: '20px' }} /></div>
+                    <div style={{ marginLeft: '500px' }}>
+                      <h3>Title: {modelData.title}</h3>
+                      <h3>Author: {modelData.author}</h3>
+                      <h3>Description: {modelData.description}</h3>
+                      <h3>Price: {modelData.price}</h3>
+                      <h3>Published Status: {modelData.published_status}</h3>
+                      <h3>Published At: {modelData.published_at}</h3>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+            <div>
+              <button onClick={() => handleAddToCart(book)}>Add to Cart</button>
+            </div>
+          </div>
+        ))}
+        {selectedBooks.length > 0 && isModalOpen && (
+          <div className="modal">
+            <div className="modal-content">
+              <span className="close" onClick={handleCloseModal}>&times;</span>
+              <div>
+                {selectedBooks.map((selectedBook) => (
+                  <div key={selectedBook.id}>
+                    <img src={selectedBook.image_url} alt="Book Cover" />
+                    <h3>Title: {selectedBook.title}</h3>
+                    <h3>Price: {selectedBook.price}</h3>
+                  </div>
+                ))}
+                <div>
+                  <h2>Total Price: ${totalPrice}</h2>
+                  <button onClick={handleCartButtonClick}>Add to Cart</button>
                 </div>
               </div>
             </div>
-          )}
-          <div>
-            {/* Your Book component content */}
-            <button onClick={() => handleAddToCart(book)}>Add to Cart</button>
-            <Cart cartItems={cartItems} />
           </div>
-        </div>
-      ))}
-    </div>
+        )}
+      </div>
       <div className='email'>
         <div className="left-side">
           <h2>Subscribe Now to Get Regular Updates</h2>
