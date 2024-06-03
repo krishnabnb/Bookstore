@@ -25,7 +25,6 @@
 //         ref={(input) => formFields.customer_id = input}
 //         placeholder="Enter the name"
 //         className='input-withcart'
-//         // value={sessionStorage.getItem('customername')}
 //       />
 //        <input
 //         type="text"
@@ -52,7 +51,7 @@ import './cart.css';
 import { useParams } from 'react-router-dom';
 
 export const NewCart = (props) => {
-  const { quantity } = useParams(); // Use a unique name for the parameter
+  const { quantity } = useParams(); 
 
   const formFields = {};
   const handleFormSubmit = (e) => {
@@ -74,7 +73,6 @@ export const NewCart = (props) => {
         ref={(input) => formFields.customer_id = input}
         placeholder="Enter the name"
         className='input-withcart'
-        // value={sessionStorage.getItem('customername')}
       />
       <input
         type="text"
@@ -89,7 +87,7 @@ export const NewCart = (props) => {
         ref={(input) => formFields.quantity = input}
         placeholder="Enter the quantity"
         className='input-withcart'
-        defaultValue={quantity} // Use defaultValue to set the quantity
+        defaultValue={quantity} 
       />
       <button type="submit" className='submit_Button'>Submit</button>
     </form>

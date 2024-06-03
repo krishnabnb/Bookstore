@@ -70,7 +70,7 @@ export const User = () => {
     }));
   };
 
-  const handleSubmit = customer => {
+  const handleSubmit = (customer) => {
     setEditModes(prevState => ({
       ...prevState,
       [customer.id]: false
@@ -78,10 +78,24 @@ export const User = () => {
     handleupdate(customer)
   };
 
-  const handleupdate = customer => {
+  // const handleupdate = customer => {
+  //   fetch(`http://192.168.1.8:3000/api/v1/customers/${customer.id}`, {
+  //     method: 'PUT',
+  //     body: JSON.stringify({customer: customer}),
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     }
+  //   })
+  //   .then(response => response.json())
+  //   .then(updatedCustomer => {
+  //     updateCusromer(updatedCustomer)
+  //   })
+  // }
+
+  const handleupdate = async customer => {
     fetch(`http://192.168.1.8:3000/api/v1/customers/${customer.id}`, {
       method: 'PUT',
-      body: JSON.stringify({customer: customer}),
+      body: JSON.stringify({customer: customer}), // Fix the payload structure
       headers: {
         'Content-Type': 'application/json'
       }
@@ -91,6 +105,7 @@ export const User = () => {
       updateCusromer(updatedCustomer)
     })
   }
+  
 
   const updateCusromer = updatedCustomer => {
     setCustomers(prevState =>

@@ -5,6 +5,7 @@ class Api::V1::SalersController < ApplicationController
     @salers = Saler.all
     render json: { saler: SalerSerializer.new(@salers).serializable_hash[:data] }
   end
+
   def image_destroy
     if @saler.image.attached?
       @saler.image.purge
@@ -38,12 +39,10 @@ class Api::V1::SalersController < ApplicationController
 
   private
   def saler_params
-    params.require(:saler).permit(:name, :email, :book_title, :price, :image)
+    params.require(:saler).permit(:name, :email, :password, :password_confirmation, :image, :city, :adress, :phoneno)
   end
 
   def set_saler
     @saler = Saler.find(params[:id])
   end
 end
-
-
