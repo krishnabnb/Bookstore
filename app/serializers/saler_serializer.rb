@@ -1,7 +1,7 @@
 class SalerSerializer
   include JSONAPI::Serializer
 
-  attributes :id, :name, :email, :book_title, :price, :image_path
+  attributes :id, :name, :email, :adress, :phoneno, :city, :image_path
 
   def serializable_hash(*)
     begin

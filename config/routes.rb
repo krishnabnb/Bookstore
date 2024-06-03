@@ -1,4 +1,13 @@
 Rails.application.routes.draw do
+  devise_for :salers, path: '', path_names: {
+    registration: 'salers/signup',
+    sign_in: 'salers/login',
+    sign_out: 'logout'
+  }, controllers: {
+    registrations: 'salers/registrations',
+    sessions: 'salers/sessions'
+  }
+
   root to: 'home#index'
 
   get 'current_customer', to: 'current_customer#index'
@@ -9,17 +18,19 @@ Rails.application.routes.draw do
     registration: 'signup'
   },
   controllers: {
-    sessions:'customers/sessions',
+    sessions: 'customers/sessions',
     registrations: 'customers/registrations'
   }
 
   namespace :api do
     namespace :v1 do
-      resources :salers do
+      resources :salers , only: [:index, :show, :update, :destroy] do
         member do
           delete 'image_destroy'
         end
+        # post 'signup', to: 'registrations#create'
       end
+  
       resources :books do
         member do
           patch  'update_status'
@@ -36,8 +47,5 @@ Rails.application.routes.draw do
   get '*path', to: 'home#index', constraints: lambda { |req|
     req.format.html?
   }
-
-  #   get '*path', to: 'home#index'
-
   delete 'logout', to: 'sessions#destroy'
 end
