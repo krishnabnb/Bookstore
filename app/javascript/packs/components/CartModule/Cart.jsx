@@ -159,7 +159,7 @@ export const Cart = (cartItems) => {
           </tr>
         </thead>
         <tbody>
-          {CartItem.map((cart) => (
+          {/* {CartItem.map((cart) => (
             <tr key={cart.id}>
               <td>{cart.book.title}</td>
               <td>{cart.book.author}</td>
@@ -181,7 +181,7 @@ export const Cart = (cartItems) => {
                 <Link to={`/payment/${cart.id}`}><button>Payment</button></Link>
               </td>
             </tr>
-          ))}
+          ))} */}
         </tbody>
       </table>
 

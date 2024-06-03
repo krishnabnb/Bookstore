@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   devise_for :salers, path: '', path_names: {
     registration: 'salers/signup',
     sign_in: 'salers/login',
-    sign_out: 'logout'
+    sign_out: 'salers/logout'
   }, controllers: {
     registrations: 'salers/registrations',
     sessions: 'salers/sessions'
