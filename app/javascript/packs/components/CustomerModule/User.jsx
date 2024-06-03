@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Newuser } from './Newuser';
 
 export const User = () => {
   const [customers, setCustomers] = useState(() => {
@@ -9,6 +8,28 @@ export const User = () => {
   const [error, setError] = useState(null);
   const [editModes, setEditModes] = useState({});
   const [originalCustomers, setOriginalCustomers] = useState({});
+  const [customerEmail, setCustomerEmail] = useState('');
+  const [customername, setCustomerFirstname] = useState('');
+  const [customerLastName, setCustomerLastName] = useState('');
+  const [customerAddress, setCustomerAddress] = useState('');
+  const [customerCity, setCustomerCity] = useState('');
+  const [ContactNo, setCustomerContactNo] = useState('');
+
+  useEffect(()=>{
+    const email = sessionStorage.getItem('customerEmail');
+    const firstname = sessionStorage.getItem('customername');
+    const lastname = sessionStorage.getItem('customerLastName');
+    const address = sessionStorage.getItem('customerAddress');
+    const city = sessionStorage.getItem('customerCity');
+    const contactno = sessionStorage.getItem('ContactNo');
+
+    setCustomerEmail(email);
+    setCustomerFirstname(firstname);
+    setCustomerLastName(lastname);
+    setCustomerAddress(address);
+    setCustomerCity(city);
+    setCustomerContactNo(contactno);
+  })
 
   useEffect(() => {
     fetch('http://192.168.1.8:3000/api/v1/customers')
@@ -36,21 +57,6 @@ export const User = () => {
       console.error('Error fetching data:', error);
       setError(error.message);
     }
-  };
-
-  const handleFormSubmit = (firstname, lastname, address, city, contactno) => {
-    const body = JSON.stringify({ customer: { firstname, lastname, address, city, contactno } })
-    fetch('http://192.168.1.8:3000/api/v1/customers', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: body,
-    })
-    .then(response => response.json())
-    .then(customer => {
-      addNewCustomer(customer);
-    });
   };
 
   const addNewCustomer = customer => {
@@ -156,103 +162,38 @@ export const User = () => {
             </div>
           </div>
         </div>
-        <div className='form-field'>
-          <Newuser handleFormSubmit={handleFormSubmit} />
+      </div>
+      <div style={{ border:'1px solid #ccc', borderRadius:'20px', boxShadow:'0 2px 4px rgba(0,0,0,0.1)', height:'400px', marginTop:'100px'}}>
+        <div style={{marginLeft:'400px', marginTop:'50px'}}>
+          <div style={{display:'flex',marginTop:'-10px'}}>
+            <h2>Firstname:</h2>
+            <h4 style={{marginLeft:'50px', marginTop:'25px'}}>{customername}</h4>
+          </div>
+          <div style={{display:'flex',marginTop:'-20px'}}>
+            <h2>Lastname:</h2>
+            <h4 style={{marginLeft:'50px', marginTop:'25px'}}>{customerLastName}</h4>
+          </div>
+          <div style={{display:'flex',marginTop:'-20px'}}>
+            <h2>Address:</h2>
+            <h4 style={{marginLeft:'70px', marginTop:'25px'}}>{customerAddress}</h4>
+          </div>
+          <div style={{display:'flex',marginTop:'-20px'}}>
+            <h2>City:</h2>
+            <h4 style={{marginLeft:'120px', marginTop:'25px'}}>{customerCity}</h4>
+          </div>
+          <div style={{display:'flex',marginTop:'-20px'}}>
+            <h2>Contactno:</h2>
+            <h4 style={{marginLeft:'30px', marginTop:'25px'}}>{ContactNo}</h4>
+          </div>
+          <div style={{display:'flex',marginTop:'-20px'}}>
+            <h2>Email:</h2>
+            <h4 style={{marginLeft:'90px', marginTop:'25px'}}>{customerEmail}</h4>
+          </div>
+        </div>
+        <div style={{float:'right', marginTop:'-300px', marginRight:'600px' }}>
+          <img src='data:image/jpeg;base64,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' style={{height:'300px', width:'300px'}}></img>
         </div>
       </div>
-      <table className="salers-table">
-        <thead>
-          <tr>
-            <th>FirstName</th>
-            <th>LastName</th>
-            <th>Address</th>
-            <th>City</th>
-            <th>ContactNo</th>
-            <th>Delete</th>
-            <th>Edit</th>
-          </tr>
-        </thead>
-        <tbody>
-          {Array.isArray(customers) && customers?.map((customer) => (
-
-            <tr key={customer.id}>
-              <td>
-                {editModes[customer.id] ? (
-                  <input
-                    name="firstname"
-                    value={customer.firstname}
-                    onChange={e => handleChange(e, customer)}
-                    placeholder="Firstname"
-                  />
-                ) : (
-                  customer.firstname
-                )}
-              </td>
-              <td>
-                {editModes[customer.id] ? (
-                  <input
-                    name="lastname"
-                    value={customer.lastname}
-                    onChange={e => handleChange(e, customer)}
-                    placeholder="lastname"
-                  />
-                ) : (
-                  customer.lastname
-                )}
-              </td>
-              <td>
-                {editModes[customer.id] ? (
-                  <input
-                    name="address"
-                    value={customer.address}
-                    onChange={e => handleChange(e, customer)}
-                    placeholder="Address"
-                  />
-                ) : (
-                  customer.address
-                )}
-              </td>
-              <td>
-                {editModes[customer.id] ? (
-                  <input
-                    name="city"
-                    value={customer.city}
-                    onChange={e => handleChange(e, customer)}
-                    placeholder="City"
-                  />
-                ) : (
-                  customer.city
-                )}
-              </td>
-              <td>
-                {editModes[customer.id] ? (
-                  <input
-                    name="contactno"
-                    value={customer.contactno}
-                    onChange={e => handleChange(e, customer)}
-                    placeholder="Contactno"
-                  />
-                ) : (
-                  customer.contactno
-                )}
-              </td>
-              <td>
-                <button onClick={() => handleDelete(customer.id)}>Delete</button>
-              </td>
-              <td>
-                {editModes[customer.id] ? (
-                  <div>
-                    <button onClick={() => handleSubmit(customer)}>Submit</button>
-                    <button onClick={() => handleBackButtonClick(customer)}>Back</button>
-                  </div>
-                ) : (
-                  <button onClick={() => handleEdit(customer.id)}>Edit</button>
-                )}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
       <div className='email'>
         <div className="left-side">
           <h2>Subscribe Now to Get Regular Updates</h2>

@@ -4,6 +4,7 @@ import { NewBook } from './NewBook';
 import { RiDeleteBin5Line } from "react-icons/ri";
 import toastr from 'toastr';
 import 'toastr/build/toastr.css';
+import { Cart } from "../CartModule/Cart";
 
 export const Book = () => {
   const [books, setBooks] = useState([]);
@@ -15,6 +16,7 @@ export const Book = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modelData, setModelData] = useState(null);
   const [banner, setBannerImageUrl] = useState('');
+  const [cartItems, setCartItems] = useState([]);
 
   const fetchBookDetails = async (id) => {
     try {
@@ -27,7 +29,7 @@ export const Book = () => {
       console.log('Book Data:', bookData);
 
       const { banner_image_url } = bookData;
-      setBannerImageUrl(banner_image_url || '/image/defalt.jpg');
+      setBannerImageUrl(banner_image_url);
       setIsModalOpen(true);
     } catch (error) {
       console.error('Error fetching book details:', error);
@@ -47,7 +49,7 @@ export const Book = () => {
 
   useEffect(() => {
     fetchBooks();
-  }, []);
+  }, [modelData]);
 
   const fetchBooks = async () => {
     try {
@@ -302,19 +304,24 @@ export const Book = () => {
     }
   };
 
-  const handleCartButtonClick = () => {
-    const quantity = window.prompt('Enter the quantity you want:', '1');
-    if (quantity !== null && !isNaN(quantity) && quantity !== '') {
-      const quantityInt = parseInt(quantity);
-      if (quantityInt > 0) {
-        window.alert(`You added ${quantityInt} item(s) to cart!`);
-      } else {
-        window.alert('Please enter a valid quantity!');
-      }
+  const handleAddToCart = (book) => {
+    const existingItem = cartItems.find((item) => item.book.id === book.id);
+    if (existingItem) {
+      // Increment quantity if item already exists in cart
+      setCartItems((prevItems) =>
+        prevItems.map((item) =>
+          item.book.id === book.id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        )
+      );
     } else {
-      window.alert('Please enter a valid quantity!');
+      // Add new item to cart
+      setCartItems((prevItems) => [...prevItems, { book, quantity: 1 }]);
     }
   };
+
+
   return (
     <div>
       <div>
@@ -338,108 +345,40 @@ export const Book = () => {
         <button type="button" className='searchButton' onClick={handleSearch}>Search</button>
         <button type="button" className='cancelButton' onClick={handleCancelSearch}>Cancel</button>
       </form>
-      <table className="salers-table">
-        <thead>
-          <tr>
-            <th>Title</th><th>Author</th><th>Description</th><th>Price</th><th>Image</th><th>Published_Stattus</th><th>Published_at</th><th>Delete</th><th>Edit</th><th>Changed status</th><th>Show</th><th>Add to Cart</th>
-          </tr>
-        </thead>
-        <tbody>
-          {Array.isArray(books) && books.map((book) => (
-            book && (
-              <tr key={book.id}>
-                <td>
-                  {editModes[book.id] ? (
-                    <input name="title" value={book.title} onChange={e => handleChange(e, book)} placeholder="Title"/>
-                  ) : (
-                    book.title
-                  )}
-                </td>
-                <td>
-                  {editModes[book.id] ? (
-                    <input name="author" value={book.author} onChange={e => handleChange(e, book)} placeholder="Author"/>
-                  ) : (
-                    book.author
-                  )}
-                </td>
-                <td>
-                  {editModes[book.id] ? (
-                    <input name="description" value={book.description} onChange={e => handleChange(e, book)} placeholder="Description"/>
-                  ) : (
-                    book.description
-                  )}
-                </td>
-                <td>
-                  {editModes[book.id] ? (
-                    <input name="price" value={book.price} onChange={e => handleChange(e, book)} placeholder="Price"/>
-                  ) : (
-                    book.price
-                  )}
-                </td>
-                <td>
-                  {editModes[book.id] ? (
-                    <input type="file" onChange={e => handleImageChange(e, book)} name="image" />
-                  ) : (
-                    <>
-                      <img src={book.image_url} alt="saler's image" style={{ width: '100px', height: '100px' }} />
-                      <div><RiDeleteBin5Line onClick={() => handleImageDelete(book.id, 'image')} /></div>
-                    </>
-                  )}
-                </td>
-                <td>
-                  {editModes[book.id] ? (
-                    <input name="published_status" value={book.published_status} onChange={e => handleChange(e, book)} placeholder="Published_Status"/>
-                  ) : (
-                    book.published_status
-                  )}
-                </td>
-                <td>
-                  {editModes[book.id] ? (
-                    <input name="published_at" value={book.published_at} onChange={e => handleChange(e, book)} placeholder="Published_at"/>
-                  ) : (
-                    book.published_at
-                  )}
-                </td>
-                <td><button onClick={() => handleDelete(book.id)}>Delete</button></td>
-                <td>
-                  {editModes[book.id] ? (
-                    <div>
-                      <button onClick={() => handleSubmit(book)}>Submit</button>
-                      <button onClick={() => handleBackButtonClick(book)}>Back</button>
-                    </div>
-                  ) : (
-                    <button onClick={() => handleEdit(book.id)}>Edit</button>
-                  )}
-                </td>
-                <td><button onClick={() => handleToggleStatus(book.id)}>Change Status</button></td>
-                <td>
-                  <button onClick={() => { handleShowModal(book); fetchBookDetails(book.id); }} >Show</button>
-                  {isModalOpen && (
-                    <div className="modal">
-                      <div className="modal-content">
-                        <span className="close" onClick={handleCloseModal}>&times;</span>
-                        <div><img src={banner} alt="book's banner image" style={{ width: '1750px', height: '500px' }} /></div>
-                        <input type="file" onChange={e => handleBImageChange(e, book)} name="image" />
-                        <div><RiDeleteBin5Line onClick={() => handleImageDelete(book.id, 'banner_image')} /></div>
-                        <div><img src={modelData.image_url} alt="saler's image" style={{ width: '300px', height: '300px', float:'right', marginRight: '500px', marginTop: '20px' }} /></div>
-                        <div style={{ marginLeft: '500px'}}>
-                          <h3>Title: {modelData.title}</h3>
-                          <h3>Author: {modelData.author}</h3>
-                          <h3>Description: {modelData.description}</h3>
-                          <h3>Price: {modelData.price}</h3>
-                          <h3>Published Status: {modelData.published_status}</h3>
-                          <h3>Published At: {modelData.published_at}</h3>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </td>
-                <td><button onClick={handleCartButtonClick}>Cart</button></td>
-              </tr>
-            )
-          ))}
-        </tbody>
-      </table>
+      <div className="card-container">
+        {Array.isArray(books) && books.map((book) => (
+          <div key={book.id} className="card">
+            <img src={book.image_url} alt="Book Cover"  onClick={() => { handleShowModal(book); fetchBookDetails(book.id); }}/>
+            {isModalOpen && (
+              <div className="modal">
+                <div className="modal-content">
+                  <span className="close" onClick={handleCloseModal}>&times;</span>
+                  <div><img src={banner} alt="saler's image" style={{ width: '1750px', height: '500px' }} /></div>
+                  <input type="file" onChange={e => handleBImageChange(e, book)} name="image" />
+                  <div><RiDeleteBin5Line onClick={() => handleImageDelete(book.id, 'banner_image')} /></div>
+                  <div><img src={modelData.image_url} alt="saler's image" style={{ width: '300px', height: '300px', float:'right', marginRight: '500px', marginTop: '20px' }} /></div>
+                  <div style={{ marginLeft: '500px'}}>
+                    <h3>Title: {modelData.title}</h3>
+                    <h3>Author: {modelData.author}</h3>
+                    <h3>Description: {modelData.description}</h3>
+                    <h3>Price: {modelData.price}</h3>
+                    <h3>Published Status: {modelData.published_status}</h3>
+                    <h3>Published At: {modelData.published_at}</h3>
+                    {/* <div><button onClick={() => handleToggleStatus(book.id)}>Change Status</button></div> */}
+                  </div>
+                </div>
+              </div>
+            )}
+            {/* <div><button onClick={() => handleCartButtonClick(book)}>Add to Cart</button></div><br></br> */}
+            <div>
+      {/* Your Book component content */}
+      <button onClick={() => handleAddToCart(book)}>Add to Cart</button>
+      <Cart cartItems={cartItems} />
+    </div>
+
+          </div>
+        ))}
+      </div>
       <div className='email'>
         <div className="left-side">
           <h2>Subscribe Now to Get Regular Updates</h2>
