@@ -21,21 +21,6 @@ const Header = () => {
         </div>
         <div><h2 style={{marginRight:'1700px', marginTop:'10px'}}>BOOKSTORE</h2></div>
         <div style={{marginTop: '-80px'}}>
-          <ul>
-            <li className="active"><Link to="/home">Home</Link></li>
-            <li><Link to="/bio">Bio</Link></li>
-            <li><Link to="/contact">ContactUs</Link></li>
-            <li><Link to="/book">Books</Link></li>
-            <li><Link to="/saler">Salers</Link></li>
-            <li><Link to="/payment">Payment</Link></li>
-            <li><Link to="/product">Product</Link></li>
-            <li><Link to="/logout">Logout</Link></li>
-            <li><Link to="/"></Link></li>
-            <li><Link to="/cart"><FaShoppingCart /></Link></li>
-            <li><Link to="/customer">{customerEmail ? customerEmail : <FaUser />}</Link></li>
-          </ul>
-        </div>
-
         <ul>
           <li className="active"><Link to="/home">Home</Link></li>
           <li><Link to="/bio">Bio</Link></li>
@@ -52,6 +37,9 @@ const Header = () => {
           <li><Link to="/cart"><FaShoppingCart /></Link></li>
           <li><Link to="/customer">{customerEmail ? customerEmail : <FaUser />}</Link></li>
         </ul>
+        </div>
+
+
       </nav>
     </div>
   );
