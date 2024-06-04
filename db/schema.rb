@@ -83,13 +83,11 @@ ActiveRecord::Schema.define(version: 2024_06_03_085043) do
     t.string "contactno"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "jti"
-    t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.index ["email"], name: "index_customers_on_email", unique: true
+    t.string "jti"
     t.index ["jti"], name: "index_customers_on_jti"
     t.index ["reset_password_token"], name: "index_customers_on_reset_password_token", unique: true
   end
@@ -109,7 +107,6 @@ ActiveRecord::Schema.define(version: 2024_06_03_085043) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "image"
-    t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
@@ -118,7 +115,6 @@ ActiveRecord::Schema.define(version: 2024_06_03_085043) do
     t.string "phoneno"
     t.string "city"
     t.string "jti"
-    t.index ["email"], name: "index_salers_on_email", unique: true
     t.index ["jti"], name: "index_salers_on_jti"
     t.index ["reset_password_token"], name: "index_salers_on_reset_password_token", unique: true
   end

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import '../SellerModule/saler.css';
 import { NewBook } from './NewBook';
@@ -28,20 +27,12 @@ export const Book = () => {
     setTotalPrice((prevTotal) => prevTotal + book.price);
   };
 
-  // const handleCartButtonClick = (mathod) => {
-  //   const body = JSON.stringify({ payment: {mathod} })
-  //   fetch('http://192.168.1.8:3000/api/v1/payments', {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json'
-  //     },
-  //     body: body,
-  //   })
-  //   .then(response => response.json())
-  //   .then(payment => {
-  //     addNewPayment(payment);
-  //   });
-  // };
+  const handleCartButtonClick = () => {
+    console.log("Total price:", totalPrice);
+    setSelectedBooks([]);
+    setTotalPrice(0);
+  };
+
   const fetchBookDetails = async (id) => {
     try {
       const response = await fetch(`http://192.168.1.8:3000/api/v1/books/${id}`);
@@ -182,21 +173,6 @@ export const Book = () => {
     }
   };
 
-  const handleCartButtonClick = (method) => {
-    const body = JSON.stringify({ payment: { method } });
-    fetch('http://192.168.1.8:3000/api/v1/payments', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: body,
-    })
-    .then(response => response.json())
-    .then(payment => {
-      addNewPayment(payment);
-    });
-  };
-
   const handleSearch = async () => {
     try {
       const queryParams = new URLSearchParams();
@@ -267,7 +243,7 @@ export const Book = () => {
         <input type="text" name="published_at" placeholder="Search by published_at" className='search-input' value={searchQuery.published_at} onChange={handleSearchInputChange} />
         <input type="text" name="published_status" placeholder="Search by published_status" className='search-input' value={searchQuery.published_status} onChange={handleSearchInputChange} />
         <button type="button" className='searchButton' onClick={handleSearch}>Search</button>
-        <button type="button" className='cancelButton' onClick={handleCancelSearch}>Cancel</button> {/* Add Cancel button */}
+        <button type="button" className='cancelButton' onClick={handleCancelSearch}>Cancel</button>
       </form>
       <div className="card-container">
         {Array.isArray(books) && books.map((book) => (
