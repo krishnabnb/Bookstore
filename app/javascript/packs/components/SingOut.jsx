@@ -9,7 +9,7 @@ const SingOut = () => {
       try {
         const token = sessionStorage.getItem('jsontoken');
   
-        const response = await fetch('http://192.168.1.8:3000/saler/logout', {
+        const response = await fetch('http://192.168.1.8:3000/salers/logout', {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
@@ -26,7 +26,7 @@ const SingOut = () => {
           throw new Error('Failed to logout');
         }
   
-        window.location.href = '/';
+        window.location.href = '/saller';
   
       } catch (error) {
         console.error('Error:', error);

@@ -55,6 +55,7 @@ const App = () => {
             <Route path="/logout" element={<><Header/><Logout /><Footer/></>} />
             <Route path="/SingOut" element={<><Header/><SingOut /><Footer/></>} />
 
+
           </Routes>
         </div>
       </BrowserRouter>
