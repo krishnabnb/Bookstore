@@ -62,7 +62,7 @@ const ForgotPasswordForm = () => {
       toastr.success('Registration successful');
       sessionStorage.setItem('salerEmail', customerData.email);
       sessionStorage.setItem('salername', customerData.name);
-      sessionStorage.setItem('salerAddress', customerData.address);
+      sessionStorage.setItem('salerAdress', customerData.adress);
       sessionStorage.setItem('salerCity', customerData.city);
       sessionStorage.setItem('ContactNo', customerData.phoneno);
 

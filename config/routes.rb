@@ -1,9 +1,5 @@
 Rails.application.routes.draw do
-  namespace :api do
-    namespace :v1 do
-      get 'saler_books/index'
-    end
-  end
+  
   devise_for :salers, path: '', path_names: {
     registration: 'salers/signup',
     sign_in: 'salers/login',
@@ -14,10 +10,9 @@ Rails.application.routes.draw do
   }
 
   root to: 'home#index'
-  get 'current_saler', to: 'current_saler#index'
-
+  
   get 'current_customer', to: 'current_customer#index'
-
+  
   devise_for :customers, path: '', path_names: {
     sign_in: 'login',
     sign_out: 'logout',
@@ -27,6 +22,7 @@ Rails.application.routes.draw do
     sessions: 'customers/sessions',
     registrations: 'customers/registrations'
   }
+  get 'current_saler', to: 'current_saler#index'
 
   namespace :api do
     namespace :v1 do
@@ -46,6 +42,7 @@ Rails.application.routes.draw do
       resources :payments
       resources :carts
       resources :contacts
+      resources :saler_books, only: [:index] 
     end
   end
 

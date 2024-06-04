@@ -76,6 +76,7 @@ function Login() {
       console.log('Current customer:', customerData);
 
       sessionStorage.setItem('customerEmail', customerData.email);
+      sessionStorage.setItem('customerFisrtname', customerData.firstname);
 
 
       console.log('Login successful', token);
