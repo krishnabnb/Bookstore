@@ -7,7 +7,7 @@ import 'toastr/build/toastr.css';
 
 const ForgotPasswordForm = () => {
   const [name, setName] = useState("");
-  const [file, setFile] = useState(null); 
+  const [file, setFile] = useState(null);
   const [adress, setAdress] = useState("");
   const [city, setCity] = useState("");
   const [phoneno, setPhoneno] = useState("");
@@ -16,7 +16,7 @@ const ForgotPasswordForm = () => {
   const [password_confirmation, setPassword_confirmation] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isSignIn, setIsSignIn] = useState(true);
-  const [imagePreview, setImagePreview] = useState(null); 
+  const [imagePreview, setImagePreview] = useState(null);
 
   const toggleForm = () => {
     setIsSignIn(!isSignIn);
@@ -45,16 +45,26 @@ const ForgotPasswordForm = () => {
           "Accept": 'application/json',
         }
       });
-
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.status.message);
       }
-
+      const customerResponse = await fetch('  http://192.168.1.8:3000/current_saler', {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      const customerData = await customerResponse.json();
       const data = await response.json();
       const token = data.token;
       sessionStorage.setItem('jsontoken', token);
       toastr.success('Registration successful');
+      sessionStorage.setItem('salerEmail', customerData.email);
+      sessionStorage.setItem('salername', customerData.name);
+      sessionStorage.setItem('salerAddress', customerData.address);
+      sessionStorage.setItem('salerCity', customerData.city);
+      sessionStorage.setItem('ContactNo', customerData.phoneno);
 
       setTimeout(function() {
         window.location.href = '/saler';
@@ -75,14 +85,11 @@ const ForgotPasswordForm = () => {
         },
         body: JSON.stringify({ saler: { email, password } }),
         credentials: 'include',
-
       });
-
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.error || 'Login failed');
       }
-
       const contentType = response.headers.get('content-type');
       if (!contentType || !contentType.includes('application/json')) {
         throw new Error('Response is not in JSON format');
@@ -98,7 +105,22 @@ const ForgotPasswordForm = () => {
       console.error('Login error:', error.message);
       toastr.error('Login failed: ' + error.message);
     }
+  };
 
+
+  const handleImageChange = (e) => {
+    const selectedFile = e.target.files[0];
+    setFile(selectedFile);
+
+    if (selectedFile) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        setImagePreview(event.target.result);
+      };
+      reader.readAsDataURL(selectedFile);
+    } else {
+      setImagePreview(null);
+    }
   };
   return (
     <div className="container mt-5">

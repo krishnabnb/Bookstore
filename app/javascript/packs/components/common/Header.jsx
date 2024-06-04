@@ -32,11 +32,11 @@ const Header = () => {
           <li><Link to="/contact">ContactUs</Link></li>
           <li><Link to="/book">Books</Link></li>
           <li><Link to="/logout">Logout</Link></li>
-          {customerEmail && <li><Link to="/payment">Payment</Link></li>}
-          {salerEmail && <li><Link to="/product">Product</Link></li>}
-          {customerEmail && <li><Link to="/cart"><FaShoppingCart /></Link></li>}
-          {customerEmail && <li><Link to="/customer">{customerEmail}</Link></li>}
-          {salerEmail && <li><Link to="/saler">{salerEmail}</Link></li>}
+          <li><Link to="/payment">Payment</Link></li>
+          <li><Link to="/product">Product</Link></li>
+          <li><Link to="/cart"><FaShoppingCart /></Link></li>
+          <li><Link to="/customer">{customerEmail}</Link></li>
+          <li><Link to="/saler">{salerEmail}</Link></li>
         </ul>
         </div>
       </nav>

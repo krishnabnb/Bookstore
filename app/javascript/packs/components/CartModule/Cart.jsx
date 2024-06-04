@@ -25,10 +25,6 @@ export const Cart = (cartItems) => {
       if (response.ok) {
         const data = await response.json();
         setCarts(data);
-        setOriginalCarts(data.reduce((acc, cart) => {
-          acc[cart.id] = { ...cart };
-          return acc;
-        }, {}));
       } else {
         throw new Error('Failed to fetch data');
       }
@@ -198,7 +194,6 @@ export const Cart = (cartItems) => {
     </div>
   )
 }
-=======
 // import React, { useState, useEffect } from 'react';
 // import { NewCart } from './NewCart';
 // import { Link } from 'react-router-dom';

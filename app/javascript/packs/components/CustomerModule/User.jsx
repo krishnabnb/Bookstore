@@ -105,7 +105,7 @@ export const User = () => {
       updateCusromer(updatedCustomer)
     })
   }
-  
+
 
   const updateCusromer = updatedCustomer => {
     setCustomers(prevState =>
