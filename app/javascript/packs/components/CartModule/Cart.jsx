@@ -198,7 +198,6 @@ export const Cart = (cartItems) => {
     </div>
   )
 }
-=======
 // import React, { useState, useEffect } from 'react';
 // import { NewCart } from './NewCart';
 // import { Link } from 'react-router-dom';

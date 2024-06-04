@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  namespace :api do
+    namespace :v1 do
+      get 'saler_books/index'
+    end
+  end
   devise_for :salers, path: '', path_names: {
     registration: 'salers/signup',
     sign_in: 'salers/login',
@@ -9,6 +14,7 @@ Rails.application.routes.draw do
   }
 
   root to: 'home#index'
+  get 'current_saler', to: 'current_saler#index'
 
   get 'current_customer', to: 'current_customer#index'
 
@@ -28,7 +34,6 @@ Rails.application.routes.draw do
         member do
           delete 'image_destroy'
         end
-        # post 'signup', to: 'registrations#create'
       end
   
       resources :books do
