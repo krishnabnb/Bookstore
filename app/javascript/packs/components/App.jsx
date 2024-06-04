@@ -9,7 +9,7 @@ import { Product } from "./ProductModule/Product";
 import { Payment } from "./PaymentModule/Payment";
 import { Contact } from "./ContactModule/Contact";
 import { Cart } from "./CartModule/Cart";
-// import CartItem from './CartModule/CartItem';
+import CartItem from './CartModule/CartItem';
 import { User } from "./CustomerModule/User";
 import Bio from "./About/Bio";
 import Adventure from "./image/Adventure";
@@ -27,24 +27,24 @@ import Forgotepassword from './Forgotepassword';
 import SingOut from './SingOut'
 
 const App = () => {
-  const [userType, setUserType] = useState('');
+  // const [userType, setUserType] = useState('');
 
-  useEffect(() => {
-    const userTypeInput = prompt('Are you a customer or a seller?');
-    if (userTypeInput && (userTypeInput.toLowerCase() === 'customer' || userTypeInput.toLowerCase() === 'seller')) {
-      setUserType(userTypeInput.toLowerCase());
-    } else {
-      alert('Invalid input. Please reload the page and enter either "customer" or "seller".');
-    }
-  }, []);
+  // useEffect(() => {
+  //   const userTypeInput = prompt('Are you a customer or a seller?');
+  //   if (userTypeInput && (userTypeInput.toLowerCase() === 'customer' || userTypeInput.toLowerCase() === 'seller')) {
+  //     setUserType(userTypeInput.toLowerCase());
+  //   } else {
+  //     alert('Invalid input. Please reload the page and enter either "customer" or "seller".');
+  //   }
+  // }, []);
 
   return (
     <div>
       <BrowserRouter>
         <div>
           <Routes>
-            {userType === 'customer' && (
-              <>
+            {/* {userType === 'customer' && (
+              <> */}
                 <Route path="/" element={<Login/>}/>
                 <Route path="/forgotepassword" element={<Forgotepassword />}/>
 
@@ -55,7 +55,7 @@ const App = () => {
                 <Route path="/home" element={<><Header/><Home /><Footer/></>}/>
                 <Route path="/contact" element={<><Header/><Contact /><Footer/></>} />
                 <Route path="/book" element={<><Header/><Book /><Footer/></>} />
-                <Route path="/saler" element={<Navigate to="/customer" />} /> 
+                <Route path="/saler" element={<Navigate to="/customer" />} />
                 <Route path="/product" element={<><Header/><Product /><Footer/></>} />
                 <Route path="/payment/:cartId" element={<><Header/><Payment /><Footer/></>} />
                 <Route path="/cart" element={<><Header/><Cart /><Footer/></>} />
@@ -72,7 +72,7 @@ const App = () => {
                 <Route path="/logout" element={<><Header/><Logout /><Footer/></>} />
                 <Route path="/SingOut" element={<><Header/><SingOut /><Footer/></>} />
 
-              </>
+              {/* </>
             )}
             {userType === 'seller' && (
               <>
@@ -87,7 +87,7 @@ const App = () => {
                 <Route path="/SingOut" element={<><Header/><SingOut /><Footer/></>} />
 
               </>
-            )}
+            )} */}
           </Routes>
         </div>
       </BrowserRouter>
