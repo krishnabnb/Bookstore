@@ -1,0 +1,2 @@
+module CurrentSalerHelper
+end
