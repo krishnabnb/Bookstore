@@ -77,7 +77,9 @@ function Login() {
 
       sessionStorage.setItem('customerEmail', customerData.email);
       sessionStorage.setItem('customerFisrtname', customerData.firstname);
-
+      sessionStorage.setItem('customerLastname', customerData.lastname);
+      sessionStorage.setItem('customerAddress', customerData.address);
+      sessionStorage.setItem('customerContactno', customerData.contactno);
 
       console.log('Login successful', token);
         setTimeout(function () {
@@ -124,6 +126,8 @@ const register = async (e) => {
     toastr.success('Registration successful');
 
     sessionStorage.removeItem('customerEmail');
+    sessionStorage.removeItem('customerFisrtname');
+
 
     setTimeout(function() {
       window.location.href = '/customer';
