@@ -25,10 +25,6 @@ export const Cart = (cartItems) => {
       if (response.ok) {
         const data = await response.json();
         setCarts(data);
-        setOriginalCarts(data.reduce((acc, cart) => {
-          acc[cart.id] = { ...cart };
-          return acc;
-        }, {}));
       } else {
         throw new Error('Failed to fetch data');
       }
