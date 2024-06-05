@@ -73,8 +73,6 @@ function Login() {
       }
 
       const customerData = await customerResponse.json();
-      console.log('Current customer:', customerData);
-
       sessionStorage.setItem('customerEmail', customerData.email);
       sessionStorage.setItem('customername', customerData.firstname);
       sessionStorage.setItem('customerLastName', customerData.lastname);
@@ -82,15 +80,18 @@ function Login() {
       sessionStorage.setItem('customerContactno', customerData.contactno);
 
       console.log('Login successful', token);
-        setTimeout(function () {
-          window.location.href = '/customer';
-        }, 1000);
+      console.log('Current customer:', customerData);
+
+      setTimeout(function () {
+        window.location.href = '/customer';
+      }, 1000);
 
     } catch (error) {
       console.error('Login error:', error.message);
       toastr.error('Login failed: ' + error.message);
     }
   };
+
 const register = async (e) => {
   e.preventDefault();
   try {
@@ -125,9 +126,8 @@ const register = async (e) => {
     sessionStorage.setItem('jsonwebtoken', token);
     toastr.success('Registration successful');
 
-    sessionStorage.removeItem('customerEmail');
-    sessionStorage.removeItem('customerFisrtname');
-
+    // sessionStorage.removeItem('customerEmail');
+    // sessionStorage.removeItem('customerFisrtname');
 
     setTimeout(function() {
       window.location.href = '/customer';

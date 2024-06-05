@@ -7,14 +7,14 @@ const SingOut = () => {
 
     const handleLogout = async () => {
       try {
-        const token = sessionStorage.getItem('jsontoken');
+        const webtokan = sessionStorage.getItem('jsontoken');
 
         const response = await fetch('http://192.168.1.8:3000/salers/logout', {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ token })
+          body: JSON.stringify({ webtokan })
         });
 
         if (response.ok) {
