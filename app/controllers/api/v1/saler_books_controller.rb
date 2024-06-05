@@ -3,6 +3,7 @@ class Api::V1::SalerBooksController < ApplicationController
 
   def index
     @books = current_saler.books
-    render json: @books, status: :ok
+    Rails.logger.debug "Books: #{@books.inspect}"
+    render json: {book: BookSerializer.new( @books).serializable_hash[:data]}
   end
 end

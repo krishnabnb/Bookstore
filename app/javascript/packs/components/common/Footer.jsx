@@ -30,15 +30,14 @@ const Footer = () => {
     </footer>
   );
 };
-
 const styles = {
   footer: {
     backgroundColor: '#000435',
     color: '#fff',
     padding: '20px 0',
-    marginTop: '-17px',
+    marginTop: '-34px',
     textAlign: 'center',
-    height: '150px'
+    height: '198px'
   },
   container: {
     maxWidth: '1600px',

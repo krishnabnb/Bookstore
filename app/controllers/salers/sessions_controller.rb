@@ -5,6 +5,7 @@ class Salers::SessionsController < Devise::SessionsController
     skip_before_action :verify_signed_out_user, only: [:destroy]
     skip_before_action :verify_authenticity_token, only: [:create, :destroy]
     respond_to :json
+    
 
   def create
     saler_params = params[:saler]
