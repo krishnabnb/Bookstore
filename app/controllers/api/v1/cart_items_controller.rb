@@ -19,37 +19,5 @@ class Api::V1::CartItemsController < ApplicationController
     else
       render json: { error: 'Cart items not found for current customer' }, status: :not_found
     end
-  end
-  
-
-  def create
-    book_id = params[:book_id]
-    cart_item = @cart.cart_items.find_or_initialize_by(book_id: book_id)
-    cart_item.quantity += 1
-    if cart_item.save
-      render json: cart_item, status: :ok
-    else
-      render json: { errors: cart_item.errors.full_messages }, status: :unprocessable_entity
-    end
-  end
-
-  def update
-    cart_item = @cart.cart_items.find(params[:id])
-    if cart_item.update(quantity: params[:quantity])
-      render json: cart_item
-    else
-      render json: { errors: cart_item.errors.full_messages }, status: :unprocessable_entity
-    end
-  end
-
-  def destroy
-    cart_item = @cart.cart_items.find(params[:id])
-    cart_item.destroy
-  end
-
-  private 
-
-  def set_cart
-    @cart = current_customer.cart
-  end
+  end 
 end
