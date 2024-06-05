@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { FaUser, FaShoppingCart, FaLockOpen} from 'react-icons/fa';
 import './header.css';
 import { BrowserRouter as Router, Link } from 'react-router-dom';
 
 const Header = () => {
   const [customerEmail, setCustomerEmail] = useState('');
   const [salerEmail, setSalerEmail] = useState('');
-
   useEffect(() => {
     const customerEmail = sessionStorage.getItem('customerEmail');
     const salerEmail = sessionStorage.getItem('salerEmail');
@@ -17,7 +15,6 @@ const Header = () => {
       setSalerEmail(salerEmail);
     }
   }, []);
-
   return (
     <div>
       <nav>
@@ -26,18 +23,18 @@ const Header = () => {
         </div>
         <div><h2 style={{marginRight:'1700px', marginTop:'10px'}}>BOOKSTORE</h2></div>
         <div style={{marginTop: '-80px'}}>
-        <ul>
-          <li className="active"><Link to="/home">Home</Link></li>
-          <li><Link to="/bio">Bio</Link></li>
-          <li><Link to="/contact">ContactUs</Link></li>
-          <li><Link to="/book">Books</Link></li>
-          <li><Link to="/logout">Logout</Link></li>
-          <li><Link to="/payment">Payment</Link></li>
-          <li><Link to="/product">Product</Link></li>
-          <li><Link to="/cart"><FaShoppingCart /></Link></li>
-          <li><Link to="/customer">{customerEmail}</Link></li>
-          <li><Link to="/saler">{salerEmail}</Link></li>
-        </ul>
+          <ul>
+            <li className="active"><Link to="/home">Home</Link></li>
+            <li><Link to="/bio">Bio</Link></li>
+            <li><Link to="/contact">ContactUs</Link></li>
+            {salerEmail && <li><Link to="/books">Books</Link></li>}
+            {salerEmail && <li><Link to="/product">Product</Link></li>}
+            {salerEmail && <li><Link to="/SingOut">SingOut</Link></li>}
+            {customerEmail && <li><Link to="/book">Books</Link></li>}
+            {customerEmail && <li><Link to="/customer">{customerEmail}</Link></li>}
+            {salerEmail && <li><Link to="/saler">{salerEmail}</Link></li>}
+            {customerEmail && <li><Link to="/logout">Logout</Link></li>}
+          </ul>
         </div>
       </nav>
     </div>

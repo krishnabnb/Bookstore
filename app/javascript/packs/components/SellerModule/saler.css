@@ -102,31 +102,21 @@ input:hover{
   gap: 20px;
 }
 
-/* .card {
-  width: 300px;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin-top: 100px;
-  margin-left: 200px;
-} */
 .card img {
   width: 250px;
   height: 400px;
   margin-top: 6px;
   padding: 20px;
-  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
   margin-left: 200px;
 
 }
-/* 
-.card button {
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 20px;
-  cursor: pointer;
-  margin-left: 300px;
-} */
+
+.modalbook {
+  background-color: #fdfdfd;
+  height:870px;
+  width: 470px;
+  border: 2px solid hsl(240, 5%, 4%);
+  position: relative;
+  margin-left: 1350px;
+  margin-top: 50px;
+}

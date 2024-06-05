@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import '../SellerModule/saler.css';
+import { NewBook } from '../BookModule/NewBook';
 import { RiDeleteBin5Line } from "react-icons/ri";
 import toastr from 'toastr';
 import 'toastr/build/toastr.css';
 
-export const Book = () => {
+export const Books = () => {
   const [books, setBooks] = useState(() => {
     const savedBooks = localStorage.getItem('books');
     return savedBooks ? JSON.parse(savedBooks) : [];
   });
+
   const [error, setError] = useState(null);
   const [originalBooks, setOriginalBooks] = useState({});
   const [searchQuery, setSearchQuery] = useState({ title: '', description: '', published_at: '', published_status: ''});
@@ -113,6 +115,26 @@ export const Book = () => {
     fetchBooks();
   }, [modelData]);
 
+  const handleUpdate = async book => {
+    fetch(`http://192.168.1.8:3000/api/v1/books/${book.id}`, {
+      method: 'PUT',
+      body: JSON.stringify({ book: book }),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    })
+    .then(response => response.json())
+    .then(updatedBook => {
+      updateBook(updatedBook);
+    });
+  };
+
+  const updateBook = updatedBook => {
+    setBooks(prevBooks =>
+      prevBooks.map(book => (book.id === updatedBook.id ? updatedBook : book))
+    );
+  };
+
   const fetchBooks = async () => {
     try {
       const response = await fetch('http://192.168.1.8:3000/api/v1/books');
@@ -124,6 +146,80 @@ export const Book = () => {
       setOriginalBooks(Object.fromEntries(data?.book?.map(book => [book.id, book])) || {});
     } catch (error) {
       console.error('Error fetching data:', error);
+      setError(error.message);
+    }
+  };
+
+  const handleFormSubmit = async (title, author, description, price, published_at, image) => {
+    const formdata = new FormData();
+    formdata.append("book[title]", title);
+    formdata.append("book[author]", author);
+    formdata.append("book[description]", description);
+    formdata.append("book[price]", price);
+    formdata.append("book[published_at]", published_at);
+    if (image) {
+      formdata.append("book[image]", image);
+    }
+    try {
+      const response = await fetch('http://192.168.1.8:3000/api/v1/books', {
+        method: 'POST',
+        body: formdata,
+      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.status.message);
+      }
+      const newBook = await response.json();
+      addNewBook(newBook);
+      await fetchBooks()
+    } catch (error) {
+      console.error('Error adding book:', error);
+      setError(error.message);
+      toastr.error(error.message);
+    }
+  };
+
+  const addNewBook = book => {
+    setBooks(prevBooks => [...prevBooks, book]);
+  };
+
+  // const handleImageChange = async (e, book) => {
+  //   try {
+  //     const file = e.target.files[0];
+  //     console.log("Selected file:", file);
+  //     setImage(file);
+  //     const formdata = new FormData();
+  //     formdata.append("book[image]", file);
+  //     const response = await fetch(`http://192.168.1.8:3000/api/v1/books/${book.id}`, {
+  //       method: 'PUT',
+  //       body: formdata,
+  //     });
+  //     const updatedBook = await response.json();
+  //     console.log("Updated book:", updatedBook);
+  //     updateBook(updatedBook);
+  //     await fetchBooks();
+  //   } catch (error) {
+  //     console.error('Error updating book image:', error);
+  //     setError(error.message);
+  //   }
+  // };
+
+  const handleBImageChange = async (e, book) => {
+    try {
+      const file = e.target.files[0];
+      setImage(file);
+      const formdata = new FormData();
+      formdata.append("book[banner_image]", file);
+      const response = await fetch(`http://192.168.1.8:3000/api/v1/books/${book.id}`, {
+        method: 'PATCH',
+        body: formdata,
+      });
+      const updatedBook = await response.json();
+      updateBook(updatedBook.book);
+      setBannerImageUrl(updatedBook.book.banner_image_url)
+      await fetchBooks();
+    } catch (error) {
+      console.error('Error updating book image:', error);
       setError(error.message);
     }
   };
@@ -158,6 +254,25 @@ export const Book = () => {
     fetchBooks();
   };
 
+  const handleImageDelete = async (bookId, type) => {
+    try {
+      const response = await fetch(`http://192.168.1.8:3000/api/v1/books/${bookId}/image_destroy`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ type })
+      });
+      if (response.ok) {
+        updateBookImage(bookId, null);
+      } else {
+        throw new Error('Failed to delete image');
+      }
+    } catch (error) {
+      console.error('Error deleting image:', error);
+    }
+  };
+
   return (
     <div>
       <div>
@@ -168,6 +283,9 @@ export const Book = () => {
               <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit</p>
             </div>
           </div>
+        </div>
+        <div className='form-field'>
+          <NewBook handleFormSubmit={handleFormSubmit} />
         </div>
       </div>
       <form className="search-form">
@@ -188,6 +306,8 @@ export const Book = () => {
                   <span className="close" onClick={handleCloseModal}>&times;</span>
                   <div>
                     <img src={banner} alt="saler's image" style={{ width: '1750px', height: '500px' }} />
+                    <input type="file" onChange={e => handleBImageChange(e, book)} name="image" />
+                    <div><RiDeleteBin5Line onClick={() => handleImageDelete(book.id, 'banner_image')} /></div>
                     <div><img src={modelData.image_url} alt="saler's image" style={{ width: '300px', height: '300px', float: 'right', marginRight: '500px', marginTop: '20px' }} /></div>
                     <div style={{ marginLeft: '500px' }}>
                       <h3>Title: {modelData.title}</h3>

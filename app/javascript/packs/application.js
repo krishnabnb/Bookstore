@@ -18,6 +18,7 @@
 // Import the CSS file
 import '../../assets/stylesheets/application.css';
 
+
 // Your other JavaScript code goes here
 console.log('Hello World from Webpacker');
 

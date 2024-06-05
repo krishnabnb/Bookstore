@@ -14,6 +14,20 @@ export const User = () => {
   const [customerAddress, setCustomerAddress] = useState('');
   const [customerCity, setCustomerCity] = useState('');
   const [ContactNo, setCustomerContactNo] = useState('');
+  const [paymentInfo, setPaymentInfo] = useState({
+    totalPrice: 0,
+    paymentMethod: ''
+  });
+
+  useEffect(() => {
+    const getUrlParams = () => {
+      const searchParams = new URLSearchParams(window.location.search);
+      const totalPrice = parseFloat(searchParams.get('totalPrice')) || 0;
+      const paymentMethod = searchParams.get('paymentMethod') || '';
+      return { totalPrice, paymentMethod };
+    };
+    setPaymentInfo(getUrlParams());
+  }, []);
 
   useEffect(()=>{
     const email = sessionStorage.getItem('customerEmail');
@@ -59,10 +73,6 @@ export const User = () => {
     }
   };
 
-  const addNewCustomer = customer => {
-    setCustomers(prevState => [...prevState, customer]);
-  };
-
   const handleEdit = customerId => {
     setEditModes(prevModes => ({
       ...prevModes,
@@ -106,7 +116,6 @@ export const User = () => {
     })
   }
 
-
   const updateCusromer = updatedCustomer => {
     setCustomers(prevState =>
       prevState.map(customer => (customer.id === updatedCustomer.id ? updatedCustomer : customer))
@@ -140,7 +149,7 @@ export const User = () => {
   };
 
   const deleteCustomer = id => {
-    setCustomers(prevState => prevState.filter(customer => customer.id !== id));
+    setCustomers(prevSfirstnametate => prevState.filter(customer => customer.id !== id));
   };
 
   const handleChange = (e, customer) => {
@@ -193,6 +202,12 @@ export const User = () => {
         <div style={{float:'right', marginTop:'-300px', marginRight:'600px' }}>
           <img src='data:image/jpeg;base64,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' style={{height:'300px', width:'300px'}}></img>
         </div>
+        <div>
+      <h1>Customer Page</h1>
+      <h2>Payment Information</h2>
+      <p>Total Price: ${paymentInfo.totalPrice.toFixed(2)}</p>
+      <p>Payment Method: {paymentInfo.paymentMethod}</p>
+    </div>
       </div>
       <div className='email'>
         <div className="left-side">

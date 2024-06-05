@@ -76,7 +76,6 @@ function Login() {
       console.log('Current customer:', customerData);
 
       sessionStorage.setItem('customerEmail', customerData.email);
-
       sessionStorage.setItem('customername', customerData.firstname);
       sessionStorage.setItem('customerLastName', customerData.lastname);
       sessionStorage.setItem('customerAddress', customerData.address);
