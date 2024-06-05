@@ -26,7 +26,7 @@ const Logout = () => {
         throw new Error('Failed to logout');
       }
 
-      window.location.href = '/';
+      window.location.href = '/SignUp';
 
     } catch (error) {
       console.error('Error:', error);
@@ -37,3 +37,5 @@ const Logout = () => {
 };
 
 export default Logout;
+
+

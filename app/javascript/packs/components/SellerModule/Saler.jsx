@@ -29,37 +29,6 @@ export const Saler = () => {
     }
   };
 
-  const handleFormSubmit = async (name, email, book_title, price, image) => {
-    const formdata = new FormData();
-    formdata.append("saler[name]", name);
-    formdata.append("saler[email]", email);
-    formdata.append("saler[book_title]", book_title);
-    formdata.append("saler[price]", price);
-    if(image){
-      formdata.append("saler[image]", image);
-    }
-    try {
-      const response = await fetch('http://192.168.1.8:3000/api/v1/salers', {
-        method: 'POST',
-        body: formdata,
-      });
-      if (!response.ok) {
-        throw new Error('Failed to add saler');
-      }
-      const responseData = await response.json();
-      console.log('Response data:', responseData);
-      addNewSaler(responseData);
-      await fetchSalers();
-    } catch (error) {
-      console.error('Error submitting form:', error);
-      setError(error.message);
-    }
-  };
-
-  const addNewSaler = saler => {
-    setSalers(prevSalers => [...prevSalers, saler]);
-  };
-
   const handleEdit = salerId => {
     setEditModes(prevState => ({
       ...prevState,

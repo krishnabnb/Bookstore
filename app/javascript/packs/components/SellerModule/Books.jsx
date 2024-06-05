@@ -18,71 +18,6 @@ export const Books = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modelData, setModelData] = useState(null);
   const [banner, setBannerImageUrl] = useState('');
-  const [selectedBooks, setSelectedBooks] = useState([]);
-  const [totalPrice, setTotalPrice] = useState(0);
-  const [paymentMethod, setPaymentMethod] = useState('cash');
-  const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
-
-  const handleAddToCart = (book) => {
-    const existingBookIndex = selectedBooks.findIndex((selectedBook) => selectedBook.id === book.id);
-    if (existingBookIndex !== -1) {
-      const updatedSelectedBooks = [...selectedBooks];
-      updatedSelectedBooks[existingBookIndex].quantity += 1;
-      setSelectedBooks(updatedSelectedBooks);
-    } else {
-      setSelectedBooks((prevSelectedBooks) => [...prevSelectedBooks, { ...book, quantity: 1 }]);
-    }
-    setIsModalOpen(true);
-    setTotalPrice((prevTotalPrice) => prevTotalPrice + Number(book.price));
-  };
-
-  const incrementQuantity = (bookId) => {
-    const updatedSelectedBooks = selectedBooks.map((book) =>
-      book.id === bookId ? { ...book, quantity: book.quantity + 1 } : book
-    );
-    setSelectedBooks(updatedSelectedBooks);
-    setTotalPrice((prevTotalPrice) => prevTotalPrice + getBookPrice(bookId));
-  };
-
-  const decrementQuantity = (bookId) => {
-    const updatedSelectedBooks = selectedBooks.map((book) =>
-      book.id === bookId && book.quantity > 1 ? { ...book, quantity: book.quantity - 1 } : book
-    );
-    setSelectedBooks(updatedSelectedBooks);
-    setTotalPrice((prevTotalPrice) => prevTotalPrice - getBookPrice(bookId));
-  };
-
-  const getBookPrice = (bookId) => {
-    const book = selectedBooks.find((book) => book.id === bookId);
-    return book ? Number(book.price) : 0;
-  };
-
-    const handlePaymentMethodChange = (e) => {
-    setPaymentMethod(e.target.value);
-  };
-
-  const handleCheckoutButtonClick = () => {
-    setIsCheckoutModalOpen(true);
-  };
-
-  const handleCheckoutClose = () => {
-    setIsCheckoutModalOpen(false);
-  };
-
-  const handlePayment = () => {
-    if (paymentMethod === 'cash') {
-      toastr.success('Cash payment successful');
-      window.location.href = '/customer';
-    } else if (paymentMethod === 'online') {
-      toastr.success('Online payment successful');
-      window.location.href = '/customer';
-    } else {
-      toastr.error('Please select a payment method');
-    }
-    setSelectedBooks([]);
-    setTotalPrice(0);
-    setIsCheckoutModalOpen(false);
-  };
 
   const fetchBookDetails = async (id) => {
     try {
@@ -115,26 +50,6 @@ export const Books = () => {
     fetchBooks();
   }, [modelData]);
 
-  const handleUpdate = async book => {
-    fetch(`http://192.168.1.8:3000/api/v1/books/${book.id}`, {
-      method: 'PUT',
-      body: JSON.stringify({ book: book }),
-      headers: {
-        'Content-Type': 'application/json'
-      },
-    })
-    .then(response => response.json())
-    .then(updatedBook => {
-      updateBook(updatedBook);
-    });
-  };
-
-  const updateBook = updatedBook => {
-    setBooks(prevBooks =>
-      prevBooks.map(book => (book.id === updatedBook.id ? updatedBook : book))
-    );
-  };
-
   const fetchBooks = async () => {
     try {
       const response = await fetch('http://192.168.1.8:3000/api/v1/books');
@@ -144,19 +59,35 @@ export const Books = () => {
       const data = await response.json();
       setBooks(data?.book || []);
       setOriginalBooks(Object.fromEntries(data?.book?.map(book => [book.id, book])) || {});
+      await fetchBook();
     } catch (error) {
       console.error('Error fetching data:', error);
       setError(error.message);
     }
   };
 
-  const handleFormSubmit = async (title, author, description, price, published_at, image) => {
+  const fetchBook = async () => {
+    try {
+      const response = await fetch('http://192.168.1.8:3000/api/v1/saler_books');
+      if (!response.ok) {
+        throw new Error('Failed to fetch data');
+      }
+      const data = await response.json();
+      console.log('data', data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      setError(error.message);
+    }
+  };
+
+  const handleFormSubmit = async (title, author, description, price, published_at, saler_id, image) => {
     const formdata = new FormData();
     formdata.append("book[title]", title);
     formdata.append("book[author]", author);
     formdata.append("book[description]", description);
     formdata.append("book[price]", price);
     formdata.append("book[published_at]", published_at);
+    formdata.append("book[saler_id]", saler_id);
     if (image) {
       formdata.append("book[image]", image);
     }
@@ -183,26 +114,26 @@ export const Books = () => {
     setBooks(prevBooks => [...prevBooks, book]);
   };
 
-  // const handleImageChange = async (e, book) => {
-  //   try {
-  //     const file = e.target.files[0];
-  //     console.log("Selected file:", file);
-  //     setImage(file);
-  //     const formdata = new FormData();
-  //     formdata.append("book[image]", file);
-  //     const response = await fetch(`http://192.168.1.8:3000/api/v1/books/${book.id}`, {
-  //       method: 'PUT',
-  //       body: formdata,
-  //     });
-  //     const updatedBook = await response.json();
-  //     console.log("Updated book:", updatedBook);
-  //     updateBook(updatedBook);
-  //     await fetchBooks();
-  //   } catch (error) {
-  //     console.error('Error updating book image:', error);
-  //     setError(error.message);
-  //   }
-  // };
+  const handleImageChange = async (e, book) => {
+    try {
+      const file = e.target.files[0];
+      console.log("Selected file:", file);
+      setImage(file);
+      const formdata = new FormData();
+      formdata.append("book[image]", file);
+      const response = await fetch(`http://192.168.1.8:3000/api/v1/books/${book.id}`, {
+        method: 'PUT',
+        body: formdata,
+      });
+      const updatedBook = await response.json();
+      console.log("Updated book:", updatedBook);
+      updateBook(updatedBook);
+      await fetchBooks();
+    } catch (error) {
+      console.error('Error updating book image:', error);
+      setError(error.message);
+    }
+  };
 
   const handleBImageChange = async (e, book) => {
     try {
@@ -316,6 +247,7 @@ export const Books = () => {
                       <h3>Price: {modelData.price}</h3>
                       <h3>Published Status: {modelData.published_status}</h3>
                       <h3>Published At: {modelData.published_at}</h3>
+                      <h3>Saler_id: {modelData.saler_id}</h3>
                     </div>
                   </div>
                 </div>
@@ -326,69 +258,6 @@ export const Books = () => {
             </div>
           </div>
         ))}
-        {selectedBooks.length > 0 && isModalOpen && (
-          <div className="modal">
-            <div className="modalbook">
-              <span className="close" onClick={handleCloseModal}>&times;</span>
-              <table>
-                <thead>
-                  <tr>
-                    <th>Title</th>
-                    <th>Price</th>
-                    <th>Image</th>
-                    <th>Quantity</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {selectedBooks.map((selectedBook) => (
-                    <tr key={selectedBook.id}>
-                      <td>{selectedBook.title}</td>
-                      <td>${selectedBook.price}</td>
-                      <td><img src={selectedBook.image_url} alt="Book Cover" style={{height:'50px'}}/></td>
-                      <td>
-                        <button onClick={() => decrementQuantity(selectedBook.id)}>-</button>
-                        {selectedBook.quantity}
-                        <button onClick={() => incrementQuantity(selectedBook.id)}>+</button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              <div>
-                <h2>Total Price: ${totalPrice}</h2>
-              </div>
-              <div className="checkout-modal">
-            <h2>Checkout</h2>
-            <form>
-              <div>
-                <input
-                  type="radio"
-                  id="cash"
-                  name="paymentMethod"
-                  value="cash"
-                  checked={paymentMethod === 'cash'}
-                  onChange={handlePaymentMethodChange}
-                />
-                <label htmlFor="cash">Cash</label>
-              </div>
-              <div>
-                <input
-                  type="radio"
-                  id="online"
-                  name="paymentMethod"
-                  value="online"
-                  checked={paymentMethod === 'online'}
-                  onChange={handlePaymentMethodChange}
-                />
-                <label htmlFor="online">Online</label>
-              </div>
-            </form>
-            <button onClick={handlePayment}>Pay Now</button>
-            <button onClick={handleCheckoutClose}>Cancel</button>
-          </div>
-            </div>
-          </div>
-        )}
       </div>
       <div className='email'>
         <div className="left-side">
