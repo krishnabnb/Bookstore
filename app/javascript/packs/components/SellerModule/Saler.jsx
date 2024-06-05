@@ -3,6 +3,7 @@ import './saler.css';
 import { RiDeleteBin5Line } from "react-icons/ri";
 
 export const Saler = () => {
+
   const [salers, setSalers] = useState([]);
   const [error, setError] = useState(null);
   const [editModes, setEditModes] = useState({});
@@ -29,12 +30,14 @@ export const Saler = () => {
     }
   };
 
-  const handleFormSubmit = async (name, email, book_title, price, image) => {
+  const handleFormSubmit = async (name, email, adress ,city,phoneno, image) => {
     const formdata = new FormData();
     formdata.append("saler[name]", name);
     formdata.append("saler[email]", email);
-    formdata.append("saler[book_title]", book_title);
-    formdata.append("saler[price]", price);
+    formdata.append("saler[adress]", adress);
+    formdata.append("saler[city]", city);
+    formdata.append("saler[phoneno]", phoneno);
+
     if(image){
       formdata.append("saler[image]", image);
     }
@@ -185,16 +188,15 @@ export const Saler = () => {
             </div>
           </div>
         </div>
-        <div className='form-field'>
-        </div>
       </div>
-      <table className="salers-table">
+      <table className="table">
         <thead>
           <tr>
             <th>Name</th>
             <th>Email</th>
-            <th>Book Title</th>
-            <th>Price</th>
+            <th>address</th>
+            <th>city</th>
+            <th>contactno</th>
             <th>Image</th>
             <th>Delete</th>
             <th>Edit</th>
@@ -230,10 +232,22 @@ export const Saler = () => {
               <td>
                 {editModes[saler.id] ? (
                   <input
-                    name="book_title"
-                    value={saler.book_title}
+                    name="address"
+                    value={saler.adress}
                     onChange={e => handleChange(e, saler)}
-                    placeholder="book_title"
+                    placeholder="address"
+                  />
+                ) : (
+                  saler.price
+                )}
+              </td>
+              <td>
+                {editModes[saler.id] ? (
+                  <input
+                    name="City"
+                    value={saler.city}
+                    onChange={e => handleChange(e, saler)}
+                    placeholder="city"
                   />
                 ) : (
                   saler.book_title
@@ -242,10 +256,10 @@ export const Saler = () => {
               <td>
                 {editModes[saler.id] ? (
                   <input
-                    name="price"
-                    value={saler.price}
+                    name="phoneno"
+                    value={saler.phoneno}
                     onChange={e => handleChange(e, saler)}
-                    placeholder="price"
+                    placeholder="phone_number"
                   />
                 ) : (
                   saler.price

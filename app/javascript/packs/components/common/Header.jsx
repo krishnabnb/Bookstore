@@ -31,7 +31,7 @@ const Header = () => {
           <li><Link to="/logout">Logout</Link></li>
           {customerEmail && <li><Link to="/payment">Payment</Link></li>}
           {salerEmail && <li><Link to="/product">Product</Link></li>}
-          {customerEmail && <li><Link to="/cart"><FaShoppingCart /></Link></li>}
+          {/* {customerEmail && <li><Link to="/cart"><FaShoppingCart /></Link></li>} */}
           {customerEmail && <li><Link to="/customer">{customerEmail}</Link></li>}
           {salerEmail && <li><Link to="/saler">{salerEmail}</Link></li>}
         </ul>

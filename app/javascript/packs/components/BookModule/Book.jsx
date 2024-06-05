@@ -115,7 +115,7 @@ export const Book = () => {
 
   const fetchBooks = async () => {
     try {
-      const response = await fetch('http://192.168.1.8:3000/api/v1/books');
+      const response = await fetch('http://192.168.1.8:3000/api/v1/saler_books');
       if (!response.ok) {
         throw new Error('Failed to fetch data');
       }

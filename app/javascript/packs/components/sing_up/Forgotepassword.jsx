@@ -51,11 +51,6 @@ const ForgotPasswordForm = () => {
       const token = data.token;
       sessionStorage.setItem('jsontoken', token);
       toastr.success('Registration successful');
-      sessionStorage.setItem('salerEmail', customerData.email);
-      sessionStorage.setItem('salername', customerData.name);
-      sessionStorage.setItem('salerAdress', customerData.adress);
-      sessionStorage.setItem('salerCity', customerData.city);
-      sessionStorage.setItem('ContactNo', customerData.phoneno);
 
       setTimeout(function() {
         window.location.href = '/saler';
@@ -69,13 +64,13 @@ const ForgotPasswordForm = () => {
   const handleSignInSubmit = async (e) => {
     e.preventDefault();
        try {
-      const response = await fetch('http://192.168.1.8:3000/salers/login', {
+        const response = await fetch('http://192.168.1.8:3000/salers/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ saler: { email, password } }),
-        credentials: 'include',
+        body: JSON.stringify({ saler: { email, password } })
+
       });
       if (!response.ok) {
         const errorData = await response.json();
@@ -97,7 +92,6 @@ const ForgotPasswordForm = () => {
       toastr.error('Login failed: ' + error.message);
     }
   };
-
 
   const handleImageChange = (e) => {
     const selectedFile = e.target.files[0];

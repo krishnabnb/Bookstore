@@ -20,24 +20,25 @@ class Customers::SessionsController < Devise::SessionsController
     end
   end
 
-  def destroy
-  if params[:token].blank?
-    render_error("Token is missing", 400)
-  else
-    if customer_signed_in?
-      sign_out(:customer)
-    else
-      render_error("No user is currently signed in", 404)
-      return
-    end
+  # def destroy
+  # if params[:token].blank?
+  #   render_error("Token is missing", 400)
+  # else
+  #   if customer_signed_in?
+  #     sign_out(:customer)
+  #   else
+  #     render_error("No user is currently signed in", 404)
+  #     return
+  #   end
 
-    render json: {
-      status: 200,
-      message: "Logged out successfully"
-    }, status: :ok
+  #   render json: {
+  #     status: 200,
+  #     message: "Logged out successfully"
+  #   }, status: :ok
+  # end
+
+  def destroy
+    sign_out(:customer) if customer_signed_in? 
+    render json: {status: 200,message: "Logged out successfully"}, status: :ok
   end
-end
-  
-  
-  
 end
