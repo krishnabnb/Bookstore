@@ -51,6 +51,12 @@ const ForgotPasswordForm = () => {
       const token = data.token;
       sessionStorage.setItem('jsontoken', token);
       toastr.success('Registration successful');
+      sessionStorage.setItem('salerEmail', customerData.email);
+      sessionStorage.setItem('salername', customerData.name);
+      sessionStorage.setItem('salerAdress', customerData.adress);
+      sessionStorage.setItem('salerCity', customerData.city);
+      sessionStorage.setItem('ContactNo', customerData.phoneno);
+
       setTimeout(function() {
         window.location.href = '/saler';
       }, 2000);

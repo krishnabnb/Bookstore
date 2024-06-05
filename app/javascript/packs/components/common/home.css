@@ -16,22 +16,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* margin-top: 10px; */
-}
-
-.header h2 {
-  /* margin-bottom: 10px; */
 }
 
 .header .images {
   display: flex;
   justify-content: center;
-  /* margin-top: 20px; */
 }
 
-.header .images div {
-  /* margin: 0 5px; */
-}
 
 
 .btn{

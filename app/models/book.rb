@@ -3,10 +3,11 @@ class Book < ApplicationRecord
 
   has_many :carts, dependent: :destroy
   has_many :cart_items
-
+  belongs_to :saler
   has_one_attached :image
   has_one_attached :banner_image
 
+    
   validates :image_url, allow_blank: true, format: {
     with: %r{\.jpg|png|jpeg}i,
     message: 'must be a for jpg,jpeg or png image.'
@@ -15,7 +16,6 @@ class Book < ApplicationRecord
     with: %r{\.jpg|png|jpeg}i,
     message: 'must be a  for jpg,jpeg or png image.'
   }
-
 
   def image_url
     if image.attached?

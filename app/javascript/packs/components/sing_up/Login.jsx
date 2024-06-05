@@ -79,8 +79,7 @@ function Login() {
       sessionStorage.setItem('customername', customerData.firstname);
       sessionStorage.setItem('customerLastName', customerData.lastname);
       sessionStorage.setItem('customerAddress', customerData.address);
-      sessionStorage.setItem('customerCity', customerData.city);
-      sessionStorage.setItem('ContactNo', customerData.contactno);
+      sessionStorage.setItem('customerContactno', customerData.contactno);
 
       console.log('Login successful', token);
         setTimeout(function () {
@@ -92,61 +91,52 @@ function Login() {
       toastr.error('Login failed: ' + error.message);
     }
   };
-
-  const register = async (e) => {
-    e.preventDefault();
-    try {
-      let item = {
-        customer: {
-          firstname,
-          lastname,
-          address,
-          city,
-          contactno,
-          email,
-          password,
-          password_confirmation
-        }
-      };
-      let response = await fetch('http://192.168.1.8:3000/signup', {
-        method: 'POST',
-        body: JSON.stringify(item),
-        headers: {
-          "Content-Type": 'application/json',
-          "Accept": 'application/json',
-        }
-      });
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.status.message);
+const register = async (e) => {
+  e.preventDefault();
+  try {
+    let item = {
+      customer: {
+        firstname,
+        lastname,
+        address,
+        city,
+        contactno,
+        email,
+        password,
+        password_confirmation
       }
-      const customerResponse = await fetch('http://192.168.1.8:3000/current_customer', {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-      const customerData = await customerResponse.json();
-      const data = await response.json();
-      const token = data.token;
-      sessionStorage.setItem('jsonwebtoken', token);
-      toastr.success('Ragistration successful');
-      sessionStorage.setItem('customerEmail', customerData.email);
-      sessionStorage.setItem('customername', customerData.firstname);
-      sessionStorage.setItem('customerLastName', customerData.lastname);
-      sessionStorage.setItem('customerAddress', customerData.address);
-      sessionStorage.setItem('customerCity', customerData.city);
-      sessionStorage.setItem('ContactNo', customerData.contactno);
+    };
+    let response = await fetch('http://192.168.1.8:3000/signup', {
+      method: 'POST',
+      body: JSON.stringify(item),
+      headers: {
+        "Content-Type": 'application/json',
+        "Accept": 'application/json',
+      }
+    });
 
-
-      setTimeout(function() {
-        window.location.href = '/customer';
-      }, 2000);
-    } catch (error) {
-      console.error('Registration error:', error.message);
-      toastr.error( error.message);
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.status.message);
     }
-  };
+
+    const data = await response.json();
+    const token = data.token;
+    sessionStorage.setItem('jsonwebtoken', token);
+    toastr.success('Registration successful');
+
+    sessionStorage.removeItem('customerEmail');
+    sessionStorage.removeItem('customerFisrtname');
+
+
+    setTimeout(function() {
+      window.location.href = '/customer';
+    }, 2000);
+  } catch (error) {
+    console.error('Registration error:', error.message);
+    toastr.error( error.message);
+  }
+};
 
   return (
     <div>
@@ -252,7 +242,6 @@ function Login() {
                   </a>
                 </div>
               </div>
-
               <input type="submit" value="signup" onClick={register} className='btnx1y2' />
               <p className="social-text">Or Sign up with social platforms</p>
               <div className="social-media">

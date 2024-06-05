@@ -26,7 +26,7 @@ const SingOut = () => {
           throw new Error('Failed to logout');
         }
 
-        window.location.href = '/';
+        window.location.href = '/saller';
 
       } catch (error) {
         console.error('Error:', error);

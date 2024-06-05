@@ -289,7 +289,7 @@ export const Home = () => {
             </div>
           </div>
         </Slider>
-        <div style={{marginLeft:'1000px', marginTop:'-500px'}}>
+        <div style={{marginLeft:'1000px', marginTop:'-365px'}}>
           <img src='https://kitpro.site/laluna/wp-content/uploads/sites/174/2023/06/Image-1.jpg' style={{height:'500px', borderRadius:'40px'}}></img>
         </div>
         <div style={{marginLeft:'1340px', marginTop:'-570px'}}>

@@ -178,7 +178,7 @@ export const Book = () => {
         <button type="button" className='searchButton' onClick={handleSearch}>Search</button>
         <button type="button" className='cancelButton' onClick={handleCancelSearch}>Cancel</button>
       </form>
-      <div className="card-container">
+      <div className="card-container" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
         {Array.isArray(books) && books.map((book) => (
           <div key={book.id} className="card">
             <img src={book.image_url} alt="Book Cover" onClick={() => { handleShowModal(book); fetchBookDetails(book.id); }} />
@@ -202,7 +202,7 @@ export const Book = () => {
               </div>
             )}
             <div>
-              <button onClick={() => handleAddToCart(book)}>Add to Cart</button>
+              <button className="btn btn-primary " onClick={() => handleAddToCart(book)}>Add to Cart</button>
             </div>
           </div>
         ))}
