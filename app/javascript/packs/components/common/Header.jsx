@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { FaUser, FaShoppingCart, FaLockOpen} from 'react-icons/fa';
 import './header.css';
 import { BrowserRouter as Router, Link } from 'react-router-dom';
 
 const Header = () => {
   const [customerEmail, setCustomerEmail] = useState('');
   const [salerEmail, setSalerEmail] = useState('');
-
   useEffect(() => {
     const customerEmail = sessionStorage.getItem('customerEmail');
     const salerEmail = sessionStorage.getItem('salerEmail');
@@ -17,7 +15,6 @@ const Header = () => {
       setSalerEmail(salerEmail);
     }
   }, []);
-
   return (
     <div>
       <nav>

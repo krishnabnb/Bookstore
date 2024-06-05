@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import './forgotepassword.css';
 import { BiShow, BiHide } from "react-icons/bi";
-import { Link } from 'react-router-dom';
 import toastr from 'toastr';
 import 'toastr/build/toastr.css';
 
@@ -49,13 +47,6 @@ const ForgotPasswordForm = () => {
         const errorData = await response.json();
         throw new Error(errorData.status.message);
       }
-      const customerResponse = await fetch('  http://192.168.1.8:3000/current_saler', {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-      const customerData = await customerResponse.json();
       const data = await response.json();
       const token = data.token;
       sessionStorage.setItem('jsontoken', token);
@@ -198,4 +189,3 @@ const ForgotPasswordForm = () => {
 };
 
 export default ForgotPasswordForm;
-  

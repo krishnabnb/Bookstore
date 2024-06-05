@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import './saler.css';
-import { Newsaler } from './Newsaler';
 import { RiDeleteBin5Line } from "react-icons/ri";
 
 export const Saler = () => {
@@ -187,7 +186,6 @@ export const Saler = () => {
           </div>
         </div>
         <div className='form-field'>
-          <Newsaler handleFormSubmit={handleFormSubmit} />
         </div>
       </div>
       <table className="salers-table">

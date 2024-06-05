@@ -43,8 +43,6 @@ export const Home = () => {
   const redirectToBookApp = () => {
     window.location.href = "https://hopeforhealingfoundation.org/free-resources/?gad_source=1&gclid=EAIaIQobChMIq53CteithgMVMKpmAh0-JgOGEAAYAyAAEgJ9BfD_BwE"; // Yahan par app ka URL daalain
   };
-
-
   return (
     <div>
       <Slider {...settings}>
@@ -311,5 +309,3 @@ export const Home = () => {
     </div>
   );
 };
-
-
