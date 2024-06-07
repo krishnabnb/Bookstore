@@ -51,7 +51,24 @@ const ForgotPasswordForm = () => {
       const token = data.token;
       sessionStorage.setItem('jsontoken', token);
       toastr.success('Registration successful');
+      const salerResponse = await fetch('http://192.168.1.8:3000/current_saler', {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
 
+      if (salerResponse.status === 401) {
+        throw new Error('Unauthorized: Invalid token');
+      }
+
+      if (!salerResponse.ok) {
+        const errorData = await salerResponse.json();
+        throw new Error(`Failed to fetch current customer: ${errorData.error}`);
+      }
+
+      const salerData = await salerResponse.json();
+      sessionStorage.setItem('salerEmail', salerData.email);
       setTimeout(function() {
         window.location.href = '/saler';
       }, 2000);
@@ -84,6 +101,26 @@ const ForgotPasswordForm = () => {
       const token = data.token;
       sessionStorage.setItem('jsontoken', token);
       toastr.success('Login successful');
+      const salerResponse = await fetch('http://192.168.1.8:3000/current_saler', {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      if (salerResponse.status === 401) {
+        throw new Error('Unauthorized: Invalid token');
+      }
+      if (!salerResponse.ok) {
+        const errorData = await salerResponse.json();
+        throw new Error(`Failed to fetch current customer: ${errorData.error}`);
+      }
+      const salerData = await salerResponse.json();
+      sessionStorage.setItem('salerEmail', salerData.email);
+      sessionStorage.setItem('salername', salerData.name);
+      sessionStorage.setItem('saleradress', salerData.adress);
+      sessionStorage.setItem('salerphoneno', salerData.phoneno);
+      sessionStorage.setItem('salercity', salerData.city);
+
       setTimeout(function () {
         window.location.href = '/saler';
       }, 1000);
@@ -107,6 +144,7 @@ const ForgotPasswordForm = () => {
       setImagePreview(null);
     }
   };
+
   return (
     <div className="container mt-5">
       <div className="row justify-content-center mt-5">

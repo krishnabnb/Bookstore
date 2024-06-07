@@ -14,8 +14,9 @@ export const NewBook = (props) => {
       const description = formFields.description.value;
       const price = formFields.price.value;
       const published_at = formFields.published_at.value;
+      const saler_id = formFields.saler_id.value;
 
-      props.handleFormSubmit(title, author, description, price, published_at, file);
+      props.handleFormSubmit(title, author, description, price, published_at, saler_id, file);
       e.target.reset();
     }}>
 
@@ -33,6 +34,9 @@ export const NewBook = (props) => {
       </div>
       <div>
         <input type="date" id="published_at" ref={(input) => formFields.published_at = input} placeholder="Enter the Published_at" className='text-bio-with' />
+      </div>
+      <div>
+        <input type="text" id="saler_id" ref={(input) => formFields.saler_id = input} placeholder="Enter the saler_id" className='text-bio-with' />
       </div>
       <div>
         <input type="file" id='image' onChange={(e)=> setFile(e.target.files[0])} ref={(input) => formFields.image = input } placeholder='choose image'/>

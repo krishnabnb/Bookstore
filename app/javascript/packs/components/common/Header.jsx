@@ -15,6 +15,7 @@ const Header = () => {
       setSalerEmail(salerEmail);
     }
   }, []);
+
   return (
     <div>
       <nav>
@@ -23,18 +24,19 @@ const Header = () => {
         </div>
         <div><h2 style={{marginRight:'1700px', marginTop:'10px'}}>BOOKSTORE</h2></div>
         <div style={{marginTop: '-80px'}}>
-        <ul>
-          <li className="active"><Link to="/home">Home</Link></li>
-          <li><Link to="/bio">Bio</Link></li>
-          <li><Link to="/contact">ContactUs</Link></li>
-          <li><Link to="/book">Books</Link></li>
-          <li><Link to="/logout">Logout</Link></li>
-          {customerEmail && <li><Link to="/payment">Payment</Link></li>}
-          {salerEmail && <li><Link to="/product">Product</Link></li>}
-          {/* {customerEmail && <li><Link to="/cart"><FaShoppingCart /></Link></li>} */}
-          {customerEmail && <li><Link to="/customer">{customerEmail}</Link></li>}
-          {salerEmail && <li><Link to="/saler">{salerEmail}</Link></li>}
-        </ul>
+          <ul>
+            <li className="active"><Link to="/home">Home</Link></li>
+            <li><Link to="/bio">Bio</Link></li>
+            <li><Link to="/contact">ContactUs</Link></li>
+            {salerEmail && <li><Link to="/product">Product</Link></li>}
+            {customerEmail && <li><Link to="/customer">{customerEmail}</Link></li>}
+            {customerEmail && <li><Link to="/book">Books</Link></li>}
+            {customerEmail && <li><Link to="/logout">Logout</Link></li>}
+            {salerEmail && <li><Link to="/saler">{salerEmail}</Link></li>}
+            {salerEmail && <li><Link to="/books">Books</Link></li>}
+            {salerEmail && <li><Link to="/SingOut">Logout</Link></li>}
+
+          </ul>
         </div>
       </nav>
     </div>

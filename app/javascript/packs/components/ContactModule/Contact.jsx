@@ -154,8 +154,7 @@ export const Contact = () => {
                 <th>Phoneno</th>
                 <th>Subject</th>
                 <th>Massage</th>
-                <th>Delete</th>
-                <th>Edit</th>
+                <th colSpan={'3'}>action</th>
               </tr>
             </thead>
             <tbody>

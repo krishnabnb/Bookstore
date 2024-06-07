@@ -7,3 +7,16 @@ class Api::V1::SalerBooksController < ApplicationController
     render json: {book: BookSerializer.new( @books).serializable_hash[:data]}
   end
 end
+
+
+
+
+# def index
+#   if current_saler
+#     @books = current_saler.books
+#   else
+#     @books = Book.all
+#   end
+
+#   render json: { books: BookSerializer.new(@books).serializable_hash[:data] }
+# end

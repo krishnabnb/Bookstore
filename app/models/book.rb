@@ -1,8 +1,6 @@
 class Book < ApplicationRecord
   include Rails.application.routes.url_helpers
 
-  has_many :carts, dependent: :destroy
-  has_many :cart_items
   belongs_to :saler
   has_one_attached :image
   has_one_attached :banner_image
@@ -35,7 +33,6 @@ class Book < ApplicationRecord
       "http://192.168.1.8:3000#{rails_blob_path(banner_image, only_path: true)}"
     else
       "http://192.168.1.8:3000/image/default12.jpeg"
-      # nil
     end 
   end
 end
