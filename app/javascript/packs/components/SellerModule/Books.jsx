@@ -19,6 +19,7 @@ export const Books = () => {
   const [modelData, setModelData] = useState(null);
   const [banner, setBannerImageUrl] = useState('');
 
+
   const fetchBookDetails = async (id) => {
     try {
       const response = await fetch(`http://192.168.1.8:3000/api/v1/books/${id}`);
@@ -27,9 +28,8 @@ export const Books = () => {
         throw new Error(errorData.status.message);
       }
       const bookData = await response.json();
-      const { banner_image_url } = bookData;
-      setBannerImageUrl(banner_image_url);
       setIsModalOpen(true);
+      setBannerImageUrl(bookData.banner_image_url);
     } catch (error) {
       console.error('Error fetching book details:', error);
       setError(error.message);
@@ -135,25 +135,33 @@ export const Books = () => {
     }
   };
 
-  const handleBImageChange = async (e, book) => {
+  const handleBImageChange = async (e) => {
     try {
       const file = e.target.files[0];
-      setImage(file);
       const formdata = new FormData();
       formdata.append("book[banner_image]", file);
-      const response = await fetch(`http://192.168.1.8:3000/api/v1/books/${book.id}`, {
+      const response = await fetch(`http://192.168.1.8:3000/api/v1/books/${modelData.id}`, {
         method: 'PATCH',
         body: formdata,
       });
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.status.message);
+      }
       const updatedBook = await response.json();
-      updateBook(updatedBook.book);
-      setBannerImageUrl(updatedBook.book.banner_image_url)
-      await fetchBooks();
+      if (updatedBook.banner_image_url) {
+        setModelData(prevData => ({
+          ...prevData,
+          banner_image_url: updatedBook.banner_image_url
+        }));
+      }
     } catch (error) {
       console.error('Error updating book image:', error);
       setError(error.message);
     }
   };
+
+
 
   const handleSearch = async () => {
     try {
@@ -236,9 +244,8 @@ export const Books = () => {
                 <div className="modal-content">
                   <span className="close" onClick={handleCloseModal}>&times;</span>
                   <div>
-                    <img src={banner} alt="saler's image" style={{ width: '1750px', height: '500px' }} />
-                    <input type="file" onChange={e => handleBImageChange(e, book)} name="image" />
-                    <div><RiDeleteBin5Line onClick={() => handleImageDelete(book.id, 'banner_image')} /></div>
+                    <img src={modelData.banner_image_url} alt="saler's image" style={{ width: '1750px', height: '500px' }} />
+                    <input type="file" onChange={e => handleBImageChange(e, book.id)} name="image" />
                     <div><img src={modelData.image_url} alt="saler's image" style={{ width: '300px', height: '300px', float: 'right', marginRight: '500px', marginTop: '20px' }} /></div>
                     <div style={{ marginLeft: '500px' }}>
                       <h3>Title: {modelData.title}</h3>

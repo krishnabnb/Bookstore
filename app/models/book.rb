@@ -7,7 +7,6 @@ class Book < ApplicationRecord
   has_one_attached :image
   has_one_attached :banner_image
 
-    
   validates :image_url, allow_blank: true, format: {
     with: %r{\.jpg|png|jpeg}i,
     message: 'must be a for jpg,jpeg or png image.'
@@ -29,9 +28,9 @@ class Book < ApplicationRecord
     if banner_image.attached?
       "http://192.168.1.8:3000#{rails_blob_path(banner_image, only_path: true)}"
     else
-      "http://192.168.1.8:3000/image/default12.jpeg"
-      # nil
-    end 
+      # "http://192.168.1.8:3000/image/default12.jpeg"
+      nil
+    end
   end
 end
 
