@@ -16,7 +16,7 @@ class Saler < ApplicationRecord
   validate :passwords_match, on: :create
 
   has_one_attached :image
-
+  
   validates :image_path, allow_blank: true, format: {
     with: %r{\.jpg|png|jpeg}i,
     message: 'must be a url for jpg,jpeg or png image.'

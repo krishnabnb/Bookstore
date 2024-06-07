@@ -34,6 +34,8 @@ const Header = () => {
             {customerEmail && <li><Link to="/logout">Logout</Link></li>}
             {salerEmail && <li><Link to="/saler">{salerEmail}</Link></li>}
             {salerEmail && <li><Link to="/books">Books</Link></li>}
+            {salerEmail && <li><Link to="/SingOut">Logout</Link></li>}
+
           </ul>
         </div>
       </nav>

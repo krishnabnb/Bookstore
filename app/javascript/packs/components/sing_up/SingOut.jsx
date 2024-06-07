@@ -21,7 +21,7 @@ const SingOut = () => {
           console.log('Logged out successfully');
           sessionStorage.removeItem('jsontoken');
 
-        //   sessionStorage.removeItem('salerEmail');
+          sessionStorage.removeItem('salerEmail');
         } else {
           throw new Error('Failed to logout');
         }

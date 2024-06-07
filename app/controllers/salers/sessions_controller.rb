@@ -29,7 +29,3 @@ class Salers::SessionsController < Devise::SessionsController
     render json: {status: 200,message: "Logged out successfully"}, status: :ok
   end
 end
-
-
-      
-
