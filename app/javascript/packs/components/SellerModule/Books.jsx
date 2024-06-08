@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';``
 import '../SellerModule/saler.css';
 import { NewBook } from '../BookModule/NewBook';
 import { RiDeleteBin5Line } from "react-icons/ri";
@@ -308,7 +308,6 @@ export const Books = () => {
     }
   };
   
-
   return (
     <div>
       <div>
