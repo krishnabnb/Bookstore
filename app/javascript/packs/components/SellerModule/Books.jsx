@@ -18,7 +18,11 @@ export const Books = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modelData, setModelData] = useState(null);
   const [banner, setBannerImageUrl] = useState('');
-  
+<<<<<<< HEAD
+
+=======
+
+>>>>>>> 01bb7f51783d6c99edc197321d741a5beb1f1c1d
   const handleShowModal = (book) => {
     setIsModalOpen(true);
     setModelData(book);
@@ -29,14 +33,14 @@ export const Books = () => {
     setIsModalOpen(false);
     setBannerImageUrl('');
   };
-  
+
   useEffect(() => {
     fetchBooks();
   }, [modelData]);
-  
+
   const fetchBooks = async () => {
     try {
-      const response = await fetch('http://192.168.1.8:3000/api/v1/saler_books');
+      const response = await fetch('http://192.168.1.8:3000/api/v1/books');
       if (!response.ok) {
         throw new Error('Failed to fetch data');
       }
@@ -48,7 +52,7 @@ export const Books = () => {
       setError(error.message);
     }
   };
-  
+
   const handleFormSubmit = async (title, author, description, price, published_at, saler_id, image) => {
     const formdata = new FormData();
     formdata.append("book[title]", title);
@@ -156,7 +160,7 @@ export const Books = () => {
       prevBooks.map(book => (book.id === updatedBook.id ? updatedBook : book))
     );
   };
-  
+
   const handleImageChange = async (e, book) => {
     try {
       const file = e.target.files[0];
@@ -200,7 +204,7 @@ export const Books = () => {
       setError(error.message);
     }
   };
-  
+
   const handleChange = (e, book) => {
     const { name, value } = e.target;
     const updatedBook = { ...book, [name]: value };
@@ -208,7 +212,7 @@ export const Books = () => {
       prevState.map(b => (b.id === book.id ? updatedBook : b))
     );
   };
-  
+
   const handleToggleStatus = async (id) => {
     try {
       const response = await fetch(`http://192.168.1.8:3000/api/v1/books/${id}/update_status`, {
@@ -272,7 +276,7 @@ export const Books = () => {
   //       method: 'DELETE',
   //       headers: {
   //         'Content-Type': 'application/json',
-  //         'X-CSRF-Token': csrfToken  
+  //         'X-CSRF-Token': csrfToken
   //       },
   //       body: JSON.stringify({ image })
   //     });
@@ -285,7 +289,7 @@ export const Books = () => {
   //     console.error('Error deleting image:', error);
   //   }
   // };
-  
+
 
   const handleImageDelete = async (bookId) => {
     try {
@@ -296,7 +300,7 @@ export const Books = () => {
           'Content-Type': 'application/json',
           'X-CSRF-Token': csrfToken
         },
-        body: JSON.stringify({ "type": "image" }) 
+        body: JSON.stringify({ "type": "image" })
       });
       if (response.ok) {
         updateBookImage(bookId, null);
@@ -307,7 +311,7 @@ export const Books = () => {
       console.error('Error deleting image:', error);
     }
   };
-  
+
   return (
     <div>
       <div>
@@ -390,7 +394,7 @@ export const Books = () => {
                 ) : ( <button onClick={() => handleEdit(book.id)}>Edit</button>)}
               </td>
               <td><button onClick={() => handleToggleStatus(book.id)}>Change Status</button></td>
-              <div>        
+              <div>
                 <button onClick={() => { handleShowModal(book); fetchBookDetails(book.id) }} >Show Modal</button>
                 {isModalOpen && modelData && (
                   <div className="modal">
@@ -399,7 +403,7 @@ export const Books = () => {
                       <div>
                       <div><img src={banner} alt="saler's image" style={{ width: '1750px', height: '500px' }} /></div>
                   <input type="file" onChange={e => handleBImageChange(e, modelData.id)} name="image" />
-                  <div><RiDeleteBin5Line onClick={() => handleImageDelete(book.id, 'banner_image')} /></div>                        
+                  <div><RiDeleteBin5Line onClick={() => handleImageDelete(book.id, 'banner_image')} /></div>
                   <div><img src={modelData.image_url} alt="Book Image" style={{ width: '300px', height: '300px', float: 'right', marginRight: '500px', marginTop: '20px' }} /></div>
                         <div style={{ marginLeft: '500px' }}>
                           <h3>Title: {modelData.title}</h3>

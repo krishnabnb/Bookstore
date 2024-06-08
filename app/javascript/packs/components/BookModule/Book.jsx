@@ -48,14 +48,14 @@ export const Book = () => {
       toastr.error('Quantity can not be less than 1');
       return;
     }
-  
+
     const updatedSelectedBooks = selectedBooks.map((book) =>
       book.id === bookId ? { ...book, quantity: book.quantity - 1 } : book
     );
     setSelectedBooks(updatedSelectedBooks);
     setTotalPrice((prevTotalPrice) => prevTotalPrice - getBookPrice(bookId));
   };
-  
+
     const getBookPrice = (bookId) => {
     const book = selectedBooks.find((book) => book.id === bookId);
     return book ? Number(book.price) : 1;
@@ -88,7 +88,7 @@ export const Book = () => {
       toastr.error('Please select a payment method');
     }
   };
-  
+
   const fetchBookDetails = async (id) => {
     try {
       const response = await fetch(`http://192.168.1.8:3000/api/v1/books/${id}`);
@@ -171,7 +171,7 @@ export const Book = () => {
         <div>
           <div className='bio-container'>
             <div className='title-2'>
-              <h1>Books</h1>
+              <h1>Book</h1>
               <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit</p>
             </div>
           </div>
@@ -196,8 +196,8 @@ export const Book = () => {
                 <div className="modal-content">
                   <span className="close" onClick={handleCloseModal}>&times;</span>
                   <div>
-                    <img src={modelData.banner_image_url} alt="saler's image" style={{ width: '1750px', height: '500px' }} />
-                    <div><img src={modelData.image_url} alt="saler's image" style={{ width: '300px', height: '300px', float: 'right', marginRight: '500px', marginTop: '20px' }} /></div>
+                    <img src={modelData.banner_image_url} alt="book's image" style={{ width: '1750px', height: '500px' }} />
+                    <div><img src={modelData.image_url} alt="book's image" style={{ width: '300px', height: '300px', float: 'right', marginRight: '500px', marginTop: '20px' }} /></div>
                     <div style={{ marginLeft: '500px' }}>
                       <h3>Title: {modelData.title}</h3>
                       <h3>Author: {modelData.author}</h3>
