@@ -11,13 +11,19 @@ class Api::V1::BooksController < ApplicationController
     render json: {book: BookSerializer.new( @books).serializable_hash[:data]}
   end
 
+  # def show
+  #   @book = Book.find(params[:id])
+  #   book_data = BookSerializer.new(@book).serializable_hash[:data]
+  #   book_data[:banner_image_url] = @book.banner_image_url
+  #   render json: { book: book_data }, status: :ok
+  # end
   def show
     @book = Book.find(params[:id])
     book_data = BookSerializer.new(@book).serializable_hash[:data]
-    book_data[:banner_image_url] = @book.banner_image_url
+    book_data[:banner_image_url] = @book.banner_image_url # Add this line
     render json: { book: book_data }, status: :ok
   end
-
+  
   def update_status
     @book = Book.find(params[:id])
     if @book.published_status == "published"
@@ -38,23 +44,10 @@ class Api::V1::BooksController < ApplicationController
     else
       render json: @book.errors, status: :unprocessable_entity
     end
-  end
-
-  # def update
-  #   if @book.update(book_params)
-  #     if params[:banner_image].present?
-  #       @book.banner_image.attach(params[:banner_image])
-  #       render json: { message: 'Banner image updated successfully', book: BookSerializer.new(@book).serializable_hash[:data] }, status: :ok
-  #     else
-  #       render json: { book: BookSerializer.new(@book).serializable_hash[:data], message: 'Book details updated successfully' }, status: :ok
-  #     end
-  #   else
-  #     render json: { error: @book.errors.full_messages }, status: :unprocessable_entity
-  #   end
-  # end  
+  end  
 
   def update
-    if @book
+    if @book 
       if @book.update(book_params)
         if params[:banner_image].present?
           @book.banner_image.attach(params[:banner_image])
@@ -69,7 +62,7 @@ class Api::V1::BooksController < ApplicationController
       render json: { error: "Book not found" }, status: :not_found
     end
   end
-
+  
 
   def destroy
     @book.destroy
