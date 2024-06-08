@@ -162,12 +162,7 @@ export const Contact = () => {
                 <tr key={contact.id}>
                   <td>
                     {editModes[contact.id] ? (
-                      <input
-                        name="name"
-                        value={contact.name}
-                        onChange={e => handleChange(e, contact)}
-                        placeholder="Title"
-                      />
+                      <input name="name" value={contact.name} onChange={e => handleChange(e, contact)} placeholder="Title"/>
                     ) : (
                       contact.name
                     )}

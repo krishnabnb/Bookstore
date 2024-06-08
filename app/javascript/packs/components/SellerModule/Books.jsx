@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';``
 import '../SellerModule/saler.css';
 import { NewBook } from '../BookModule/NewBook';
 import { RiDeleteBin5Line } from "react-icons/ri";
@@ -18,7 +18,11 @@ export const Books = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modelData, setModelData] = useState(null);
   const [banner, setBannerImageUrl] = useState('');
+<<<<<<< HEAD
 
+=======
+
+>>>>>>> 01bb7f51783d6c99edc197321d741a5beb1f1c1d
   const handleShowModal = (book) => {
     setIsModalOpen(true);
     setModelData(book);
@@ -265,14 +269,38 @@ export const Books = () => {
     fetchBooks();
   };
 
-  const handleImageDelete = async (bookId, type) => {
+  // const handleImageDelete = async (bookId) => {
+  //   try {
+  //     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+  //     const response = await fetch(`http://192.168.1.8:3000/api/v1/books/${bookId}/image_destroy`, {
+  //       method: 'DELETE',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         'X-CSRF-Token': csrfToken
+  //       },
+  //       body: JSON.stringify({ image })
+  //     });
+  //     if (response.ok) {
+  //       updateBookImage(bookId, null);
+  //     } else {
+  //       throw new Error('Failed to delete image');
+  //     }
+  //   } catch (error) {
+  //     console.error('Error deleting image:', error);
+  //   }
+  // };
+
+
+  const handleImageDelete = async (bookId) => {
     try {
+      const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
       const response = await fetch(`http://192.168.1.8:3000/api/v1/books/${bookId}/image_destroy`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
+          'X-CSRF-Token': csrfToken
         },
-        body: JSON.stringify({type})
+        body: JSON.stringify({ "type": "image" })
       });
       if (response.ok) {
         updateBookImage(bookId, null);
@@ -375,7 +403,8 @@ export const Books = () => {
                       <div>
                       <div><img src={banner} alt="saler's image" style={{ width: '1750px', height: '500px' }} /></div>
                   <input type="file" onChange={e => handleBImageChange(e, modelData.id)} name="image" />
-                  <div><RiDeleteBin5Line onClick={() => handleImageDelete(book.id, 'banner_image')} /></div>                        <div><img src={modelData.image_url} alt="Book Image" style={{ width: '300px', height: '300px', float: 'right', marginRight: '500px', marginTop: '20px' }} /></div>
+                  <div><RiDeleteBin5Line onClick={() => handleImageDelete(book.id, 'banner_image')} /></div>
+                  <div><img src={modelData.image_url} alt="Book Image" style={{ width: '300px', height: '300px', float: 'right', marginRight: '500px', marginTop: '20px' }} /></div>
                         <div style={{ marginLeft: '500px' }}>
                           <h3>Title: {modelData.title}</h3>
                           <h3>Author: {modelData.author}</h3>
