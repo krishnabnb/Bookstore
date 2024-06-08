@@ -1,4 +1,6 @@
 import React, { useEffect } from 'react';
+import toastr from 'toastr';
+import 'toastr/build/toastr.css';
 
 const Logout = () => {
   useEffect(() => {
@@ -19,6 +21,8 @@ const Logout = () => {
 
       if (response.ok) {
         console.log('Logged out successfully');
+        toastr.success('Login successful');
+
         sessionStorage.removeItem('jsonwebtoken');
 
         sessionStorage.removeItem('customerEmail');
@@ -26,10 +30,12 @@ const Logout = () => {
         throw new Error('Failed to logout');
       }
 
-      window.location.href = '/SignUp';
+      window.location.href = '/';
 
     } catch (error) {
       console.error('Error:', error);
+      toastr.error('Login failed: ' + error.message);
+
     }
   };
 

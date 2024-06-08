@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';``
 import '../SellerModule/saler.css';
 import { NewBook } from '../BookModule/NewBook';
 import { RiDeleteBin5Line } from "react-icons/ri";
@@ -18,34 +18,18 @@ export const Books = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modelData, setModelData] = useState(null);
   const [banner, setBannerImageUrl] = useState('');
-
-  const fetchBookDetails = async (id) => {
-    try {
-      const response = await fetch(`http://192.168.1.8:3000/api/v1/books/${id}`);
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.status.message);
-      }
-      const bookData = await response.json();
-      const { banner_image_url } = bookData;
-      setBannerImageUrl(banner_image_url);
-      setIsModalOpen(true);
-    } catch (error) {
-      console.error('Error fetching book details:', error);
-      setError(error.message);
-      toastr.error('Login failed: ' + error.message);
-    }
-  };
-
+  
   const handleShowModal = (book) => {
     setIsModalOpen(true);
-    setModelData(book)
+    setModelData(book);
+    setBannerImageUrl(book.banner_image_url);
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
+    setBannerImageUrl('');
   };
-
+  
   useEffect(() => {
     fetchBooks();
   }, [modelData]);
@@ -195,31 +179,28 @@ export const Books = () => {
     }
   };
 
-  // const handleBImageChange = async (e, book) => {
-  //   try {
-  //     const file = e.target.files[0];
-  //     setImage(file);
-  //     const formdata = new FormData();
-  //     formdata.append("book[banner_image]", file);
-  //     const response = await fetch(`http://192.168.1.8:3000/api/v1/books/${book.id}`, {
-  //       method: 'PATCH',
-  //       body: formdata,
-  //     });
-  //     if (!response.ok) {
-  //       throw new Error('Failed to update book image');
-  //     }
-  //     console.log(response)
-  //     const updatedBook = await response.json();
-  //     updateBook(updatedBook.book);
-  //     setBannerImageUrl(updatedBook.book.banner_image_url);
-  //     await fetchBooks();
-  //   } catch (error) {
-  //     console.error('Error updating book image:', error);
-  //     setError(error.message);
-  //     toastr.error('Error updating book image: ' + error.message);
-  //   }
-  // };
-    
+  const handleBImageChange = async (e, book) => {
+    try {
+      const file = e.target.files[0];
+      console.log("Selected file:", file);
+      setImage(file);
+      const formdata = new FormData();
+      formdata.append("book[banner_image]", file);
+      const response = await fetch(`http://192.168.1.8:3000/api/v1/books/${modelData.id}`, {
+        method: 'PATCH',
+        body: formdata,
+      });
+      const updatedBook = await response.json();
+      console.log("Updated book:", updatedBook);
+      updateBook(updatedBook.book);
+      setBannerImageUrl(updatedBook.book.banner_image_url)
+      await fetchBooks();
+    } catch (error) {
+      console.error('Error updating book image:', error);
+      setError(error.message);
+    }
+  };
+  
   const handleChange = (e, book) => {
     const { name, value } = e.target;
     const updatedBook = { ...book, [name]: value };
@@ -227,7 +208,7 @@ export const Books = () => {
       prevState.map(b => (b.id === book.id ? updatedBook : b))
     );
   };
-
+  
   const handleToggleStatus = async (id) => {
     try {
       const response = await fetch(`http://192.168.1.8:3000/api/v1/books/${id}/update_status`, {
@@ -284,14 +265,38 @@ export const Books = () => {
     fetchBooks();
   };
 
-  const handleImageDelete = async (bookId, type) => {
+  // const handleImageDelete = async (bookId) => {
+  //   try {
+  //     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+  //     const response = await fetch(`http://192.168.1.8:3000/api/v1/books/${bookId}/image_destroy`, {
+  //       method: 'DELETE',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         'X-CSRF-Token': csrfToken  
+  //       },
+  //       body: JSON.stringify({ image })
+  //     });
+  //     if (response.ok) {
+  //       updateBookImage(bookId, null);
+  //     } else {
+  //       throw new Error('Failed to delete image');
+  //     }
+  //   } catch (error) {
+  //     console.error('Error deleting image:', error);
+  //   }
+  // };
+  
+
+  const handleImageDelete = async (bookId) => {
     try {
+      const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
       const response = await fetch(`http://192.168.1.8:3000/api/v1/books/${bookId}/image_destroy`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
+          'X-CSRF-Token': csrfToken
         },
-        body: JSON.stringify({ type })
+        body: JSON.stringify({ "type": "image" }) 
       });
       if (response.ok) {
         updateBookImage(bookId, null);
@@ -302,7 +307,7 @@ export const Books = () => {
       console.error('Error deleting image:', error);
     }
   };
-
+  
   return (
     <div>
       <div>
@@ -319,19 +324,17 @@ export const Books = () => {
         </div>
       </div>
       <form className="search-form">
-        <div style={{display:'flex'}}>
-          <input type="text" name="title" placeholder="Search by title" className='search-input' value={searchQuery.title} onChange={handleSearchInputChange} style={{marginRight:'10px'}} />
-          <input type="text" name="description" placeholder="Search by description" className='search-input' value={searchQuery.description} onChange={handleSearchInputChange} style={{marginRight:'10px'}}/>
-          <input type="text" name="published_at" placeholder="Search by published_at" className='search-input' value={searchQuery.published_at} onChange={handleSearchInputChange} style={{marginRight:'10px'}}/>
-          <input type="text" name="published_status" placeholder="Search by published_status" className='search-input' value={searchQuery.published_status} onChange={handleSearchInputChange} style={{marginRight:'10px'}}/>
-          <button type="button" className='searchButton' onClick={handleSearch} style={{marginRight:'10px'}}>Search</button>
-          <button type="button" className='cancelButton' onClick={handleCancelSearch}>Cancel</button>
-        </div>
-      </form><br></br>
+        <input type="text" name="title" placeholder="Search by title" className='search-input' value={searchQuery.title} onChange={handleSearchInputChange} />
+        <input type="text" name="description" placeholder="Search by description" className='search-input' value={searchQuery.description} onChange={handleSearchInputChange} />
+        <input type="text" name="published_at" placeholder="Search by published_at" className='search-input' value={searchQuery.published_at} onChange={handleSearchInputChange} />
+        <input type="text" name="published_status" placeholder="Search by published_status" className='search-input' value={searchQuery.published_status} onChange={handleSearchInputChange} />
+        <button type="button" className='searchButton' onClick={handleSearch}>Search</button>
+        <button type="button" className='cancelButton' onClick={handleCancelSearch}>Cancel</button>
+      </form>
       <table className="salers-table">
         <thead>
           <tr>
-            <th>Title</th><th>Author</th><th>Description</th><th>Price</th><th>Published_Status</th><th>Published_at</th><th>image</th><th colSpan={'4'} >action</th>
+            <th>Title</th><th>Author</th><th>Description</th><th>Price</th><th>Published_Status</th><th>Published_at</th><th>image</th><th>Delete</th><th>Edit</th><th>Changed status</th>
           </tr>
         </thead>
         <tbody>
@@ -387,17 +390,17 @@ export const Books = () => {
                 ) : ( <button onClick={() => handleEdit(book.id)}>Edit</button>)}
               </td>
               <td><button onClick={() => handleToggleStatus(book.id)}>Change Status</button></td>
-              <td>        
-                <button onClick={() => { handleShowModal(book); fetchBookDetails(book.id); }} >Show Modal</button>
+              <div>        
+                <button onClick={() => { handleShowModal(book); fetchBookDetails(book.id) }} >Show Modal</button>
                 {isModalOpen && modelData && (
                   <div className="modal">
                     <div className="modal-content">
                       <span className="close" onClick={handleCloseModal}>&times;</span>
                       <div>
-                        <img src={modelData.banner_image_url} alt="saler's image" style={{ width: '1750px', height: '500px' }} />
-                        <input type="file" onChange={e => handleImageChange(e,book.id)} name="image" />
-                        <div><RiDeleteBin5Line onClick={() => handleImageDelete(book.id, 'banner_image')} /></div>
-                        <div><img src={modelData.image_url} alt="saler's image" style={{ width: '300px', height: '300px', float: 'right', marginRight: '500px', marginTop: '20px' }} /></div>
+                      <div><img src={banner} alt="saler's image" style={{ width: '1750px', height: '500px' }} /></div>
+                  <input type="file" onChange={e => handleBImageChange(e, modelData.id)} name="image" />
+                  <div><RiDeleteBin5Line onClick={() => handleImageDelete(book.id, 'banner_image')} /></div>                        
+                  <div><img src={modelData.image_url} alt="Book Image" style={{ width: '300px', height: '300px', float: 'right', marginRight: '500px', marginTop: '20px' }} /></div>
                         <div style={{ marginLeft: '500px' }}>
                           <h3>Title: {modelData.title}</h3>
                           <h3>Author: {modelData.author}</h3>
@@ -411,7 +414,7 @@ export const Books = () => {
                     </div>
                   </div>
                 )}
-              </td>
+              </div>
             </tr>
           ))}
         </tbody>
