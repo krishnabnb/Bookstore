@@ -174,7 +174,7 @@ export const Home = () => {
               <h1 >{counter.current}</h1>
               {counter.id === 1 && (
                 <div >
-                  <h2><FaBook/>     BOOKS</h2>
+                  <h2><FaBook/>BOOKS</h2>
                 </div>
               )}
                {counter.id === 2 && (

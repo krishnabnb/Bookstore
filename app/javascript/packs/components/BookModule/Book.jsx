@@ -43,24 +43,26 @@ export const Book = () => {
   };
 
   const decrementQuantity = (bookId) => {
+    const updatedBook = selectedBooks.find((book) => book.id === bookId);
+    if (!updatedBook || updatedBook.quantity === 1) {
+      toastr.error('Quantity can not be less than 1');
+      return;
+    }
+
     const updatedSelectedBooks = selectedBooks.map((book) =>
-      book.id === bookId && book.quantity > 1 ? { ...book, quantity: book.quantity - 1 } : book
+      book.id === bookId ? { ...book, quantity: book.quantity - 1 } : book
     );
     setSelectedBooks(updatedSelectedBooks);
     setTotalPrice((prevTotalPrice) => prevTotalPrice - getBookPrice(bookId));
   };
 
-  const getBookPrice = (bookId) => {
+    const getBookPrice = (bookId) => {
     const book = selectedBooks.find((book) => book.id === bookId);
-    return book ? Number(book.price) : 0;
+    return book ? Number(book.price) : 1;
   };
 
     const handlePaymentMethodChange = (e) => {
     setPaymentMethod(e.target.value);
-  };
-
-  const handleCheckoutButtonClick = () => {
-    setIsCheckoutModalOpen(true);
   };
 
   const handleCheckoutClose = () => {
@@ -68,18 +70,23 @@ export const Book = () => {
   };
 
   const handlePayment = () => {
-    if (paymentMethod === 'cash') {
-      toastr.success('Cash payment successful');
-      window.location.href = '/customer';
-    } else if (paymentMethod === 'online') {
-      toastr.success('Online payment successful');
-      window.location.href = '/customer';
+    if (paymentMethod === 'cash' || paymentMethod === 'online') {
+      const queryParams = new URLSearchParams();
+      queryParams.append('totalPrice', totalPrice.toFixed(2));
+      queryParams.append('paymentMethod', paymentMethod);
+      const queryString = queryParams.toString();
+      if (paymentMethod === 'cash') {
+        toastr.success('Cash payment successful');
+      } else if (paymentMethod === 'online') {
+        toastr.success('Online payment successful');
+      }
+      window.location.href = `/customer?${queryString}`;
+      setSelectedBooks([]);
+      setTotalPrice(0);
+      setIsCheckoutModalOpen(false);
     } else {
       toastr.error('Please select a payment method');
     }
-    setSelectedBooks([]);
-    setTotalPrice(0);
-    setIsCheckoutModalOpen(false);
   };
 
   const fetchBookDetails = async (id) => {
@@ -164,20 +171,22 @@ export const Book = () => {
         <div>
           <div className='bio-container'>
             <div className='title-2'>
-              <h1>Books</h1>
+              <h1>Book</h1>
               <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit</p>
             </div>
           </div>
         </div>
       </div>
       <form className="search-form">
-        <input type="text" name="title" placeholder="Search by title" className='search-input' value={searchQuery.title} onChange={handleSearchInputChange} />
-        <input type="text" name="description" placeholder="Search by description" className='search-input' value={searchQuery.description} onChange={handleSearchInputChange} />
-        <input type="text" name="published_at" placeholder="Search by published_at" className='search-input' value={searchQuery.published_at} onChange={handleSearchInputChange} />
-        <input type="text" name="published_status" placeholder="Search by published_status" className='search-input' value={searchQuery.published_status} onChange={handleSearchInputChange} />
-        <button type="button" className='searchButton' onClick={handleSearch}>Search</button>
-        <button type="button" className='cancelButton' onClick={handleCancelSearch}>Cancel</button>
-      </form>
+        <div style={{display:'flex'}}>
+          <input type="text" name="title" placeholder="Search by title" className='search-input' value={searchQuery.title} onChange={handleSearchInputChange} style={{marginRight:'10px'}} />
+          <input type="text" name="description" placeholder="Search by description" className='search-input' value={searchQuery.description} onChange={handleSearchInputChange} style={{marginRight:'10px'}}/>
+          <input type="text" name="published_at" placeholder="Search by published_at" className='search-input' value={searchQuery.published_at} onChange={handleSearchInputChange} style={{marginRight:'10px'}}/>
+          <input type="text" name="published_status" placeholder="Search by published_status" className='search-input' value={searchQuery.published_status} onChange={handleSearchInputChange} style={{marginRight:'10px'}}/>
+          <button type="button" className='searchButton' onClick={handleSearch} style={{marginRight:'10px'}}>Search</button>
+          <button type="button" className='cancelButton' onClick={handleCancelSearch}>Cancel</button>
+        </div>
+      </form><br></br>
       <div className="card-container" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
         {Array.isArray(books) && books.map((book) => (
           <div key={book.id} className="card">
@@ -187,8 +196,8 @@ export const Book = () => {
                 <div className="modal-content">
                   <span className="close" onClick={handleCloseModal}>&times;</span>
                   <div>
-                    <img src={banner} alt="saler's image" style={{ width: '1750px', height: '500px' }} />
-                    <div><img src={modelData.image_url} alt="saler's image" style={{ width: '300px', height: '300px', float: 'right', marginRight: '500px', marginTop: '20px' }} /></div>
+                    <img src={modelData.banner_image_url} alt="book's image" style={{ width: '1750px', height: '500px' }} />
+                    <div><img src={modelData.image_url} alt="book's image" style={{ width: '300px', height: '300px', float: 'right', marginRight: '500px', marginTop: '20px' }} /></div>
                     <div style={{ marginLeft: '500px' }}>
                       <h3>Title: {modelData.title}</h3>
                       <h3>Author: {modelData.author}</h3>
@@ -264,7 +273,6 @@ export const Book = () => {
               </div>
             </form>
             <button onClick={handlePayment}>Pay Now</button>
-            <button onClick={handleCheckoutClose}>Cancel</button>
           </div>
             </div>
           </div>

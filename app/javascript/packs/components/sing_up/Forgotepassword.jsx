@@ -57,16 +57,18 @@ const ForgotPasswordForm = () => {
           'Authorization': `Bearer ${token}`
         }
       });
+
       if (salerResponse.status === 401) {
         throw new Error('Unauthorized: Invalid token');
       }
+
       if (!salerResponse.ok) {
         const errorData = await salerResponse.json();
         throw new Error(`Failed to fetch current customer: ${errorData.error}`);
       }
+
       const salerData = await salerResponse.json();
-      console.log('Current customer:', salerData);
-      sessionStorage.setItem('salername', salerData.name);
+      sessionStorage.setItem('salerEmail', salerData.email);
       setTimeout(function() {
         window.location.href = '/saler';
       }, 2000);
@@ -78,13 +80,14 @@ const ForgotPasswordForm = () => {
 
   const handleSignInSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await fetch('http://192.168.1.8:3000/salers/login', {
+       try {
+        const response = await fetch('http://192.168.1.8:3000/salers/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ saler: { email, password } }),
+        body: JSON.stringify({ saler: { email, password } })
+
       });
       if (!response.ok) {
         const errorData = await response.json();
@@ -98,6 +101,26 @@ const ForgotPasswordForm = () => {
       const token = data.token;
       sessionStorage.setItem('jsontoken', token);
       toastr.success('Login successful');
+      const salerResponse = await fetch('http://192.168.1.8:3000/current_saler', {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      if (salerResponse.status === 401) {
+        throw new Error('Unauthorized: Invalid token');
+      }
+      if (!salerResponse.ok) {
+        const errorData = await salerResponse.json();
+        throw new Error(`Failed to fetch current customer: ${errorData.error}`);
+      }
+      const salerData = await salerResponse.json();
+      sessionStorage.setItem('salerEmail', salerData.email);
+      sessionStorage.setItem('salername', salerData.name);
+      sessionStorage.setItem('saleradress', salerData.adress);
+      sessionStorage.setItem('salerphoneno', salerData.phoneno);
+      sessionStorage.setItem('salercity', salerData.city);
+
       setTimeout(function () {
         window.location.href = '/saler';
       }, 1000);

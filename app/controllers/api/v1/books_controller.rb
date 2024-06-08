@@ -40,18 +40,36 @@ class Api::V1::BooksController < ApplicationController
     end
   end
 
+  # def update
+  #   if @book.update(book_params)
+  #     if params[:banner_image].present?
+  #       @book.banner_image.attach(params[:banner_image])
+  #       render json: { message: 'Banner image updated successfully', book: BookSerializer.new(@book).serializable_hash[:data] }, status: :ok
+  #     else
+  #       render json: { book: BookSerializer.new(@book).serializable_hash[:data], message: 'Book details updated successfully' }, status: :ok
+  #     end
+  #   else
+  #     render json: { error: @book.errors.full_messages }, status: :unprocessable_entity
+  #   end
+  # end  
+
   def update
-    if @book.update(book_params)
-      if params[:banner_image].present?
-        @book.banner_image.attach(params[:banner_image])
-        render json: { message: 'Banner image updated successfully', book: BookSerializer.new(@book).serializable_hash[:data] }, status: :ok
+    if @book
+      if @book.update(book_params)
+        if params[:banner_image].present?
+          @book.banner_image.attach(params[:banner_image])
+          render json: { message: 'Banner image updated successfully', book: BookSerializer.new(@book).serializable_hash[:data] }, status: :ok
+        else
+          render json: { book: BookSerializer.new(@book).serializable_hash[:data], message: 'Book details updated successfully' }, status: :ok
+        end
       else
-        render json: { book: BookSerializer.new(@book).serializable_hash[:data], message: 'Book details updated successfully' }, status: :ok
+        render json: { error: @book.errors.full_messages }, status: :unprocessable_entity
       end
     else
-      render json: { error: @book.errors.full_messages }, status: :unprocessable_entity
+      render json: { error: "Book not found" }, status: :not_found
     end
-  end  
+  end
+
 
   def destroy
     @book.destroy
@@ -70,7 +88,6 @@ class Api::V1::BooksController < ApplicationController
     end
   end
   
-  
   private
 
   def set_book
@@ -78,6 +95,7 @@ class Api::V1::BooksController < ApplicationController
   end
 
   def book_params
-    params.require(:book).permit(:title, :author, :description, :release_date, :price, :published_status, :published_at, :image,:banner_image, :saler_id)
+    params.require(:book).permit(:title, :author, :description, :release_date, :price, :published_status, :published_at, :image, :banner_image, :saler_id)
   end
 end
+
