@@ -5,6 +5,7 @@ import Footer from './common/Footer';
 import { Home } from './common/Home';
 import { Book } from './BookModule/Book';
 import { Saler } from './SellerModule/Saler';
+import { Cart } from './CartModule/Cart'
 import { Books } from './SellerModule/Books';
 import { Product } from "./ProductModule/Product";
 import { Contact } from "./ContactModule/Contact";
@@ -31,6 +32,7 @@ const App = () => {
       <BrowserRouter>
         <div>
           <Routes>
+            <Route path="/cart" element={<><Header/><Cart/><Footer/></>}/>
             <Route path="/saller" element={<Forgotepassword />}/>
             <Route path="/" element={<Login/>}/>
             <Route path="/customer" element={<><Header/><User/><Footer/></> } />

@@ -69,6 +69,7 @@ const ForgotPasswordForm = () => {
 
       const salerData = await salerResponse.json();
       sessionStorage.setItem('salerEmail', salerData.email);
+      sessionStorage.setItem('salerid', salerData.id)
       setTimeout(function() {
         window.location.href = '/saler';
       }, 2000);
@@ -120,6 +121,7 @@ const ForgotPasswordForm = () => {
       sessionStorage.setItem('saleradress', salerData.adress);
       sessionStorage.setItem('salerphoneno', salerData.phoneno);
       sessionStorage.setItem('salercity', salerData.city);
+      sessionStorage.setItem('salerid', salerData.id)
 
       setTimeout(function () {
         window.location.href = '/saler';

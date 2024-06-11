@@ -1,4 +1,6 @@
 import React, { useEffect } from 'react';
+import toastr from 'toastr';
+import 'toastr/build/toastr.css';
 
 const SingOut = () => {
     useEffect(() => {
@@ -16,9 +18,10 @@ const SingOut = () => {
           },
           body: JSON.stringify({ webtokan })
         });
-
         if (response.ok) {
           console.log('Logged out successfully');
+          toastr.success('Logged out successfully');
+
           sessionStorage.removeItem('jsontoken');
 
           sessionStorage.removeItem('salerEmail');
@@ -30,10 +33,11 @@ const SingOut = () => {
 
       } catch (error) {
         console.error('Error:', error);
+        toastr.error('Logout failed: ' + error.message);
+
       }
     };
 
     return null;
   };
-
-  export default SingOut;
+export default SingOut;

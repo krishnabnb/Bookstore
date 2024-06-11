@@ -12,12 +12,12 @@ class Api::V1::CartItemsController < ApplicationController
           title: cart_item.book.title,
           price: cart_item.book.price,
           quantity: cart_item.quantity,
-          image_url: cart_item.book.image_url 
+          image_url: cart_item.book.image_url
         }
       end
       render json: { cart_items: cart_items_json, massage: 'Cart item for current customer'}
     else
       render json: { error: 'Cart items not found for current customer' }, status: :not_found
     end
-  end 
+  end
 end
