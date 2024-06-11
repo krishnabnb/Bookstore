@@ -7,8 +7,8 @@ class Customer < ApplicationRecord
   devise :database_authenticatable, :registerable, :validatable,
          :jwt_authenticatable, jwt_revocation_strategy: self
 
-  has_many :carts, dependent: :destroy
-
+  has_one :cart, dependent: :destroy
+  has_many :orders, dependent: :destroy
   
   validates :firstname, presence: true, format: { with: /\A[a-zA-Z]+\z/, message: "enter valid"}
   validates :lastname, presence: true, format: { with: /\A[a-zA-Z]+\z/, message: "enter valid" }
@@ -19,9 +19,17 @@ class Customer < ApplicationRecord
   validates :password, length: { minimum: 8 }
   validate :passwords_match, on: :create
 
+  after_create :initialize_cart
+
   def passwords_match
     errors.add(:password_confirmation, "doesn't match Password") if password != password_confirmation
     puts "--------------------password:  #{password_confirmation.inspect}"
+  end
+
+  private
+
+  def initialize_cart
+    create_cart
   end
 
 end

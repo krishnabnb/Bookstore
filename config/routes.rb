@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  
+ 
   devise_for :salers, path: '', path_names: {
     registration: 'salers/signup',
     sign_in: 'salers/login',
@@ -31,7 +31,9 @@ Rails.application.routes.draw do
           delete 'image_destroy'
         end
       end
-  
+      resources :orders do
+        resources :order_items, only: [:index, :show, :create, :update, :destroy]
+      end
       resources :books do
         member do
           patch  'update_status'
@@ -40,7 +42,8 @@ Rails.application.routes.draw do
       end
       resources :customers, only: [:index, :show, :create, :update, :destroy]
       resources :payments
-      resources :carts
+      resources :cart_items
+      resources :carts, only: [:index, :show, :create]
       resources :contacts
       resources :saler_books, only: [:index] 
     end
@@ -50,4 +53,7 @@ Rails.application.routes.draw do
     req.format.html?
   }
   delete 'logout', to: 'sessions#destroy'
+
+  mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
+
 end

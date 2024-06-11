@@ -1,31 +1,37 @@
 class Api::V1::CartsController < ApplicationController
-  before_action :authenticate_customer!
+  # before_action :authenticate_customer!
 
   def index
-    customer = current_customer
-    cart_items = customer.cart_items.includes(:book)
+    # customer = current_customer
+    # cart_items = customer.cart_items.includes(:book)
 
-    render json: { customer: customer, cart_items: cart_items }
+    # render json: { customer: customer, cart_items: cart_items }
+    @carts = Cart.all
+    render json: @carts
   end
 
-  def add_item
-    book_id = params[:book_id]
-    customer_id = current_customer.id
+  def  show
+    @cart = Cart.find(params[:id])
+    render json: { cart: @cart }, status: :ok
+  end
 
-    cart_item = CartItem.find_by(book_id: book_id, customer_id: customer_id)
+  def create
+    cart_params = {
+      customer_id: current_customer&.id,
+      status: params[:status] || "pending", 
+      total_price: params[:total_price] || "0.00"
+    }
+    @cart = Cart.new(cart_params)
 
-    if cart_item
-      cart_item.update(quantity: cart_item.quantity + 1)
+    if @cart.save
+      render json: { message: 'Cart created successfully', cart: @cart }, status: :ok
     else
-      cart_item = CartItem.create(book_id: book_id, customer_id: customer_id, quantity: 1)
+      render json: { error: 'Unable to create cart' }, status: :unprocessable_entity
     end
-
-    render json: { message: 'Item added to cart successfully', cart_item: cart_item }
-  rescue => e
-    render json: { error: e.message }, status: :unprocessable_entity
   end
 
   private
+
   def calculate_total_price(cart_items)
     total_price = cart_items.sum { |cart_item| cart_item.book.price * cart_item.quantity }
     total_price

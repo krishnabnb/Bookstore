@@ -5,7 +5,11 @@ class Api::V1::SalersController < ApplicationController
     @salers = Saler.all
     render json: { saler: SalerSerializer.new(@salers).serializable_hash[:data] }
   end
-
+  def show
+    @saler = Saler.find(params[:id])
+    @book = @saler.books.find(params[:book_id])
+    @total_sales = @book.order_items.sum(:quantity)
+  end
   def image_destroy
     if @saler.image.attached?
       @saler.image.purge

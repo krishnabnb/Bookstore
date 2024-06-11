@@ -18,11 +18,6 @@ export const Books = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modelData, setModelData] = useState(null);
   const [banner, setBannerImageUrl] = useState('');
-<<<<<<< HEAD
-
-=======
-
->>>>>>> 01bb7f51783d6c99edc197321d741a5beb1f1c1d
   const handleShowModal = (book) => {
     setIsModalOpen(true);
     setModelData(book);
@@ -53,6 +48,37 @@ export const Books = () => {
     }
   };
 
+  // const handleFormSubmit = async (title, author, description, price, published_at, saler_id, image) => {
+  //   const formdata = new FormData();
+  //   formdata.append("book[title]", title);
+  //   formdata.append("book[author]", author);
+  //   formdata.append("book[description]", description);
+  //   formdata.append("book[price]", price);
+  //   formdata.append("book[published_at]", published_at);
+  //   formdata.append("book[saler_id]", saler_id);
+  //   if (image) {
+  //     formdata.append("book[image]", image);
+  //   }
+  //   try {
+  //     const response = await fetch('http://192.168.1.8:3000/api/v1/books', {
+  //       method: 'POST',
+  //       body: formdata,
+  //     });
+  //     if (!response.ok) {
+  //       const errorData = await response.json();
+  //       throw new Error(errorData.status.message);
+  //     }
+  //     const newBook = await response.json();
+  //     addNewBook(newBook);
+  //     await fetchBooks()
+  //   } catch (error) {
+  //     console.error('Error adding book:', error);
+  //     setError(error.message);
+  //     toastr.error(error.message);
+  //   }
+  // };
+
+
   const handleFormSubmit = async (title, author, description, price, published_at, saler_id, image) => {
     const formdata = new FormData();
     formdata.append("book[title]", title);
@@ -75,7 +101,18 @@ export const Books = () => {
       }
       const newBook = await response.json();
       addNewBook(newBook);
-      await fetchBooks()
+      await fetchBooks();
+  
+      const userEmail = window.sessionStorage.getItem('salerEmail');
+      if (userEmail) {
+        await fetch('http://192.168.1.8:3000/salers/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ email: userEmail, message: 'New book created!' })
+        });
+      }
     } catch (error) {
       console.error('Error adding book:', error);
       setError(error.message);
@@ -269,28 +306,27 @@ export const Books = () => {
     fetchBooks();
   };
 
-  // const handleImageDelete = async (bookId) => {
-  //   try {
-  //     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-  //     const response = await fetch(`http://192.168.1.8:3000/api/v1/books/${bookId}/image_destroy`, {
-  //       method: 'DELETE',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         'X-CSRF-Token': csrfToken
-  //       },
-  //       body: JSON.stringify({ image })
-  //     });
-  //     if (response.ok) {
-  //       updateBookImage(bookId, null);
-  //     } else {
-  //       throw new Error('Failed to delete image');
-  //     }
-  //   } catch (error) {
-  //     console.error('Error deleting image:', error);
-  //   }
-  // };
-
-
+  const handlebImageDelete = async (bookId) => {
+    try {
+      const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+      const response = await fetch(`http://192.168.1.8:3000/api/v1/books/${modelData.id}/image_destroy`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': csrfToken
+        },
+        body: JSON.stringify({ "type": "banner_image" })
+      });
+      if (response.ok) {
+        updateBookImage(bookId, null);
+      } else {
+        throw new Error('Failed to delete image');
+      }
+    } catch (error) {
+      console.error('Error deleting image:', error);
+    }
+  };
+  
   const handleImageDelete = async (bookId) => {
     try {
       const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
@@ -328,17 +364,19 @@ export const Books = () => {
         </div>
       </div>
       <form className="search-form">
-        <input type="text" name="title" placeholder="Search by title" className='search-input' value={searchQuery.title} onChange={handleSearchInputChange} />
-        <input type="text" name="description" placeholder="Search by description" className='search-input' value={searchQuery.description} onChange={handleSearchInputChange} />
-        <input type="text" name="published_at" placeholder="Search by published_at" className='search-input' value={searchQuery.published_at} onChange={handleSearchInputChange} />
-        <input type="text" name="published_status" placeholder="Search by published_status" className='search-input' value={searchQuery.published_status} onChange={handleSearchInputChange} />
-        <button type="button" className='searchButton' onClick={handleSearch}>Search</button>
-        <button type="button" className='cancelButton' onClick={handleCancelSearch}>Cancel</button>
-      </form>
+        <div style={{display:'flex'}}>
+          <input type="text" name="title" placeholder="Search by title" className='search-input' value={searchQuery.title} onChange={handleSearchInputChange} style={{marginRight:'10px'}} />
+          <input type="text" name="description" placeholder="Search by description" className='search-input' value={searchQuery.description} onChange={handleSearchInputChange} style={{marginRight:'10px'}}/>
+          <input type="text" name="published_at" placeholder="Search by published_at" className='search-input' value={searchQuery.published_at} onChange={handleSearchInputChange} style={{marginRight:'10px'}}/>
+          <input type="text" name="published_status" placeholder="Search by published_status" className='search-input' value={searchQuery.published_status} onChange={handleSearchInputChange} style={{marginRight:'10px'}}/>
+          <button type="button" className='searchButton' onClick={handleSearch} style={{marginRight:'10px'}}>Search</button>
+          <button type="button" className='cancelButton' onClick={handleCancelSearch}>Cancel</button>
+        </div>
+      </form><br></br>
       <table className="salers-table">
         <thead>
           <tr>
-            <th>Title</th><th>Author</th><th>Description</th><th>Price</th><th>Published_Status</th><th>Published_at</th><th>image</th><th>Delete</th><th>Edit</th><th>Changed status</th>
+            <th>Title</th><th>Author</th><th>Description</th><th>Price</th><th>Published_Status</th><th>Published_at</th><th>image</th><th colSpan={4}>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -394,17 +432,17 @@ export const Books = () => {
                 ) : ( <button onClick={() => handleEdit(book.id)}>Edit</button>)}
               </td>
               <td><button onClick={() => handleToggleStatus(book.id)}>Change Status</button></td>
-              <div>
-                <button onClick={() => { handleShowModal(book); fetchBookDetails(book.id) }} >Show Modal</button>
+              <td>
+                <button onClick={() => { handleShowModal(book); }} >Show Modal</button>
                 {isModalOpen && modelData && (
                   <div className="modal">
                     <div className="modal-content">
                       <span className="close" onClick={handleCloseModal}>&times;</span>
                       <div>
-                      <div><img src={banner} alt="saler's image" style={{ width: '1750px', height: '500px' }} /></div>
-                  <input type="file" onChange={e => handleBImageChange(e, modelData.id)} name="image" />
-                  <div><RiDeleteBin5Line onClick={() => handleImageDelete(book.id, 'banner_image')} /></div>
-                  <div><img src={modelData.image_url} alt="Book Image" style={{ width: '300px', height: '300px', float: 'right', marginRight: '500px', marginTop: '20px' }} /></div>
+                        <div><img src={banner} alt="saler's image" style={{ width: '1750px', height: '500px' }} /></div>
+                        <input type="file" onChange={e => handleBImageChange(e, modelData.id)} name="image" />
+                        <div><RiDeleteBin5Line onClick={() => handlebImageDelete(modelData.id, 'banner_image')} /></div>
+                        <div><img src={modelData.image_url} alt="Book Image" style={{ width: '300px', height: '300px', float: 'right', marginRight: '500px', marginTop: '20px' }} /></div>
                         <div style={{ marginLeft: '500px' }}>
                           <h3>Title: {modelData.title}</h3>
                           <h3>Author: {modelData.author}</h3>
@@ -418,7 +456,7 @@ export const Books = () => {
                     </div>
                   </div>
                 )}
-              </div>
+              </td>
             </tr>
           ))}
         </tbody>
