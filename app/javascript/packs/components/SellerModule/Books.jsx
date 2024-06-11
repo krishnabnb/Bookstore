@@ -134,7 +134,18 @@ export const Books = () => {
       }
       const newBook = await response.json();
       addNewBook(newBook);
-      await fetchBooks()
+      await fetchBooks();
+  
+      const userEmail = window.sessionStorage.getItem('salerEmail');
+      if (userEmail) {
+        await fetch('http://192.168.1.8:3000/salers/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ email: userEmail, message: 'New book created!' })
+        });
+      }
     } catch (error) {
       console.error('Error adding book:', error);
       setError(error.message);
@@ -239,7 +250,7 @@ export const Books = () => {
     } catch (error) {
       console.error('Error updating book image:', error);
       setError(error.message);
-    }
+    }app/javascript/packs/components/SellerModule/Books.jsx
   };
 
   const handleBImageChange = async (e, book) => {

@@ -74,3 +74,5 @@ gem 'sidekiq', '~> 6.0'
 gem "devise-jwt", "~> 0.11.0"
 
 gem "devise", "~> 4.9"
+
+gem 'letter_opener_web', group: :development

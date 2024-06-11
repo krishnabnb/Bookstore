@@ -6,21 +6,19 @@ class Api::V1::BooksController < ApplicationController
     @books = Book.all
     @books = @books.where("title LIKE ?", "%#{params[:title]}%") if params[:title].present?
     @books = @books.where("description LIKE ?", "%#{params[:description]}%") if params[:description].present?
-    @books = @books.where(published_at: params[:published_at]) if params[:published_at].present?
     @books = @books.where(published_status: params[:published_status]) if params[:published_status].present?
-    render json: {book: BookSerializer.new( @books).serializable_hash[:data]}
+    
+    if params[:start_date].present? && params[:end_date].present?
+      @books = @books.where(published_at: params[:start_date]..params[:end_date])
+    end
+    
+    render json: {book: BookSerializer.new(@books).serializable_hash[:data]}
   end
 
-  # def show
-  #   @book = Book.find(params[:id])
-  #   book_data = BookSerializer.new(@book).serializable_hash[:data]
-  #   book_data[:banner_image_url] = @book.banner_image_url
-  #   render json: { book: book_data }, status: :ok
-  # end
   def show
     @book = Book.find(params[:id])
     book_data = BookSerializer.new(@book).serializable_hash[:data]
-    book_data[:banner_image_url] = @book.banner_image_url # Add this line
+    book_data[:banner_image_url] = @book.banner_image_url 
     render json: { book: book_data }, status: :ok
   end
   
@@ -44,7 +42,7 @@ class Api::V1::BooksController < ApplicationController
     else
       render json: @book.errors, status: :unprocessable_entity
     end
-  end  
+  end
 
   def update
     if @book 
@@ -63,12 +61,11 @@ class Api::V1::BooksController < ApplicationController
     end
   end
   
-
   def destroy
     @book.destroy
     render json: { message: "Book destroyed successfully" }, status: :ok
   end
- 
+
   def image_destroy
     if @book.image.attached? && params[:type] == "image"
       @book.image.purge
