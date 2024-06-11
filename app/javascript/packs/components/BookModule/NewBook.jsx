@@ -1,10 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../SellerModule/saler.css';
 
 export const NewBook = (props) => {
   let formFields = {};
   const [file, setFile] = useState(null);
   console.log('file', file)
+  const [salerId, setSalerId] = useState('');
+
+  useEffect(() => {
+    const storedSalerId = sessionStorage.getItem('salerid');
+    if (storedSalerId) {
+      setSalerId(storedSalerId);
+    }
+  }, []);
 
   return (
     <form onSubmit={(e) => {
@@ -14,12 +22,10 @@ export const NewBook = (props) => {
       const description = formFields.description.value;
       const price = formFields.price.value;
       const published_at = formFields.published_at.value;
-      const saler_id = formFields.saler_id.value;
-
+      const saler_id = salerId;
       props.handleFormSubmit(title, author, description, price, published_at, saler_id, file);
       e.target.reset();
     }}>
-
       <div>
         <input type="text" id="title" ref={(input) => formFields.title = input} placeholder="Enter the title" className='input-bio' />
       </div>
@@ -36,7 +42,7 @@ export const NewBook = (props) => {
         <input type="date" id="published_at" ref={(input) => formFields.published_at = input} placeholder="Enter the Published_at" className='text-bio-with' />
       </div>
       <div>
-        <input type="text" id="saler_id" ref={(input) => formFields.saler_id = input} placeholder="Enter the saler_id" className='text-bio-with' />
+        <input type="text" id="saler_id" value={salerId} onChange={(e) => setSalerId(e.target.value)} placeholder="Enter the saler_id" className='text-bio-with' readOnly/>
       </div>
       <div>
         <input type="file" id='image' onChange={(e)=> setFile(e.target.files[0])} ref={(input) => formFields.image = input } placeholder='choose image'/>

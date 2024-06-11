@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import '../SellerModule/saler.css';
-import { RiDeleteBin5Line } from "react-icons/ri";
 import toastr from 'toastr';
 import 'toastr/build/toastr.css';
 
 export const Book = () => {
-  const [books, setBooks] = useState(() => {
-    const savedBooks = localStorage.getItem('books');
-    return savedBooks ? JSON.parse(savedBooks) : [];
-  });
+  const [books, setBooks] = useState([]);
   const [error, setError] = useState(null);
   const [originalBooks, setOriginalBooks] = useState({});
   const [searchQuery, setSearchQuery] = useState({ title: '', description: '', published_at: '', published_status: ''});
@@ -56,12 +52,12 @@ export const Book = () => {
     setTotalPrice((prevTotalPrice) => prevTotalPrice - getBookPrice(bookId));
   };
 
-    const getBookPrice = (bookId) => {
+  const getBookPrice = (bookId) => {
     const book = selectedBooks.find((book) => book.id === bookId);
     return book ? Number(book.price) : 1;
   };
 
-    const handlePaymentMethodChange = (e) => {
+  const handlePaymentMethodChange = (e) => {
     setPaymentMethod(e.target.value);
   };
 
@@ -109,7 +105,7 @@ export const Book = () => {
 
   const handleShowModal = (book) => {
     setIsModalOpen(true);
-    setModelData(book)
+    setModelData(book);
   };
 
   const handleCloseModal = () => {
@@ -147,10 +143,10 @@ export const Book = () => {
       if (response.ok) {
         const data = await response.json();
         setBooks(data?.book || []);
-      }else {
+      } else {
         throw new Error('Failed to fetch data');
       }
-    }catch (error) {
+    } catch (error) {
       console.error('Error searching data:', error);
       setError(error.message);
     }
@@ -161,7 +157,7 @@ export const Book = () => {
   };
 
   const handleCancelSearch = () => {
-    setSearchQuery({ title: '', description: '', published_at: '', published_status: ''});
+    setSearchQuery({ title: '', description: '', published_at: '', published_status: '' });
     fetchBooks();
   };
 
@@ -178,12 +174,12 @@ export const Book = () => {
         </div>
       </div>
       <form className="search-form">
-        <div style={{display:'flex'}}>
-          <input type="text" name="title" placeholder="Search by title" className='search-input' value={searchQuery.title} onChange={handleSearchInputChange} style={{marginRight:'10px'}} />
-          <input type="text" name="description" placeholder="Search by description" className='search-input' value={searchQuery.description} onChange={handleSearchInputChange} style={{marginRight:'10px'}}/>
-          <input type="text" name="published_at" placeholder="Search by published_at" className='search-input' value={searchQuery.published_at} onChange={handleSearchInputChange} style={{marginRight:'10px'}}/>
-          <input type="text" name="published_status" placeholder="Search by published_status" className='search-input' value={searchQuery.published_status} onChange={handleSearchInputChange} style={{marginRight:'10px'}}/>
-          <button type="button" className='searchButton' onClick={handleSearch} style={{marginRight:'10px'}}>Search</button>
+        <div style={{ display: 'flex' }}>
+          <input type="text" name="title" placeholder="Search by title" className='search-input' value={searchQuery.title} onChange={handleSearchInputChange} style={{ marginRight: '10px' }} />
+          <input type="text" name="description" placeholder="Search by description" className='search-input' value={searchQuery.description} onChange={handleSearchInputChange} style={{ marginRight: '10px' }} />
+          <input type="text" name="published_at" placeholder="Search by published_at" className='search-input' value={searchQuery.published_at} onChange={handleSearchInputChange} style={{ marginRight: '10px' }} />
+          <input type="text" name="published_status" placeholder="Search by published_status" className='search-input' value={searchQuery.published_status} onChange={handleSearchInputChange} style={{ marginRight: '10px' }} />
+          <button type="button" className='searchButton' onClick={handleSearch} style={{ marginRight: '10px' }}>Search</button>
           <button type="button" className='cancelButton' onClick={handleCancelSearch}>Cancel</button>
         </div>
       </form><br></br>
@@ -211,7 +207,11 @@ export const Book = () => {
               </div>
             )}
             <div>
-              <button className="btn btn-primary " onClick={() => handleAddToCart(book)}>Add to Cart</button>
+              {book.price > 0 ? (
+                <button className="btn btn-primary" onClick={() => handleAddToCart(book)}>Add to Cart</button>
+              ) : (
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRD_qqCcg6VG4VjXCXhsCFv3nOSovERdbkvLw&s" alt="Book cover" style={{p}}></img>
+              )}
             </div>
           </div>
         ))}
@@ -233,7 +233,7 @@ export const Book = () => {
                     <tr key={selectedBook.id}>
                       <td>{selectedBook.title}</td>
                       <td>${selectedBook.price}</td>
-                      <td><img src={selectedBook.image_url} alt="Book Cover" style={{height:'50px'}}/></td>
+                      <td><img src={selectedBook.image_url} alt="Book Cover" style={{ height: '50px' }} /></td>
                       <td>
                         <button onClick={() => decrementQuantity(selectedBook.id)}>-</button>
                         {selectedBook.quantity}
@@ -247,33 +247,33 @@ export const Book = () => {
                 <h2>Total Price: ${totalPrice}</h2>
               </div>
               <div className="checkout-modal">
-            <h2>Checkout</h2>
-            <form>
-              <div>
-                <input
-                  type="radio"
-                  id="cash"
-                  name="paymentMethod"
-                  value="cash"
-                  checked={paymentMethod === 'cash'}
-                  onChange={handlePaymentMethodChange}
-                />
-                <label htmlFor="cash">Cash</label>
+                <h2>Checkout</h2>
+                <form>
+                  <div>
+                    <input
+                      type="radio"
+                      id="cash"
+                      name="paymentMethod"
+                      value="cash"
+                      checked={paymentMethod === 'cash'}
+                      onChange={handlePaymentMethodChange}
+                    />
+                    <label htmlFor="cash">Cash</label>
+                  </div>
+                  <div>
+                    <input
+                      type="radio"
+                      id="online"
+                      name="paymentMethod"
+                      value="online"
+                      checked={paymentMethod === 'online'}
+                      onChange={handlePaymentMethodChange}
+                    />
+                    <label htmlFor="online">Online</label>
+                  </div>
+                </form>
+                <button onClick={handlePayment}>Pay Now</button>
               </div>
-              <div>
-                <input
-                  type="radio"
-                  id="online"
-                  name="paymentMethod"
-                  value="online"
-                  checked={paymentMethod === 'online'}
-                  onChange={handlePaymentMethodChange}
-                />
-                <label htmlFor="online">Online</label>
-              </div>
-            </form>
-            <button onClick={handlePayment}>Pay Now</button>
-          </div>
             </div>
           </div>
         )}
@@ -285,7 +285,7 @@ export const Book = () => {
           <button className="subscribe-btn">Subscribe</button>
         </div>
         <div className='right-side'>
-          <img src='https://websitedemos.net/kathryn-ebook-author-02/wp-content/uploads/sites/1020/2022/02/susbcribe-image.png' alt='img'/>
+          <img src='https://websitedemos.net/kathryn-ebook-author-02/wp-content/uploads/sites/1020/2022/02/susbcribe-image.png' alt='img' />
         </div>
       </div>
     </div>
