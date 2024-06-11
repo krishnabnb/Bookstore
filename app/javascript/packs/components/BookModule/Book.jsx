@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import '../SellerModule/saler.css';
-import { RiDeleteBin5Line } from "react-icons/ri";
 import toastr from 'toastr';
 import 'toastr/build/toastr.css';
 
 export const Book = () => {
-  const [books, setBooks] = useState(() => {
-    const savedBooks = localStorage.getItem('books');
-    return savedBooks ? JSON.parse(savedBooks) : [];
-  });
+  const [books, setBooks] = useState([]);
   const [error, setError] = useState(null);
   const [originalBooks, setOriginalBooks] = useState({});
   const [searchQuery, setSearchQuery] = useState({ title: '', description: '', published_at: '', published_status: ''});
@@ -214,7 +210,7 @@ export const Book = () => {
               {book.price > 0 ? (
                 <button className="btn btn-primary" onClick={() => handleAddToCart(book)}>Add to Cart</button>
               ) : (
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRD_qqCcg6VG4VjXCXhsCFv3nOSovERdbkvLw&s" alt="Book cover" style={{ width: '50px', height: '100px' }} ></img>
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRD_qqCcg6VG4VjXCXhsCFv3nOSovERdbkvLw&s" alt="Book cover" style={{p}}></img>
               )}
             </div>
           </div>

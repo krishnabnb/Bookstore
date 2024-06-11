@@ -32,7 +32,7 @@ class Book < ApplicationRecord
       "http://192.168.1.8:3000#{rails_blob_path(banner_image, only_path: true)}"
     else
       "http://192.168.1.8:3000/image/default12.jpeg"
-    end
+    endx
   end
 
   private
