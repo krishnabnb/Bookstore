@@ -26,6 +26,6 @@ console.log('Hello World from Webpacker');
 import toastr from 'toastr';
 window.toastr = toastr;
 
-import 'bootstrap/dist/js/bootstrap'
-import "bootstrap/dist/css/bootstrap";
-import "../stylesheets/application"
+// import 'bootstrap/dist/js/bootstrap'
+// import "bootstrap/dist/css/bootstrap";
+// import "../stylesheets/application"

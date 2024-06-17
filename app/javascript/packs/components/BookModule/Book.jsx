@@ -4,86 +4,112 @@ import toastr from 'toastr';
 import 'toastr/build/toastr.css';
 
 export const Book = () => {
-  const [books, setBooks] = useState([]);
+  const [books, setBooks] = useState(() => {
+    const savedBooks = localStorage.getItem('books');
+    return savedBooks ? JSON.parse(savedBooks) : [];
+  });
   const [error, setError] = useState(null);
   const [originalBooks, setOriginalBooks] = useState({});
   const [searchQuery, setSearchQuery] = useState({ title: '', description: '', published_at: '', published_status: ''});
-  const [image, setImage] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modelData, setModelData] = useState(null);
   const [banner, setBannerImageUrl] = useState('');
   const [selectedBooks, setSelectedBooks] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
-  const [paymentMethod, setPaymentMethod] = useState('cash');
-  const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
 
-  const handleAddToCart = (book) => {
-    const existingBookIndex = selectedBooks.findIndex((selectedBook) => selectedBook.id === book.id);
-    if (existingBookIndex !== -1) {
-      const updatedSelectedBooks = [...selectedBooks];
-      updatedSelectedBooks[existingBookIndex].quantity += 1;
-      setSelectedBooks(updatedSelectedBooks);
-    } else {
-      setSelectedBooks((prevSelectedBooks) => [...prevSelectedBooks, { ...book, quantity: 1 }]);
-    }
-    setIsModalOpen(true);
-    setTotalPrice((prevTotalPrice) => prevTotalPrice + Number(book.price));
-  };
-
-  const incrementQuantity = (bookId) => {
-    const updatedSelectedBooks = selectedBooks.map((book) =>
-      book.id === bookId ? { ...book, quantity: book.quantity + 1 } : book
-    );
-    setSelectedBooks(updatedSelectedBooks);
-    setTotalPrice((prevTotalPrice) => prevTotalPrice + getBookPrice(bookId));
-  };
-
-  const decrementQuantity = (bookId) => {
-    const updatedBook = selectedBooks.find((book) => book.id === bookId);
-    if (!updatedBook || updatedBook.quantity === 1) {
-      toastr.error('Quantity can not be less than 1');
-      return;
-    }
-
-    const updatedSelectedBooks = selectedBooks.map((book) =>
-      book.id === bookId ? { ...book, quantity: book.quantity - 1 } : book
-    );
-    setSelectedBooks(updatedSelectedBooks);
-    setTotalPrice((prevTotalPrice) => prevTotalPrice - getBookPrice(bookId));
-  };
-
-  const getBookPrice = (bookId) => {
-    const book = selectedBooks.find((book) => book.id === bookId);
-    return book ? Number(book.price) : 1;
-  };
-
-  const handlePaymentMethodChange = (e) => {
-    setPaymentMethod(e.target.value);
-  };
-
-  const handleCheckoutClose = () => {
-    setIsCheckoutModalOpen(false);
-  };
-
-  const handlePayment = () => {
-    if (paymentMethod === 'cash' || paymentMethod === 'online') {
-      const queryParams = new URLSearchParams();
-      queryParams.append('totalPrice', totalPrice.toFixed(2));
-      queryParams.append('paymentMethod', paymentMethod);
-      const queryString = queryParams.toString();
-      if (paymentMethod === 'cash') {
-        toastr.success('Cash payment successful');
-      } else if (paymentMethod === 'online') {
-        toastr.success('Online payment successful');
+  const handleAddToCart = async (bookId) => {
+    try {
+      const jsonwebtoken = sessionStorage.getItem('jsonwebtoken');
+      const customerId = sessionStorage.getItem('customerid')
+      const response = await fetch('http://192.168.1.8:3000/api/v1/cart_items', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${jsonwebtoken}`
+        },
+        body: JSON.stringify({
+          customer_id: customerId,
+          book_id: bookId,
+          quantity: 1,
+        }),
+      });
+      if (!response.ok) {
+        throw new Error('Failed to add book to cart');
       }
-      window.location.href = `/customer?${queryString}`;
-      setSelectedBooks([]);
-      setTotalPrice(0);
-      setIsCheckoutModalOpen(false);
-    } else {
-      toastr.error('Please select a payment method');
+      const existingBookIndex = selectedBooks.findIndex((selectedBook) => selectedBook.id === bookId);
+      if (existingBookIndex !== -1) {
+        const updatedSelectedBooks = [...selectedBooks];
+        updatedSelectedBooks[existingBookIndex].quantity += 1;
+        setSelectedBooks(updatedSelectedBooks);
+      } else {
+        setSelectedBooks((prevSelectedBooks) => [...prevSelectedBooks, { ...bookId, quantity: 1 }]);
+      }
+      setIsModalOpen(true);
+      toastr.success('Book added to cart successfully');
+    } catch (error) {
+      console.error('Error adding book to cart:', error);
+      toastr.error('Failed to add book to cart');
     }
   };
+
+  // const handleAddToCart = async (book) => {
+  //   try {
+  //     const jsonwebtoken = sessionStorage.getItem('jsonwebtoken');
+  //     const customerId = sessionStorage.getItem('customerid');
+  //     // const response = await fetch('http://192.168.1.8:3000/api/v1/cart_items', {
+  //     //   method: 'POST',
+  //     //   headers: {
+  //     //     'Content-Type': 'application/json',
+  //     //     'Authorization': `Bearer ${jsonwebtoken}`
+  //     //   },
+  //     //   body: JSON.stringify({
+  //     //     customer_id: customerId,
+  //     //     book_id: book.id,
+  //     //     quantity: 1,
+  //     //   }),
+  //     // });
+
+  //     const response = await fetch('http://192.168.1.8:3000/api/v1/cart_items', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         'Authorization': `Bearer ${jsonwebtoken}`
+  //       },
+  //       body: JSON.stringify({
+  //         customer_id: customerId,
+  //         cart_item: {
+  //           book_id: book.id, // Nested inside cart_item
+  //           quantity: 1,
+  //         }
+  //       }),
+  //     });
+
+  //     if (!response.ok) {
+  //       throw new Error('Failed to add book to cart');
+  //     }
+
+  //     const responseData = await response.json();
+
+  //     // Update selectedBooks state
+  //     const existingBookIndex = selectedBooks.findIndex((selectedBook) => selectedBook.id === book.id);
+  //     if (existingBookIndex !== -1) {
+  //       const updatedSelectedBooks = [...selectedBooks];
+  //       updatedSelectedBooks[existingBookIndex].quantity += 1;
+  //       setSelectedBooks(updatedSelectedBooks);
+  //     } else {
+  //       setSelectedBooks((prevSelectedBooks) => [...prevSelectedBooks, { ...book, quantity: 1 }]);
+  //     }
+  //     setIsModalOpen(true);
+  //     toastr.success('Book added to cart successfully');
+
+  //     return responseData; // Return the response data
+  //   } catch (error) {
+  //     console.error('Error adding book to cart:', error);
+  //     toastr.error('Failed to add book to cart');
+  //     return null; // Return null if an error occurs
+  //   }
+  // };
+
 
   const fetchBookDetails = async (id) => {
     try {
@@ -210,7 +236,7 @@ export const Book = () => {
               {book.price > 0 ? (
                 <button className="btn btn-primary" onClick={() => handleAddToCart(book)}>Add to Cart</button>
               ) : (
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRD_qqCcg6VG4VjXCXhsCFv3nOSovERdbkvLw&s" alt="Book cover" style={{p}}></img>
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRD_qqCcg6VG4VjXCXhsCFv3nOSovERdbkvLw&s" alt="Book cover" ></img>
               )}
             </div>
           </div>
@@ -219,60 +245,26 @@ export const Book = () => {
           <div className="modal">
             <div className="modalbook">
               <span className="close" onClick={handleCloseModal}>&times;</span>
-              <table>
-                <thead>
-                  <tr>
-                    <th>Title</th>
-                    <th>Price</th>
-                    <th>Image</th>
-                    <th>Quantity</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {selectedBooks.map((selectedBook) => (
-                    <tr key={selectedBook.id}>
-                      <td>{selectedBook.title}</td>
-                      <td>${selectedBook.price}</td>
-                      <td><img src={selectedBook.image_url} alt="Book Cover" style={{ height: '50px' }} /></td>
-                      <td>
-                        <button onClick={() => decrementQuantity(selectedBook.id)}>-</button>
-                        {selectedBook.quantity}
-                        <button onClick={() => incrementQuantity(selectedBook.id)}>+</button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              <div>
-                <h2>Total Price: ${totalPrice}</h2>
-              </div>
-              <div className="checkout-modal">
-                <h2>Checkout</h2>
-                <form>
-                  <div>
-                    <input
-                      type="radio"
-                      id="cash"
-                      name="paymentMethod"
-                      value="cash"
-                      checked={paymentMethod === 'cash'}
-                      onChange={handlePaymentMethodChange}
-                    />
-                    <label htmlFor="cash">Cash</label>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                {selectedBooks.map((selectedBook) => (
+                  <div key={selectedBook.id} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+                    <img src={selectedBook.image_url} alt="Book Cover" style={{ height: '50px', marginRight: '10px' }} />
+                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                      <div style={{ marginBottom: '5px' }}>${selectedBook.price}</div>
+                      <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <button  style={{ background: 'red', color:'black', marginRight: '5px' }}>-</button>
+                        <div style={{ marginRight: '5px' }}>{selectedBook.quantity}</div>
+                        {/* <button onClick={() => handleAddToCart(bookId)} style={{ background: 'green', color:'black', marginLeft: '5px' }}>+</button> */}
+                        <button onClick={() => handleAddToCart(selectedBook.id)} style={{ background: 'green', color:'black', marginLeft: '5px' }}>+</button>
+
+                      </div>
+                    </div>
                   </div>
-                  <div>
-                    <input
-                      type="radio"
-                      id="online"
-                      name="paymentMethod"
-                      value="online"
-                      checked={paymentMethod === 'online'}
-                      onChange={handlePaymentMethodChange}
-                    />
-                    <label htmlFor="online">Online</label>
-                  </div>
-                </form>
-                <button onClick={handlePayment}>Pay Now</button>
+                ))}
+                <div>
+                  <h2>Total Price: ${totalPrice}</h2>
+                  <button>GO TO Cart</button>
+                </div>
               </div>
             </div>
           </div>
