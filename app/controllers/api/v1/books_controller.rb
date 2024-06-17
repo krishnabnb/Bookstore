@@ -1,5 +1,4 @@
 class Api::V1::BooksController < ApplicationController
-  # before_action :authenticate_customer!
   before_action :set_book, only: [:show, :update, :destroy, :image_destroy, :update_banner_image]
 
   def index
@@ -62,9 +61,14 @@ class Api::V1::BooksController < ApplicationController
   end
   
   def destroy
-    @book.destroy
-    render json: { message: "Book destroyed successfully" }, status: :ok
+    if book_in_cart?
+      render json: { message: "Book is already in a cart item and cannot be deleted" }, status: :unprocessable_entity
+    else
+      @book.destroy
+      render json: { message: "Book destroyed successfully" }, status: :ok
+    end
   end
+
 
   def image_destroy
     if @book.image.attached? && params[:type] == "image"
@@ -83,6 +87,11 @@ class Api::V1::BooksController < ApplicationController
   def set_book
     @book = Book.find(params[:id])
   end
+
+  def book_in_cart?
+    CartItem.exists?(book_id: @book.id)
+  end
+  
 
   def book_params
     params.require(:book).permit(:title, :author, :description, :release_date, :price, :published_status, :published_at, :image, :banner_image, :saler_id)

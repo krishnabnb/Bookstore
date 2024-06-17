@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_06_11_110031) do
+ActiveRecord::Schema.define(version: 2024_06_14_070447) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(version: 2024_06_11_110031) do
     t.string "author"
     t.string "description"
     t.date "release_date"
-    t.decimal "price"
+    t.decimal "price", precision: 10, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "published_status"
@@ -49,10 +49,8 @@ ActiveRecord::Schema.define(version: 2024_06_11_110031) do
   end
 
   create_table "cart_items", force: :cascade do |t|
-    t.integer "book_id"
     t.integer "cart_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer "book_id"
     t.integer "quantity"
     t.index ["book_id"], name: "index_cart_items_on_book_id"
     t.index ["cart_id"], name: "index_cart_items_on_cart_id"
@@ -60,10 +58,6 @@ ActiveRecord::Schema.define(version: 2024_06_11_110031) do
 
   create_table "carts", force: :cascade do |t|
     t.integer "customer_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "status"
-    t.string "total_price"
     t.index ["customer_id"], name: "index_carts_on_customer_id"
   end
 

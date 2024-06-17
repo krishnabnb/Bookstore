@@ -32,8 +32,11 @@ Rails.application.routes.draw do
         end
       end
       resources :orders do
-        resources :order_items, only: [:index, :show, :create, :update, :destroy]
+        member do
+          get 'order_items'
+        end
       end
+      resources :order_items, only: [:create]
       resources :books do
         member do
           patch  'update_status'
@@ -42,13 +45,12 @@ Rails.application.routes.draw do
       end
       resources :customers, only: [:index, :show, :create, :update, :destroy]
       resources :payments
-      resources :cart_items
-      resources :carts, only: [:index, :show, :create]
+      resources :carts, only: [:index, :show, :create, :update, :destroy] 
+      resources :cart_items, only: [:create, :index, :update]
       resources :contacts
       resources :saler_books, only: [:index] 
     end
   end
-
   get '*path', to: 'home#index', constraints: lambda { |req|
     req.format.html?
   }
