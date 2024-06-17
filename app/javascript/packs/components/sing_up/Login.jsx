@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import './login.css';
 import { FaInstagram, FaGoogle, FaLinkedinIn, FaUnlock, FaUserAlt } from "react-icons/fa";
 import { FaPhone, FaRegUser } from "react-icons/fa6";
@@ -23,6 +23,13 @@ function Login() {
   const jwt = require('jsonwebtoken');
   const [isSignUpMode, setIsSignUpMode] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+
+  // useEffect(() => {
+  //   const token = sessionStorage.getItem('jsonwebtoken');
+  //   if (token) {
+  //     setJwtToken(token);
+  //   }
+  // }, []);
 
   const handleSignUpClick = () => {
     setIsSignUpMode(true);
@@ -73,6 +80,7 @@ function Login() {
       }
 
       const customerData = await customerResponse.json();
+      sessionStorage.setItem('customerid', customerData.id );
       sessionStorage.setItem('customerEmail', customerData.email);
       sessionStorage.setItem('customername', customerData.firstname);
       sessionStorage.setItem('customerLastName', customerData.lastname);

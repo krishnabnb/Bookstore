@@ -114,9 +114,9 @@ input:hover{
 .modalbook {
   background-color: #fdfdfd;
   height:870px;
-  width: 470px;
+  width: 170px;
   border: 2px solid hsl(240, 5%, 4%);
   position: relative;
-  margin-left: 1350px;
+  margin-left: 1655px;
   margin-top: 50px;
 }

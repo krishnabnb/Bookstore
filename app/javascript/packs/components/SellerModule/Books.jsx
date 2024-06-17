@@ -71,62 +71,21 @@ export const Books = () => {
     }
   };
 
-  // const handleFormSubmit = async (title, author, description, price, published_at, saler_id, image) => {
-  //   if (image && !['image/jpeg', 'image/png', 'application/pdf'].includes(image.type)) {
-  //     toastr.error('Please select a JPEG, PNG, or PDF file.');
-  //     return;
-  //   }
-
-  //   const formdata = new FormData();
-  //   formdata.append("book[title]", title);
-  //   formdata.append("book[author]", author);
-  //   formdata.append("book[description]", description);
-  //   formdata.append("book[price]", price);
-  //   formdata.append("book[published_at]", published_at);
-  //   formdata.append("book[saler_id]", saler_id);
-  //   if (image) {
-  //     formdata.append("book[image]", image);
-  //   }
-  //   try {
-  //     const response = await fetch('http://192.168.1.8:3000/api/v1/books', {
-  //       method: 'POST',
-  //       body: formdata,
-  //     });
-  //     if (!response.ok) {
-  //       const errorData = await response.json();
-  //       throw new Error(errorData.status.message);
-  //     }
-  //     const newBook = await response.json();
-  //     addNewBook(newBook);
-  //     await fetchBooks()
-  //   } catch (error) {
-  //     console.error('Error adding book:', error);
-  //     setError(error.message);
-  //     toastr.error(error.message);
-  //   }
-  // };
-
-  const handleFormSubmit = async (title, author, description, price, published_at, saler_id, binaryData) => {
-    // Create a new FormData object
-    const formData = new FormData();
-
-    // Append book details to FormData
-    formData.append("book[title]", title);
-    formData.append("book[author]", author);
-    formData.append("book[description]", description);
-    formData.append("book[price]", price);
-    formData.append("book[published_at]", published_at);
-    formData.append("book[saler_id]", saler_id);
-
-    // Append binary data (image or PDF) to FormData
-    if (binaryData) {
-      formData.append("book[image]", binaryData);
+  const handleFormSubmit = async (title, author, description, price, published_at, saler_id, image) => {
+    const formdata = new FormData();
+    formdata.append("book[title]", title);
+    formdata.append("book[author]", author);
+    formdata.append("book[description]", description);
+    formdata.append("book[price]", price);
+    formdata.append("book[published_at]", published_at);
+    formdata.append("book[saler_id]", saler_id);
+    if (image) {
+      formdata.append("book[image]", image);
     }
-
     try {
       const response = await fetch('http://192.168.1.8:3000/api/v1/books', {
         method: 'POST',
-        body: formData, // Use the FormData object as the body
+        body: formdata,
       });
       if (!response.ok) {
         const errorData = await response.json();
@@ -134,18 +93,7 @@ export const Books = () => {
       }
       const newBook = await response.json();
       addNewBook(newBook);
-      await fetchBooks();
-  
-      const userEmail = window.sessionStorage.getItem('salerEmail');
-      if (userEmail) {
-        await fetch('http://192.168.1.8:3000/salers/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ email: userEmail, message: 'New book created!' })
-        });
-      }
+      await fetchBooks()
     } catch (error) {
       console.error('Error adding book:', error);
       setError(error.message);
@@ -157,11 +105,27 @@ export const Books = () => {
     setBooks(prevBooks => [...prevBooks, book]);
   };
 
-  const handleEdit = bookId => {
-    setEditModes(prevState => ({
-      ...prevState,
-      [bookId]: true
-    }));
+  const handleEdit = async (bookId) => {
+    try {
+      const response = await fetch('http://192.168.1.8:3000/api/v1/cart_items');
+      const cartItems = await response.json();
+      const isBookInCart = cartItems.some(item => item.book_id === bookId);
+      if (isBookInCart) {
+        const confirmEdit = window.confirm(
+          "Are you sure you want to edit this book?"
+        );
+        if (!confirmEdit) {
+          return;
+        }
+      }
+      setEditModes(prevState => ({
+        ...prevState,
+        [bookId]: true
+      }));
+    } catch (error) {
+      console.error('Error fetching cart items:', error);
+      setError(error.message);
+    }
   };
 
   const handleSubmit = (book) => {
@@ -198,7 +162,7 @@ export const Books = () => {
           deleteBook(id);
           console.log('Item was deleted!');
         } else {
-          throw new Error('Failed to delete book');
+          alert("book is all ready purchese")
         }
       } catch (error) {
         console.error('Error deleting book:', error);
@@ -250,7 +214,7 @@ export const Books = () => {
     } catch (error) {
       console.error('Error updating book image:', error);
       setError(error.message);
-    }app/javascript/packs/components/SellerModule/Books.jsx
+    }
   };
 
   const handleBImageChange = async (e, book) => {
@@ -291,6 +255,7 @@ export const Books = () => {
           'Content-Type': 'application/json'
         }
       });
+
       if (response.ok) {
         const updatedBook = await response.json();
         const updatedBooks = books.map(book => {
@@ -338,6 +303,7 @@ export const Books = () => {
     setSearchQuery({ title: '', description: '', published_at: '', published_status: ''});
     fetchBooks();
   };
+
   const handleImageDelete = async (bookId) => {
     try {
       const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
@@ -428,7 +394,7 @@ export const Books = () => {
                   <input name="published_at" value={book.published_at} onChange={e => handleChange(e, book)} placeholder="Published_at" />
                 ) : ( book.published_at )}
               </td>
-              {/* <td>
+              <td>
                 {editModes[book.id] ? (
                   <input type="file" onChange={e => handleImageChange(e, book)} name="image"/>
                 ) : (
@@ -437,22 +403,7 @@ export const Books = () => {
                     <div><RiDeleteBin5Line onClick={() => handleImageDelete(book.id)} /></div>
                   </>
                 )}
-              </td> */}
-              <td>
-                {editModes[book.id] ? (
-                  <input type="file" onChange={e => handleImageChange(e, book)} name="image"/>
-                ) : (
-                  <>
-                    {book.image_url.endsWith('.pdf') ? (
-                      <embed src={book.image_url} width="200" height="200" />
-                    ) : (
-                      <img src={book.image_url} alt="book's image" style={{ width: '100px', height: '100px' }} />
-                    )}
-                    <div><RiDeleteBin5Line onClick={() => handleImageDelete(book.id)} /></div>
-                  </>
-                )}
               </td>
-
               <td><button onClick={() => handleDelete(book.id)}>Delete</button></td>
               <td>
                 {editModes[book.id] ? (

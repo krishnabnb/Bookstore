@@ -317,7 +317,7 @@
 //       if (!token) {
 //         throw new Error('User not authenticated');
 //       }
-      
+
 //       const response = await fetch('http://your-rails-backend-url/api/v1/cart_items', {
 //         method: 'POST',
 //         headers: {
@@ -329,21 +329,21 @@
 //           quantity: 1,
 //         }),
 //       });
-  
+
 //       if (!response.ok) {
 //         throw new Error('Failed to add book to cart');
 //       }
-  
+
 //       const data = await response.json();
 //       setSelectedBooks([...selectedBooks, data]);
-  
+
 //       toastr.success('Book added to cart successfully');
 //     } catch (error) {
 //       console.error('Error adding book to cart:', error);
 //       toastr.error('Failed to add book to cart');
 //     }
 //   };
-  
+
 
 //   const incrementQuantity = async (cartId) => {
 //     try {
@@ -591,66 +591,23 @@ import toastr from 'toastr';
 import 'toastr/build/toastr.css';
 
 export const Book = () => {
-  const [books, setBooks] = useState([]);
+  const [books, setBooks] = useState(() => {
+    const savedBooks = localStorage.getItem('books');
+    return savedBooks ? JSON.parse(savedBooks) : [];
+  });
   const [error, setError] = useState(null);
   const [originalBooks, setOriginalBooks] = useState({});
   const [searchQuery, setSearchQuery] = useState({ title: '', description: '', published_at: '', published_status: ''});
-  const [image, setImage] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modelData, setModelData] = useState(null);
   const [banner, setBannerImageUrl] = useState('');
   const [selectedBooks, setSelectedBooks] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
-  const customerId = sessionStorage.getItem('customerid');
-
-
-  // const handleAddToCart = async (book) => {
-  //   try {
-  //     const customerId = sessionStorage.getItem('customerid');
-  //     if (!customerId) {
-  //       throw new Error('Customer ID not found');
-  //     }
-  //     const response = await fetch('http://192.168.1.8:3000/api/v1/carts', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify({
-  //         customer_id: customerId,
-  //         book_id: book.id,
-  //         quantity: 1,
-  //       }),
-  //     });
-
-  //     if (!response.ok) {
-  //       throw new Error('Failed to add book to cart');
-  //     }
-
-  //     const existingBookIndex = selectedBooks.findIndex((selectedBook) => selectedBook.id === book.id);
-  //     if (existingBookIndex !== -1) {
-  //       const updatedSelectedBooks = [...selectedBooks];
-  //       updatedSelectedBooks[existingBookIndex].quantity += 1;
-  //       setSelectedBooks(updatedSelectedBooks);
-  //     } else {
-  //       setSelectedBooks((prevSelectedBooks) => [...prevSelectedBooks, { ...book, quantity: 1 }]);
-  //     }
-  //     setIsModalOpen(true);
-
-  //     toastr.success('Book added to cart successfully');
-  //   } catch (error) {
-  //     console.error('Error adding book to cart:', error);
-  //     toastr.error('Failed to add book to cart');
-  //   }
-  // };
 
   const handleAddToCart = async (bookId) => {
     try {
       const jsonwebtoken = sessionStorage.getItem('jsonwebtoken');
       const customerId = sessionStorage.getItem('customerid')
-      if (!jsonwebtoken) {
-        throw new Error('customer not authenticated');
-      }
-
       const response = await fetch('http://192.168.1.8:3000/api/v1/cart_items', {
         method: 'POST',
         headers: {
@@ -663,13 +620,18 @@ export const Book = () => {
           quantity: 1,
         }),
       });
-
       if (!response.ok) {
         throw new Error('Failed to add book to cart');
       }
-
-      const data = await response.json();
-      setSelectedBooks([...selectedBooks, data]);
+      const existingBookIndex = selectedBooks.findIndex((selectedBook) => selectedBook.id === bookId);
+      if (existingBookIndex !== -1) {
+        const updatedSelectedBooks = [...selectedBooks];
+        updatedSelectedBooks[existingBookIndex].quantity += 1;
+        setSelectedBooks(updatedSelectedBooks);
+      } else {
+        setSelectedBooks((prevSelectedBooks) => [...prevSelectedBooks, { ...bookId, quantity: 1 }]);
+      }
+      setIsModalOpen(true);
       toastr.success('Book added to cart successfully');
     } catch (error) {
       console.error('Error adding book to cart:', error);
@@ -677,66 +639,64 @@ export const Book = () => {
     }
   };
 
-  const incrementQuantity = async (cartId) => {
-    try {
-      const response = await fetch(`http://192.168.1.8:3000/api/v1/carts/${cartId}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          quantity: 1,
-        }),
-      });
+  // const handleAddToCart = async (book) => {
+  //   try {
+  //     const jsonwebtoken = sessionStorage.getItem('jsonwebtoken');
+  //     const customerId = sessionStorage.getItem('customerid');
+  //     // const response = await fetch('http://192.168.1.8:3000/api/v1/cart_items', {
+  //     //   method: 'POST',
+  //     //   headers: {
+  //     //     'Content-Type': 'application/json',
+  //     //     'Authorization': `Bearer ${jsonwebtoken}`
+  //     //   },
+  //     //   body: JSON.stringify({
+  //     //     customer_id: customerId,
+  //     //     book_id: book.id,
+  //     //     quantity: 1,
+  //     //   }),
+  //     // });
 
-      if (!response.ok) {
-        throw new Error('Failed to update cart');
-      }
+  //     const response = await fetch('http://192.168.1.8:3000/api/v1/cart_items', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         'Authorization': `Bearer ${jsonwebtoken}`
+  //       },
+  //       body: JSON.stringify({
+  //         customer_id: customerId,
+  //         cart_item: {
+  //           book_id: book.id, // Nested inside cart_item
+  //           quantity: 1,
+  //         }
+  //       }),
+  //     });
 
-      const updatedSelectedBooks = selectedBooks.map((book) =>
-        book.id === cartId ? { ...book, quantity: book.quantity + 1 } : book
-      );
-      setSelectedBooks(updatedSelectedBooks);
+  //     if (!response.ok) {
+  //       throw new Error('Failed to add book to cart');
+  //     }
 
-      toastr.success('Quantity updated successfully');
-    } catch (error) {
-      console.error('Error updating quantity:', error);
-      toastr.error('Failed to update quantity');
-    }
-  };
+  //     const responseData = await response.json();
 
-  const decrementQuantity = async (bookId) => {
-    try {
-      const response = await fetch(`http://192.168.1.8:3000/api/v1/carts/${bookId}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          quantity: -1,
-        }),
-      });
+  //     // Update selectedBooks state
+  //     const existingBookIndex = selectedBooks.findIndex((selectedBook) => selectedBook.id === book.id);
+  //     if (existingBookIndex !== -1) {
+  //       const updatedSelectedBooks = [...selectedBooks];
+  //       updatedSelectedBooks[existingBookIndex].quantity += 1;
+  //       setSelectedBooks(updatedSelectedBooks);
+  //     } else {
+  //       setSelectedBooks((prevSelectedBooks) => [...prevSelectedBooks, { ...book, quantity: 1 }]);
+  //     }
+  //     setIsModalOpen(true);
+  //     toastr.success('Book added to cart successfully');
 
-      if (!response.ok) {
-        throw new Error('Failed to update cart');
-      }
+  //     return responseData; // Return the response data
+  //   } catch (error) {
+  //     console.error('Error adding book to cart:', error);
+  //     toastr.error('Failed to add book to cart');
+  //     return null; // Return null if an error occurs
+  //   }
+  // };
 
-      const updatedBook = selectedBooks.find((book) => book.id === bookId);
-      if (!updatedBook || updatedBook.quantity === 1) {
-        toastr.error('Quantity can not be less than 1');
-        return;
-      }
-      const updatedSelectedBooks = selectedBooks.map((book) =>
-        book.id === bookId ? { ...book, quantity: book.quantity - 1 } : book
-      );
-      setSelectedBooks(updatedSelectedBooks);
-      setTotalPrice((prevTotalPrice) => prevTotalPrice - getBookPrice(bookId));
-      toastr.success('Quantity updated successfully');
-    } catch (error) {
-      console.error('Error updating quantity:', error);
-      toastr.error('Failed to update quantity');
-    }
-  };
 
   const getBookPrice = (bookId) => {
     const book = selectedBooks.find((book) => book.id === bookId);
@@ -884,9 +844,11 @@ export const Book = () => {
                     <div style={{ display: 'flex', flexDirection: 'column' }}>
                       <div style={{ marginBottom: '5px' }}>${selectedBook.price}</div>
                       <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <button onClick={() => decrementQuantity(selectedBook.id)} style={{ background: 'red', color:'black', marginRight: '5px' }}>-</button>
+                        <button  style={{ background: 'red', color:'black', marginRight: '5px' }}>-</button>
                         <div style={{ marginRight: '5px' }}>{selectedBook.quantity}</div>
-                        <button onClick={() => incrementQuantity(selectedBook.id)} style={{ background: 'green', color:'black', marginLeft: '5px' }}>+</button>
+                        {/* <button onClick={() => handleAddToCart(bookId)} style={{ background: 'green', color:'black', marginLeft: '5px' }}>+</button> */}
+                        <button onClick={() => handleAddToCart(selectedBook.id)} style={{ background: 'green', color:'black', marginLeft: '5px' }}>+</button>
+
                       </div>
                     </div>
                   </div>

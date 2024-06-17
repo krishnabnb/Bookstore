@@ -12,6 +12,7 @@ export const User = () => {
   const [customername, setCustomerFirstname] = useState('');
   const [customerLastName, setCustomerLastName] = useState('');
   const [customerAddress, setCustomerAddress] = useState('');
+  const [customerid, setCustomerid] = useState('');
   const [customerCity, setCustomerCity] = useState('');
   const [ContactNo, setCustomerContactNo] = useState('');
   const [paymentInfo, setPaymentInfo] = useState({
@@ -30,6 +31,7 @@ export const User = () => {
   }, []);
 
   useEffect(()=>{
+    const Id = sessionStorage.getItem('customerid');
     const email = sessionStorage.getItem('customerEmail');
     const firstname = sessionStorage.getItem('customername');
     const lastname = sessionStorage.getItem('customerLastName');
@@ -37,6 +39,7 @@ export const User = () => {
     const city = sessionStorage.getItem('customerCity');
     const contactno = sessionStorage.getItem('ContactNo');
 
+    setCustomerid(Id);
     setCustomerEmail(email);
     setCustomerFirstname(firstname);
     setCustomerLastName(lastname);
@@ -87,11 +90,11 @@ export const User = () => {
     }));
     handleupdate(customer)
   };
-  
+
   const handleupdate = async customer => {
     fetch(`http://192.168.1.8:3000/api/v1/customers/${customer.id}`, {
       method: 'PUT',
-      body: JSON.stringify({customer: customer}), 
+      body: JSON.stringify({customer: customer}),
       headers: {
         'Content-Type': 'application/json'
       }
