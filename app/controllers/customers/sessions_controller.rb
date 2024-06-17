@@ -2,7 +2,6 @@ class Customers::SessionsController < Devise::SessionsController
   skip_before_action :verify_signed_out_user, only: [:destroy]
   skip_before_action :verify_authenticity_token, only: [:create, :destroy]
   respond_to :json
-
   def create
     customer_params = params[:customer]
     email = customer_params[:email]
@@ -19,23 +18,6 @@ class Customers::SessionsController < Devise::SessionsController
       render_error("Invalid email or password", 401)
     end
   end
-
-  # def destroy
-  # if params[:token].blank?
-  #   render_error("Token is missing", 400)
-  # else
-  #   if customer_signed_in?
-  #     sign_out(:customer)
-  #   else
-  #     render_error("No user is currently signed in", 404)
-  #     return
-  #   end
-
-  #   render json: {
-  #     status: 200,
-  #     message: "Logged out successfully"
-  #   }, status: :ok
-  # end
 
   def destroy
     sign_out(:customer) if customer_signed_in? 

@@ -1,9 +1,17 @@
 class Order < ApplicationRecord
   belongs_to :customer
-  has_many :order_items, dependent: :destroy
+  has_many :order_items,   dependent: :destroy
+  has_many :book, through: :order_items
 
-  validates :total_price, presence: true, numericality: { greater_than_or_equal_to: 0 }
-  validates :status, presence: true, inclusion: { in: %w[pending paid shipped completed canceled] }
-  validates :book_id, uniqueness: { scope: :customer_id, message: "has already been ordered by this customer" }
+  validates :total_price, presence: true, numericality: { greater_than: 0 }
 
+  before_create :calculate_total_price
+
+  validates :customer_id, presence: true
+
+  private
+
+  def calculate_total_price
+    self.total_price = order_items.sum { |item| item.book.price * item.quantity }
+  end
 end
